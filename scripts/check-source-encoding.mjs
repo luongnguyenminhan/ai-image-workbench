@@ -10,34 +10,6 @@ const targets = [
   'src/studio/storage'
 ];
 
-const suspiciousTokens = [
-  '\uFFFD',
-  '\u921E',
-  '\u9379',
-  '\u934F',
-  '\u9422',
-  '\u7470',
-  '\u93C0',
-  '\u951F',
-  '\u4E63',
-  '\u4E5A',
-  '鍔犺浇',
-  '鏇村',
-  '涓婁紶',
-  '娑傛姽',
-  '妫€娴',
-  '椤甸潰',
-  '璇锋眰',
-  '鍙傝€',
-  '鏀惧叆',
-  '杈撳叆',
-  '闇€瑕',
-  '鐢熸垚',
-  '浼氳瘽',
-  '鍘嗗彶',
-  '绠€浣'
-];
-
 function walk(target) {
   const fullPath = path.join(root, target);
   if (!fs.existsSync(fullPath)) return [];
@@ -59,7 +31,7 @@ for (const file of files) {
   const body = fs.readFileSync(path.join(root, file), 'utf8');
   const lines = body.split(/\r?\n/);
   lines.forEach((line, index) => {
-    const token = suspiciousTokens.find((item) => line.includes(item));
+    const token = line.includes('\uFFFD') ? '\uFFFD' : /[\u3400-\u9fff]/u.test(line) ? 'CJK text' : null;
     if (token) {
       failures.push(`${file}:${index + 1}: suspicious source encoding artifact U+${token.codePointAt(0).toString(16).toUpperCase()}: ${line.slice(0, 160)}`);
     }

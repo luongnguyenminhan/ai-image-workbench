@@ -315,7 +315,7 @@ try {
     storedStatus: JSON.parse(localStorage.getItem('image-sub2api-studio:current-session:v1') || '{}')?.generationQueue?.[0]?.status || ''
   }));
   assert(failedResult.body.includes('STUDIO_ALLOWED_ORIGINS'), 'Failed restored job did not show the allowed-origin explanation.', failedResult);
-  assert(!failedResult.body.includes('上游返回了未识别的英文错误'), 'Failed restored job fell back to the generic English-error message.', failedResult);
+  assert(!failedResult.body.includes('Dịch vụ nguồn trả về lỗi tiếng Anh chưa nhận diện được.'), 'Failed restored job fell back to the generic English-error message.', failedResult);
   assert(failedResult.queueItems[0]?.className.includes('failed'), 'Failed restored job did not stay visible as a failed queue item.', failedResult);
   assert(failedResult.queueItems[0]?.text.includes('STUDIO_ALLOWED_ORIGINS'), 'Failed queue card did not show the allowed-origin explanation.', failedResult);
   assert(!failedResult.queueItems[0]?.text.includes('ORIGIN_NOT_ALLOWED'), 'Failed queue card exposed the raw upstream error instead of a readable explanation.', failedResult);
@@ -404,7 +404,7 @@ try {
   await runningPage.goto(new URL('studio.html', baseUrl).toString(), { waitUntil: 'networkidle' });
   await runningPage.waitForSelector('.canvasQueueDock', { timeout: 8000 });
   await runningPage.waitForFunction(() => (
-    [...document.querySelectorAll('.canvasQueueItem')].some((node) => node.className.includes('running') && node.innerText.includes('生成中'))
+    [...document.querySelectorAll('.canvasQueueItem')].some((node) => node.className.includes('running') && node.innerText.includes('Đang tạo'))
   ), null, { timeout: 8000 });
   const runningBeforeCancel = await runningPage.evaluate(() => ({
     queueItems: [...document.querySelectorAll('.canvasQueueItem')].map((node) => ({
@@ -419,7 +419,7 @@ try {
   }));
   assert(runningPollCount >= 1, 'Running restored job was not polled after page load.', { runningPollCount, runningBeforeCancel });
   assert(runningBeforeCancel.queueItems[0]?.className.includes('running'), 'Running restored job did not remain visible as a running queue item.', runningBeforeCancel);
-  assert(runningBeforeCancel.buttons.some((button) => button.title.includes('停止') || button.label.includes('停止')), 'Running restored job did not expose a stop control.', runningBeforeCancel);
+  assert(runningBeforeCancel.buttons.some((button) => button.title.includes('Dừng') || button.label.includes('Dừng')), 'Running restored job did not expose a stop control.', runningBeforeCancel);
 
   await runningPage.locator('.canvasQueueItem button').first().click();
   await runningPage.waitForFunction(() => {
@@ -441,8 +441,8 @@ try {
   assert(runningCancelCount === 1, 'Stop control did not call the server-side cancel endpoint exactly once.', { runningCancelCount, runningResult });
   assert(runningResult.storedStatus === 'canceled', 'Canceled running queue status was not saved back into the current session cache.', runningResult);
   assert(runningResult.queueItems[0]?.className.includes('canceled'), 'Canceled running job did not remain visible as a canceled queue item.', runningResult);
-  assert(!runningResult.queueItems[0]?.text.includes('服务端任务 job-running-1'), 'Canceled running job fell back to an opaque server job label.', runningResult);
-  assert(!runningResult.body.includes('正在生成'), 'Canceled running job left the main composer in a generating state.', runningResult);
+  assert(!runningResult.queueItems[0]?.text.includes('Tác vụ máy chủ job-running-1'), 'Canceled running job fell back to an opaque server job label.', runningResult);
+  assert(!runningResult.body.includes('Đang tạo'), 'Canceled running job left the main composer in a generating state.', runningResult);
   await runningPage.close();
 
   console.log(JSON.stringify({

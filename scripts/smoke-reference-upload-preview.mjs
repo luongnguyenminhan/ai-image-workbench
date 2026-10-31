@@ -106,7 +106,7 @@ try {
   assert(sideResult.panelRect?.right >= sideResult.viewport.width - 1, 'Reference panel should be attached to the right edge.', sideResult);
   assert(sideResult.panelRect?.height >= sideResult.viewport.height - 1, 'Reference panel should run full height.', sideResult);
   assert(!sideResult.panelText.includes('reference-product-angle.png') && !sideResult.panelText.includes('reference-style-board.png'), 'Reference sidebar should not expose filenames as primary content.', sideResult);
-  assert(sideResult.uploadText.includes('继续添加 / 拖入更多'), 'Reference upload drop zone should describe the next action after files are selected.', sideResult);
+  assert(sideResult.uploadText.includes('Thêm ảnh hoặc kéo thả vào đây'), 'Reference upload drop zone should describe the next action after files are selected.', sideResult);
 
   await page.locator('.sideReferenceThumbs .referencePreviewButton').first().click();
   await page.waitForSelector('.lightboxOverlay .lightboxImageStage img', { timeout: 8000 });
@@ -126,7 +126,7 @@ try {
   });
   assert(lightboxResult.hasLightbox, 'Clicking a reference thumbnail did not open the full-image preview.', lightboxResult);
   assert(lightboxResult.imageRect?.width > 120 && lightboxResult.imageRect?.height > 120, 'Reference full preview image was too small to inspect.', lightboxResult);
-  assert(lightboxResult.text.includes('查看参考图'), 'Reference lightbox did not identify itself as a reference preview.', lightboxResult);
+  assert(lightboxResult.text.includes('Xem ảnh tham chiếu'), 'Reference lightbox did not identify itself as a reference preview.', lightboxResult);
 
   await page.locator('.lightboxOverlay .iconButton').first().click();
   await page.waitForSelector('.lightboxOverlay', { state: 'detached', timeout: 8000 });

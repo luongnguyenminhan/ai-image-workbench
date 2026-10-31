@@ -9,17 +9,7 @@ const publicFiles = [
   'public/inspiration-sources.json',
   'public/style-library.json'
 ];
-const suspiciousPatterns = [
-  /\uFFFD/,
-  /锟/,
-  /閳[^\n]*/,
-  /閹[^\n]*/,
-  /鏉[^\n]*/,
-  /鐎[^\n]*/,
-  /娑[^\n]*/,
-  /涔[^\n]*/,
-  /\?{4,}/
-];
+const suspiciousPatterns = [/\uFFFD/, /\?{4,}/, /[\u3400-\u9fff]/u];
 
 export function checkPublicData(options = {}) {
   const baseDir = options.baseDir || root;
@@ -73,7 +63,7 @@ export function checkPublicData(options = {}) {
 
   function requireLocalized(file, value, pathLabel) {
     const archiveFile = dataPath(file);
-    if (!isPlainObject(value) || typeof value.en !== 'string' || typeof value.zh !== 'string') {
+if (!isPlainObject(value) || typeof value.en !== 'string' || typeof value.vi !== 'string') {
       failures.push(`${archiveFile}: ${pathLabel} must include { en, zh } strings.`);
     }
   }
@@ -177,10 +167,10 @@ export function checkPublicData(options = {}) {
       requireLocalized('public/style-library.json', item.title, `${label}.title`);
       requireLocalized('public/style-library.json', item.description, `${label}.description`);
       requireLocalized('public/style-library.json', item.useWhen, `${label}.useWhen`);
-      if (!Array.isArray(item.guidance?.en) || !Array.isArray(item.guidance?.zh)) {
+if (!Array.isArray(item.guidance?.en) || !Array.isArray(item.guidance?.vi)) {
         failures.push(`${dataPath('public/style-library.json')}: ${label}.guidance must include en/zh arrays.`);
       }
-      if (!Array.isArray(item.pitfalls?.en) || !Array.isArray(item.pitfalls?.zh)) {
+if (!Array.isArray(item.pitfalls?.en) || !Array.isArray(item.pitfalls?.vi)) {
         failures.push(`${dataPath('public/style-library.json')}: ${label}.pitfalls must include en/zh arrays.`);
       }
       requireNoBundledImage('public/style-library.json', item, label);

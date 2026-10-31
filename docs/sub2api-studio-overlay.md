@@ -6,8 +6,8 @@ The current project direction is broader than Sub2API. New deployments should re
 
 - [Provider and Gateway Notes](PROVIDERS.md)
 - [Security Boundary](../SECURITY.md)
-- [Deployment Guide](DEPLOY.zh-CN.md)
-- [Docker Production Guide](DOCKER.zh-CN.md)
+- [Deployment Guide](DEPLOY.vi.md)
+- [Docker Production Guide](DOCKER.vi.md)
 
 ## What This Project Owns
 

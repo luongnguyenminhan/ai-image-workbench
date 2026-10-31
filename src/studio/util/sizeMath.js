@@ -1,32 +1,33 @@
 // src/studio/util/sizeMath.js
 //
-// 尺寸数学工具：把 `auto+ratio+custom` 的 Size_Input_Mode 折叠为 `WIDTHxHEIGHT`
-// 字符串，并对 "自定义" 子模式下用户填写的宽高跑 Custom_Size_Constraints。
+// Công cụ tính kích thước: chuyển Size_Input_Mode `auto+ratio+custom` thành chuỗi
+// `WIDTHxHEIGHT` và kiểm tra chiều rộng, chiều cao do người dùng nhập ở chế độ tùy chỉnh.
 //
-// 设计依据：
-//   - requirements.md Requirement 16.5 / 16.6 / 16.7（Size_Input_Mode 与 Custom_Size_Constraints）
-//   - design.md "Size Input Mode" 节（`tierRatioToSize` / `validateCustomSize` 代码块）
-//   - tasks.md Task 1.3
+// Cơ sở thiết kế:
+//   - requirements.md, yêu cầu 16.5 / 16.6 / 16.7 (Size_Input_Mode và Custom_Size_Constraints)
+//   - design.md, mục "Size Input Mode" (các hàm `tierRatioToSize` / `validateCustomSize`)
+//   - tasks.md, tác vụ 1.3
 //
-// 使用方：
-//   - `src/studio/state/sizeInput.js` 内部把 `subMode='ratio'` 的状态折叠为
-//     `resolvedSize` 时调用 `tierRatioToSize`；
-//   - CreationDesk 的 Custom 子模式在每次输入后调用 `validateCustomSize`，
-//     把返回的 errors 数组渲染到字段下方红字，errors.length > 0 时禁用生成按钮。
+// Nơi sử dụng:
+//   - `src/studio/state/sizeInput.js` gọi `tierRatioToSize` để chuyển trạng thái
+//     `subMode='ratio'` thành `resolvedSize`;
+//   - Chế độ tùy chỉnh trong CreationDesk gọi `validateCustomSize` sau mỗi lần nhập,
+//     hiển thị mảng lỗi bên dưới trường và khóa nút tạo khi `errors.length > 0`.
 //
-// 设计要点：
-//   - `TIER_LONG_SIDE` 把人类可读的 tier 名称映射到长边像素：
+// Điểm thiết kế:
+//   - `TIER_LONG_SIDE` ánh xạ tên cấp độ dễ đọc sang số pixel của cạnh dài:
 //     '1K' = 1024、'2K' = 2048、'4K' = 4096。
-//   - `tierRatioToSize` 用比例的较大边作为长边，较短边按比例换算后对齐到 16 的倍数
-//     （`Math.round(... / 16) * 16`）。
-//   - `validateCustomSize` 不在第一条错误处提前返回，而是把所有违规一次性收集，
-//     方便 UI 一次性给出全部红字提示；error.field 取值固定在
-//     'width' | 'height' | 'size' | 'ratio' | 'pixels'，UI 根据 field 决定挂哪个输入框。
-//   - 错误文案统一中文，匹配项目其它面板的语调。
+//   - `tierRatioToSize` lấy cạnh lớn hơn của tỷ lệ làm cạnh dài, đổi cạnh ngắn theo tỷ lệ
+//     rồi làm tròn về bội số của 16 (`Math.round(... / 16) * 16`).
+//   - `validateCustomSize` thu thập tất cả lỗi thay vì dừng ở lỗi đầu tiên,
+//     để giao diện có thể hiển thị cùng lúc mọi thông báo; `error.field` luôn là
+//     'width' | 'height' | 'size' | 'ratio' | 'pixels' và giao diện dùng trường này để gắn lỗi.
+//   - Thông báo lỗi được viết bằng tiếng Việt, thống nhất với các bảng điều khiển khác.
 
 /**
- * 各 tier 对应的"长边"像素数。
- * 比例 → 宽高换算时，长边固定为该值，短边按比例缩放后对齐到 16 的倍数。
+ * Số pixel cạnh dài tương ứng với từng cấp độ.
+ * Khi đổi tỷ lệ thành kích thước, cạnh dài giữ nguyên giá trị này; cạnh ngắn được đổi theo tỷ lệ
+ * rồi làm tròn về bội số của 16.
  *
  * @type {Readonly<Record<'1K'|'2K'|'4K', number>>}
  */
@@ -37,12 +38,13 @@ export const TIER_LONG_SIDE = Object.freeze({
 });
 
 /**
- * Custom_Size_Constraints 的硬阈值（与 design.md 的 validateCustomSize 实现保持同形）。
+ * Các ngưỡng cố định của Custom_Size_Constraints (khớp với cách triển khai
+ * validateCustomSize trong design.md).
  *
- *   - `MULTIPLE_OF`：宽高必须是 16 的整数倍；
- *   - `MAX_SIDE`：最大边不允许超过 3840px；
- *   - `MAX_RATIO`：长宽比不允许超过 3:1；
- *   - `MIN_PIXELS` / `MAX_PIXELS`：像素总量需在闭区间 [655 360, 8 294 400]。
+ *   - `MULTIPLE_OF`: chiều rộng và chiều cao phải là bội số nguyên của 16;
+ *   - `MAX_SIDE`: cạnh dài nhất không được vượt quá 3840px;
+ *   - `MAX_RATIO`: tỷ lệ cạnh dài/cạnh ngắn không được vượt quá 3:1;
+ *   - `MIN_PIXELS` / `MAX_PIXELS`: tổng số pixel phải nằm trong đoạn [655 360, 8 294 400].
  */
 export const CUSTOM_SIZE_CONSTRAINTS = Object.freeze({
   MULTIPLE_OF: 16,
@@ -53,20 +55,21 @@ export const CUSTOM_SIZE_CONSTRAINTS = Object.freeze({
 });
 
 /**
- * 把 (tier, ratio) 折叠为 `WIDTHxHEIGHT` 字符串。
+ * Chuyển (tier, ratio) thành chuỗi `WIDTHxHEIGHT`.
  *
- * 算法：
- *   1) 解析 ratio 为 `[w, h]`（如 `'16:9'` → `[16, 9]`）；
- *   2) 取该 tier 的长边像素 `long`；
- *   3) 较大比例分量对应的边设为 `long`，较短边用 `long * (短/长)` 换算并对齐到 16 的倍数；
- *   4) 返回 `${width}x${height}`。
+ * Cách tính:
+ *   1) Phân tích ratio thành `[w, h]` (ví dụ `'16:9'` → `[16, 9]`);
+ *   2) Lấy số pixel cạnh dài `long` của cấp độ đó;
+ *   3) Gán `long` cho cạnh ứng với thành phần tỷ lệ lớn hơn; đổi cạnh ngắn theo `long * (ngắn/dài)` rồi làm tròn về bội số của 16;
+ *   4) Trả về `${width}x${height}`.
  *
- * 该函数不做范围校验：调用方应保证 ratio 已在 Capability_Descriptor 的 ratios 列表内、
- * tier 在 TIER_LONG_SIDE 的键集合内（否则 long 为 undefined 时计算结果为 NaN）。
+ * Hàm này không kiểm tra phạm vi. Bên gọi phải bảo đảm ratio có trong danh sách ratios của
+ * Capability_Descriptor và tier là một khóa của TIER_LONG_SIDE (nếu không, `long` sẽ là
+ * `undefined` và kết quả tính toán là NaN).
  *
  * @param {'1K'|'2K'|'4K'} tier
- * @param {string} ratio  形如 `'1:1'` / `'16:9'`，必须是 `W:H` 形式。
- * @returns {string}      形如 `'1024x576'`。
+ * @param {string} ratio  Dạng `'1:1'` / `'16:9'`, phải theo định dạng `W:H`.
+ * @returns {string}      Dạng `'1024x576'`.
  */
 export function tierRatioToSize(tier, ratio) {
   const [w, h] = String(ratio).split(':').map(Number);
@@ -82,16 +85,17 @@ export function tierRatioToSize(tier, ratio) {
 }
 
 /**
- * 校验 "自定义" 子模式下用户填写的宽高，返回所有违反 Custom_Size_Constraints 的错误。
+ * Kiểm tra chiều rộng và chiều cao người dùng nhập ở chế độ tùy chỉnh, trả về mọi lỗi
+ * vi phạm Custom_Size_Constraints.
  *
- * 该函数 **不在第一条错误处返回**，而是把全部违规一次性收集，便于 UI 同时点亮多条
- * 字段红字提示。error.field 取值固定如下：
+ * Hàm **không dừng ở lỗi đầu tiên** mà thu thập tất cả vi phạm để giao diện có thể đánh dấu
+ * nhiều trường cùng lúc. `error.field` luôn nhận một trong các giá trị sau:
  *
- *   - `'width'`  —— 宽度不是 16 的倍数；
- *   - `'height'` —— 高度不是 16 的倍数；
- *   - `'size'`   —— 最大边超过 3840px；
- *   - `'ratio'`  —— 长宽比超过 3:1；
- *   - `'pixels'` —— 像素总量越界。
+ *   - `'width'`  — chiều rộng không phải bội số của 16;
+ *   - `'height'` — chiều cao không phải bội số của 16;
+ *   - `'size'`   — cạnh dài nhất vượt quá 3840px;
+ *   - `'ratio'`  — tỷ lệ cạnh dài/cạnh ngắn vượt quá 3:1;
+ *   - `'pixels'` — tổng số pixel nằm ngoài giới hạn.
  *
  * @param {{ width: number, height: number }} input
  * @returns {Array<{ field: 'width'|'height'|'size'|'ratio'|'pixels', message: string }>}
@@ -100,17 +104,17 @@ export function validateCustomSize({ width, height }) {
   /** @type {Array<{ field: 'width'|'height'|'size'|'ratio'|'pixels', message: string }>} */
   const errors = [];
   if (width % CUSTOM_SIZE_CONSTRAINTS.MULTIPLE_OF !== 0) {
-    errors.push({ field: 'width', message: '宽度需是 16 的倍数' });
+    errors.push({ field: 'width', message: 'Chiều rộng phải là bội số của 16' });
   }
   if (height % CUSTOM_SIZE_CONSTRAINTS.MULTIPLE_OF !== 0) {
-    errors.push({ field: 'height', message: '高度需是 16 的倍数' });
+    errors.push({ field: 'height', message: 'Chiều cao phải là bội số của 16' });
   }
   if (Math.max(width, height) > CUSTOM_SIZE_CONSTRAINTS.MAX_SIDE) {
-    errors.push({ field: 'size', message: '最大边不能超过 3840px' });
+    errors.push({ field: 'size', message: 'Cạnh dài nhất không được vượt quá 3840px' });
   }
   const ratio = Math.max(width, height) / Math.min(width, height);
   if (ratio > CUSTOM_SIZE_CONSTRAINTS.MAX_RATIO) {
-    errors.push({ field: 'ratio', message: '长宽比不能超过 3:1' });
+    errors.push({ field: 'ratio', message: 'Tỷ lệ cạnh dài/cạnh ngắn không được vượt quá 3:1' });
   }
   const pixels = width * height;
   if (
@@ -119,7 +123,7 @@ export function validateCustomSize({ width, height }) {
   ) {
     errors.push({
       field: 'pixels',
-      message: '像素总量需在 655 360 到 8 294 400 之间',
+      message: 'Tổng số pixel phải nằm trong khoảng từ 655 360 đến 8 294 400',
     });
   }
   return errors;

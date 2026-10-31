@@ -1,6 +1,6 @@
-// `src/studio/state/` 目录入口（占位）。
+// Điểm vào của thư mục `src/studio/state/` (chờ bổ sung).
 //
-// 后续任务会在此 re-export `progressMachine`、`sizeInput`、`costPreview`。
-// v1 暂无成员。
+// Các tác vụ sau sẽ tái xuất `progressMachine`, `sizeInput`, `costPreview` tại đây.
+// Phiên bản 1 hiện chưa có thành phần nào.
 
 export {};

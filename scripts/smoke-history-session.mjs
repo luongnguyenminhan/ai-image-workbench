@@ -80,7 +80,7 @@ try {
   await page.goto(new URL('studio.html', baseUrl).toString(), { waitUntil: 'networkidle' });
   await page.screenshot({ path: beforePath, fullPage: true });
 
-  await page.getByRole('button', { name: /历史图库/ }).first().click();
+  await page.getByRole('button', { name: /Lịch sử ảnh/ }).first().click();
   await page.waitForTimeout(500);
 
   const historyButtons = await page.locator('.historyOpen').count();

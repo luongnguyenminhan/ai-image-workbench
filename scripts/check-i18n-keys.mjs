@@ -53,7 +53,7 @@ const flattenedByLanguage = new Map(
 );
 
 const problems = [];
-const referenceLanguage = 'zh-CN';
+const referenceLanguage = 'vi';
 const referenceKeys = flattenedByLanguage.get(referenceLanguage);
 
 if (!referenceKeys) {

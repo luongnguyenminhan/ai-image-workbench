@@ -31,215 +31,215 @@ const ALLOWED_ORIGINS = String(process.env.STUDIO_ALLOWED_ORIGINS || 'http://127
   .map((item) => item.trim().replace(/\/+$/, ''))
   .filter(Boolean);
 const LIBRARY_LICENSE = {
-  name: '社区提示词模板 · CC BY 4.0',
+  name: 'Mẫu prompt cộng đồng · CC BY 4.0',
   spdx: 'CC-BY-4.0',
   url: 'https://creativecommons.org/licenses/by/4.0/',
-  notice: '提示词模板内容来自公开社区，遵循 CC BY 4.0 许可证；使用和改编时请保留原作者或来源归属。'
+  notice: 'Nội dung mẫu prompt đến từ cộng đồng công khai và tuân theo giấy phép CC BY 4.0. Khi sử dụng hoặc chỉnh sửa, vui lòng ghi nhận tác giả hoặc nguồn gốc ban đầu.'
 };
 const PROMPT_PRESETS = [
   {
     id: 'image-product-poster',
     mode: 'image',
-    title: '产品海报',
-    prompt: '生成一张高级产品海报：主体清晰居中，保留产品真实结构和材质，使用精致棚拍光线，背景干净，有足够标题留白，整体适合商业投放。',
+    title: 'Áp phích sản phẩm',
+    prompt: 'Tạo áp phích sản phẩm cao cấp: chủ thể rõ nét ở chính giữa, giữ nguyên cấu trúc và chất liệu thật của sản phẩm, dùng ánh sáng studio tinh tế, nền sạch, chừa đủ khoảng trống cho tiêu đề, tổng thể phù hợp quảng cáo thương mại.',
     tag: 'product'
   },
   {
     id: 'image-social-cover',
     mode: 'image',
-    title: '社媒封面',
-    prompt: '生成一张社媒封面图：画面有强焦点，版式现代，颜色鲜明但不过度，预留短标题空间，光影精致，适合内容平台、短视频或活动封面。',
+    title: 'Ảnh bìa mạng xã hội',
+    prompt: 'Tạo ảnh bìa mạng xã hội có điểm nhấn rõ, bố cục hiện đại, màu sắc sống động nhưng không quá rực, chừa chỗ cho tiêu đề ngắn, ánh sáng tinh tế, phù hợp nền tảng nội dung, video ngắn hoặc ảnh bìa sự kiện.',
     tag: 'social'
   },
   {
     id: 'image-portrait',
     mode: 'image',
-    title: '头像写真',
-    prompt: '生成一张精修头像写真：保留自然肤质和真实五官，眼神有表达力，背景干净，柔和侧光，气质自信，成片接近高端编辑写真。',
+    title: 'Ảnh chân dung đại diện',
+    prompt: 'Tạo ảnh chân dung đại diện được chỉnh sửa tinh tế: giữ làn da tự nhiên và đường nét chân thực, ánh mắt giàu biểu cảm, nền sạch, ánh sáng nghiêng dịu, thần thái tự tin, thành phẩm mang phong cách ảnh biên tập cao cấp.',
     tag: 'portrait'
   },
   {
     id: 'image-commerce-main',
     mode: 'image',
-    title: '电商主图',
-    prompt: '生成一张电商主图：保持产品身份不变，提升光线和质感，去除杂乱元素，主体居中清楚，画面适合商城首图展示。',
+    title: 'Ảnh sản phẩm thương mại điện tử',
+    prompt: 'Tạo ảnh sản phẩm chính cho cửa hàng trực tuyến: giữ nguyên nhận diện sản phẩm, cải thiện ánh sáng và chất liệu, loại bỏ chi tiết rối mắt, đặt chủ thể rõ nét ở giữa, phù hợp làm ảnh đại diện sản phẩm trên cửa hàng.',
     tag: 'commerce'
   },
   {
     id: 'video-product-spot',
     mode: 'video',
-    title: '产品短片',
-    prompt: '生成一段 5 秒产品广告视频：产品保持真实结构和材质，镜头缓慢推进，精致棚拍光线，背景干净，有高级商业感，运动稳定，不要文字水印。'
+    title: 'Video quảng cáo sản phẩm',
+    prompt: 'Tạo video quảng cáo sản phẩm dài 5 giây: giữ nguyên cấu trúc và chất liệu thật của sản phẩm, máy quay từ từ tiến gần, ánh sáng studio tinh tế, nền sạch, phong cách thương mại cao cấp, chuyển động ổn định, không có chữ hoặc hình mờ.'
   },
   {
     id: 'video-cinematic-shot',
     mode: 'video',
-    title: '电影镜头',
-    prompt: '生成一段电影感视频：主体清晰，浅景深，柔和逆光，镜头缓慢横移，环境有真实空间层次，动作自然，画面稳定。'
+    title: 'Cảnh quay điện ảnh',
+    prompt: 'Tạo video mang chất điện ảnh: chủ thể rõ nét, độ sâu trường ảnh nông, ánh sáng ngược dịu, máy quay lia ngang chậm, không gian có chiều sâu chân thực, chuyển động tự nhiên, khung hình ổn định.'
   },
   {
     id: 'video-architecture-tour',
     mode: 'video',
-    title: '建筑漫游',
-    prompt: '生成一段建筑空间漫游视频：镜头沿空间轴线缓慢前进，保持垂直线稳定，展示材质、光线和空间尺度，真实摄影风格。'
+    title: 'Video tham quan kiến trúc',
+    prompt: 'Tạo video tham quan không gian kiến trúc: máy quay từ từ tiến dọc theo trục không gian, giữ các đường thẳng đứng ổn định, thể hiện chất liệu, ánh sáng và quy mô không gian theo phong cách nhiếp ảnh chân thực.'
   },
   {
     id: 'video-social-motion',
     mode: 'video',
-    title: '社媒动态',
-    prompt: '生成一段适合短视频封面的动态视频：主体有轻微动作，镜头节奏清晰，色彩干净，第一秒抓人，画面不要出现字幕或水印。'
+    title: 'Video chuyển động cho mạng xã hội',
+    prompt: 'Tạo video chuyển động phù hợp làm ảnh bìa video ngắn: chủ thể cử động nhẹ, nhịp máy quay rõ ràng, màu sắc trong trẻo, thu hút ngay giây đầu tiên, không có phụ đề hoặc hình mờ.'
   }
 ];
 const VIDEO_INSPIRATIONS = [
   {
     id: 'video-product-launch',
     kind: 'video-inspiration',
-    title: '产品发布短片',
-    intent: '商业广告',
-    summary: '棚拍质感，镜头推近，突出材质和卖点。',
-    prompt: '生成一段 5 秒产品发布短片：产品保持真实结构和材质，镜头从中景缓慢推近到细节特写，背景干净，灯光有高级棚拍质感，画面稳定，不出现字幕、水印或变形。',
+    title: 'Video ra mắt sản phẩm',
+    intent: 'Quảng cáo thương mại',
+    summary: 'Chất lượng ánh sáng studio, máy quay tiến gần, làm nổi bật chất liệu và ưu điểm.',
+    prompt: 'Tạo video giới thiệu sản phẩm dài 5 giây: giữ nguyên cấu trúc và chất liệu thật, máy quay từ khung trung cảnh từ từ tiến đến cận cảnh chi tiết, nền sạch, ánh sáng studio cao cấp, khung hình ổn định, không phụ đề, hình mờ hoặc biến dạng.',
     videoAspect: '16:9',
     videoDuration: 5,
     videoFps: 24,
     videoMotion: 'push_in',
     videoStyle: 'product_ad',
     videoQuality: 'high',
-    negativePrompt: '文字、水印、畸变、产品结构变化、手指遮挡'
+    negativePrompt: 'Chữ, hình mờ, biến dạng, thay đổi cấu trúc sản phẩm, ngón tay che khuất'
   },
   {
     id: 'video-social-hook',
     kind: 'video-inspiration',
-    title: '社媒开场钩子',
-    intent: '短视频封面',
-    summary: '第一秒有动作，竖屏抓人，适合社媒投放。',
-    prompt: '生成一段适合社媒开场的 5 秒竖屏视频：主体在第一秒有清晰动作，镜头轻微前推，色彩干净，节奏明确，画面有封面感，不出现字幕或平台水印。',
+    title: 'Mở đầu thu hút trên mạng xã hội',
+    intent: 'Ảnh bìa video ngắn',
+    summary: 'Có chuyển động ngay giây đầu, khung dọc bắt mắt, phù hợp quảng bá trên mạng xã hội.',
+    prompt: 'Tạo video dọc dài 5 giây để mở đầu nội dung mạng xã hội: chủ thể có hành động rõ ngay giây đầu tiên, máy quay hơi tiến gần, màu sắc sạch, nhịp điệu rõ, khung hình có cảm giác như ảnh bìa, không phụ đề hoặc hình mờ của nền tảng.',
     videoAspect: '9:16',
     videoDuration: 5,
     videoFps: 24,
     videoMotion: 'push_in',
     videoStyle: 'realistic',
     videoQuality: 'standard',
-    negativePrompt: '字幕、水印、过度闪烁、脸部变形、背景穿帮'
+    negativePrompt: 'Phụ đề, hình mờ, nhấp nháy quá mức, biến dạng khuôn mặt, lỗi lộ phông nền'
   },
   {
     id: 'video-architecture-walkthrough',
     kind: 'video-inspiration',
-    title: '建筑空间漫游',
-    intent: '空间展示',
-    summary: '沿空间轴线前进，展示材质、光线和尺度。',
-    prompt: '生成一段建筑空间漫游视频：镜头沿空间轴线缓慢前进，保持垂直线稳定，展示墙面材质、自然光线和空间尺度，真实摄影风格，运动顺滑。',
+    title: 'Video tham quan không gian kiến trúc',
+    intent: 'Trình bày không gian',
+    summary: 'Di chuyển dọc trục không gian, thể hiện chất liệu, ánh sáng và quy mô.',
+    prompt: 'Tạo video tham quan không gian kiến trúc: máy quay từ từ tiến dọc trục không gian, giữ các đường thẳng đứng ổn định, thể hiện chất liệu tường, ánh sáng tự nhiên và quy mô không gian theo phong cách nhiếp ảnh chân thực, chuyển động mượt mà.',
     videoAspect: '16:9',
     videoDuration: 10,
     videoFps: 24,
     videoMotion: 'push_in',
     videoStyle: 'realistic',
     videoQuality: 'high',
-    negativePrompt: '透视扭曲、墙体变形、漂浮家具、文字水印'
+    negativePrompt: 'Phối cảnh méo, tường biến dạng, đồ đạc lơ lửng, chữ hoặc hình mờ'
   },
   {
     id: 'video-cinematic-portrait',
     kind: 'video-inspiration',
-    title: '电影感人物镜头',
-    intent: '人物氛围',
-    summary: '浅景深、逆光、轻微横移，突出情绪。',
-    prompt: '生成一段电影感人物视频：主体表情自然，浅景深，柔和逆光，镜头缓慢横移，背景有真实空间层次，动作克制，画面稳定，有胶片质感。',
+    title: 'Cảnh quay nhân vật phong cách điện ảnh',
+    intent: 'Không khí nhân vật',
+    summary: 'Độ sâu trường ảnh nông, ánh sáng ngược, lia ngang nhẹ để làm nổi bật cảm xúc.',
+    prompt: 'Tạo video nhân vật mang chất điện ảnh: biểu cảm chủ thể tự nhiên, độ sâu trường ảnh nông, ánh sáng ngược dịu, máy quay lia ngang chậm, hậu cảnh có chiều sâu chân thực, chuyển động tiết chế, khung hình ổn định, chất ảnh như phim nhựa.',
     videoAspect: '16:9',
     videoDuration: 5,
     videoFps: 24,
     videoMotion: 'pan',
     videoStyle: 'cinematic',
     videoQuality: 'high',
-    negativePrompt: '脸部变形、多余手指、眼神漂移、字幕、水印'
+    negativePrompt: 'Khuôn mặt biến dạng, ngón tay thừa, ánh mắt lệch, phụ đề, hình mờ'
   },
   {
     id: 'video-ui-flow',
     kind: 'video-inspiration',
-    title: '界面操作演示',
-    intent: '产品功能',
-    summary: '干净界面，模拟点击和状态切换。',
-    prompt: '生成一段产品界面操作演示视频：界面清晰，镜头固定，按钮和面板状态自然切换，动效克制，像真实软件录屏的高级演示，不出现多余文字或水印。',
+    title: 'Video minh họa thao tác giao diện',
+    intent: 'Tính năng sản phẩm',
+    summary: 'Giao diện sạch, mô phỏng thao tác nhấp và chuyển đổi trạng thái.',
+    prompt: 'Tạo video minh họa thao tác giao diện sản phẩm: giao diện rõ ràng, máy quay cố định, trạng thái nút và bảng điều khiển chuyển đổi tự nhiên, hiệu ứng chuyển động tiết chế, giống video giới thiệu phần mềm chuyên nghiệp được quay trực tiếp, không có chữ thừa hoặc hình mờ.',
     videoAspect: '16:9',
     videoDuration: 5,
     videoFps: 30,
     videoMotion: 'static',
     videoStyle: 'product_ad',
     videoQuality: 'standard',
-    negativePrompt: '乱码文字、错位界面、闪烁、鼠标变形、水印'
+    negativePrompt: 'Chữ lỗi, giao diện lệch, nhấp nháy, con trỏ chuột biến dạng, hình mờ'
   },
   {
     id: 'video-food-closeup',
     kind: 'video-inspiration',
-    title: '美食细节特写',
-    intent: '餐饮内容',
-    summary: '微距、热气、材质流动，适合菜单宣传。',
-    prompt: '生成一段美食微距特写视频：镜头缓慢推近，能看到食物表面质感、热气和轻微流动，光线温暖自然，背景简洁，画面真实诱人。',
+    title: 'Cận cảnh món ăn',
+    intent: 'Nội dung ẩm thực',
+    summary: 'Quay cận, hơi nóng và kết cấu chuyển động, phù hợp quảng bá thực đơn.',
+    prompt: 'Tạo video quay cận cảnh món ăn: máy quay từ từ tiến gần, nhìn rõ kết cấu bề mặt, hơi nóng và chuyển động nhẹ của món ăn; ánh sáng ấm tự nhiên, nền đơn giản, hình ảnh chân thực và hấp dẫn.',
     videoAspect: '9:16',
     videoDuration: 5,
     videoFps: 24,
     videoMotion: 'push_in',
     videoStyle: 'realistic',
     videoQuality: 'high',
-    negativePrompt: '过度油腻、食物变形、文字、水印、餐具穿模'
+    negativePrompt: 'Bề mặt quá bóng dầu, món ăn biến dạng, chữ, hình mờ, dụng cụ ăn xuyên vào vật thể'
   },
   {
     id: 'video-fashion-turntable',
     kind: 'video-inspiration',
-    title: '服饰环绕展示',
-    intent: '电商种草',
-    summary: '人物或单品环绕，展示轮廓和材质。',
-    prompt: '生成一段服饰环绕展示视频：主体保持稳定，镜头轻微环绕，展示衣料质感、廓形和细节，光线干净，动作自然，适合电商和种草短片。',
+    title: 'Video xoay quanh trang phục',
+    intent: 'Giới thiệu sản phẩm trực tuyến',
+    summary: 'Máy quay xoay quanh người mẫu hoặc sản phẩm, thể hiện phom dáng và chất liệu.',
+    prompt: 'Tạo video trình bày trang phục bằng chuyển động xoay quanh: giữ chủ thể ổn định, máy quay xoay nhẹ, thể hiện kết cấu vải, phom dáng và chi tiết, ánh sáng trong trẻo, chuyển động tự nhiên, phù hợp cửa hàng trực tuyến và video giới thiệu sản phẩm.',
     videoAspect: '9:16',
     videoDuration: 5,
     videoFps: 24,
     videoMotion: 'orbit',
     videoStyle: 'realistic',
     videoQuality: 'standard',
-    negativePrompt: '肢体变形、衣服融化、图案漂移、文字水印'
+    negativePrompt: 'Tay chân biến dạng, quần áo tan chảy, họa tiết lệch, chữ hoặc hình mờ'
   },
   {
     id: 'video-animation-mascot',
     kind: 'video-inspiration',
-    title: '角色动画循环',
-    intent: 'IP角色',
-    summary: '轻动作循环，适合品牌角色和表情包。',
-    prompt: '生成一段角色动画循环视频：角色保持一致，做一个轻微挥手或点头动作，动作可循环，背景简洁，表情友好，画面干净，不出现字幕或水印。',
+    title: 'Hoạt ảnh nhân vật lặp lại',
+    intent: 'Nhân vật thương hiệu',
+    summary: 'Chuyển động nhẹ có thể lặp, phù hợp nhân vật thương hiệu và nhãn dán biểu cảm.',
+    prompt: 'Tạo video hoạt ảnh nhân vật có thể lặp: giữ nhân vật nhất quán, thực hiện động tác vẫy tay hoặc gật đầu nhẹ có thể lặp lại, nền đơn giản, biểu cảm thân thiện, hình ảnh sạch, không phụ đề hoặc hình mờ.',
     videoAspect: '1:1',
     videoDuration: 5,
     videoFps: 24,
     videoMotion: 'static',
     videoStyle: 'animation',
     videoQuality: 'standard',
-    negativePrompt: '角色漂移、五官变化、肢体断裂、文字、水印'
+    negativePrompt: 'Nhân vật thay đổi vị trí, đường nét khuôn mặt thay đổi, tay chân đứt đoạn, chữ, hình mờ'
   },
   {
     id: 'video-event-kv-motion',
     kind: 'video-inspiration',
-    title: '活动主视觉动态化',
-    intent: '营销物料',
-    summary: '把主视觉做成轻动态，适合投屏和社媒。',
-    prompt: '生成一段活动主视觉动态视频：保留主视觉主体，背景元素轻微漂移，光影有层次，镜头缓慢拉远，适合大屏和社媒投放，不出现额外文字或水印。',
+    title: 'Tạo chuyển động cho hình ảnh chủ đạo sự kiện',
+    intent: 'Tư liệu tiếp thị',
+    summary: 'Thêm chuyển động nhẹ cho hình ảnh chủ đạo, phù hợp màn hình trình chiếu và mạng xã hội.',
+    prompt: 'Tạo video chuyển động từ hình ảnh chủ đạo của sự kiện: giữ nguyên chủ thể chính, các thành phần nền dịch chuyển nhẹ, ánh sáng có chiều sâu, máy quay từ từ lùi xa, phù hợp màn hình lớn và quảng bá trên mạng xã hội, không thêm chữ hoặc hình mờ.',
     videoAspect: '16:9',
     videoDuration: 5,
     videoFps: 24,
     videoMotion: 'pull_out',
     videoStyle: 'cinematic',
     videoQuality: 'standard',
-    negativePrompt: '文字错乱、主体变形、过度粒子、水印'
+    negativePrompt: 'Chữ lỗi, chủ thể biến dạng, hiệu ứng hạt quá mức, hình mờ'
   },
   {
     id: 'video-scene-establishing',
     kind: 'video-inspiration',
-    title: '场景建立镜头',
-    intent: '故事开场',
-    summary: '从环境到主体，建立氛围和叙事空间。',
-    prompt: '生成一段故事开场的场景建立镜头：镜头从环境缓慢移动到主体，空间层次清楚，光线自然，有电影感，动作克制，适合作为短片第一镜。',
+    title: 'Cảnh mở đầu thiết lập không gian',
+    intent: 'Mở đầu câu chuyện',
+    summary: 'Di chuyển từ môi trường đến chủ thể để tạo không khí và không gian kể chuyện.',
+    prompt: 'Tạo cảnh mở đầu câu chuyện để giới thiệu không gian: máy quay từ môi trường từ từ chuyển đến chủ thể, các lớp không gian rõ ràng, ánh sáng tự nhiên, phong cách điện ảnh, chuyển động tiết chế, phù hợp làm cảnh đầu tiên của phim ngắn.',
     videoAspect: '16:9',
     videoDuration: 10,
     videoFps: 24,
     videoMotion: 'pan',
     videoStyle: 'cinematic',
     videoQuality: 'high',
-    negativePrompt: '镜头抖动、主体消失、空间变形、字幕、水印'
+    negativePrompt: 'Máy quay rung, chủ thể biến mất, không gian biến dạng, phụ đề, hình mờ'
   }
 ];
 

@@ -1,6 +1,7 @@
-// `src/studio/storage/` 目录入口。
+// Điểm vào của thư mục `src/studio/storage/`.
 //
-// v1 当前导出 `indexedDb` 低层帮手；后续任务会陆续追加 `historyStore` / `migrate`。
+// Phiên bản 1 hiện tái xuất các tiện ích cấp thấp của `indexedDb`; các tác vụ sau sẽ bổ sung
+// dần `historyStore` / `migrate`.
 
 export * from './indexedDb.js';
 export * from './historyStore.js';

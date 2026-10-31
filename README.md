@@ -21,7 +21,7 @@ If you are exploring AI image workflows, OpenAI-compatible image endpoints, gate
 <p align="center">
   <a href="https://github.com/margetrp-hub/ai-image-workbench"><img src="https://img.shields.io/badge/project-ai--image--workbench-0f766e?style=flat-square" alt="project"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-1f7268?style=flat-square" alt="MIT License"></a>
-  <a href="./README.zh-CN.md"><img src="https://img.shields.io/badge/lang-中文-blue?style=flat-square" alt="中文"></a>
+  <a href="./README.vi.md"><img src="https://img.shields.io/badge/lang-Ti%E1%BA%BFng_Vi%E1%BB%87t-blue?style=flat-square" alt="Tiếng Việt"></a>
 </p>
 
 
@@ -156,10 +156,10 @@ If your Nginx server block reads another path, deploy the built `dist/` files th
 
 More details:
 
-- [Deployment guide](docs/DEPLOY.zh-CN.md)
-- [Docker production guide](docs/DOCKER.zh-CN.md)
-- [VPS Git sync guide](docs/VPS-GIT-SYNC.zh-CN.md)
-- [Server update guide](deploy/UPDATE-SERVER.zh-CN.md)
+- [Deployment guide](docs/DEPLOY.vi.md)
+- [Docker production guide](docs/DOCKER.vi.md)
+- [VPS Git sync guide](docs/VPS-GIT-SYNC.vi.md)
+- [Server update guide](deploy/UPDATE-SERVER.vi.md)
 - [Security boundary](SECURITY.md)
 - [Provider and gateway notes](docs/PROVIDERS.md)
 - [Release notes](RELEASE_NOTES.md)
@@ -222,7 +222,7 @@ If the gateway is a remote domain, set:
 AI_GATEWAY_UPSTREAM=https://your-gateway-domain
 ```
 
-See [Docker production guide](docs/DOCKER.zh-CN.md) for the full deployment path.
+See [Docker production guide](docs/DOCKER.vi.md) for the full deployment path.
 
 ## Local Verification
 
@@ -299,11 +299,11 @@ This checks login, profile, and key-list behavior for an account-backed gateway.
 │   ├── nginx-sub2api-studio.conf
 │   ├── docker-nginx.conf.template
 │   ├── image-sub2api-studio-history.service
-│   └── UPDATE-SERVER.zh-CN.md
+│   └── UPDATE-SERVER.vi.md
 ├── docs/
-│   ├── DEPLOY.zh-CN.md
-│   ├── DOCKER.zh-CN.md
-│   ├── open-source-config.zh-CN.md
+│   ├── DEPLOY.vi.md
+│   ├── DOCKER.vi.md
+│   ├── open-source-config.vi.md
 │   ├── sub2api-studio-overlay.md
 │   ├── templates.md
 │   └── screenshots/

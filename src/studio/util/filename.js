@@ -1,54 +1,54 @@
 // src/studio/util/filename.js
 //
-// 下载文件名工具：把 Provider ID、生成时间、prompt 与 MIME 折叠成形如
-// `ai-image-workbench-{provider}-{YYYYMMDD-HHmm}-{slug}-{index}.{ext}` 的纯函数文件名，
-// 用于 ResultGrid / Lightbox / HistoryCard 三处的下载锚 `download` 属性。
+// Tiện ích tên tệp tải xuống: gộp Provider ID, thời gian tạo, prompt và MIME thành tên dạng
+// `ai-image-workbench-{provider}-{YYYYMMDD-HHmm}-{slug}-{index}.{ext}` bằng hàm thuần,
+// dùng cho thuộc tính `download` ở ResultGrid / Lightbox / HistoryCard.
 //
-// 设计依据：
-//   - requirements.md Requirement 9.1 ~ 9.8（下载文件名规范）
-//   - design.md "Download Filename" 节（算法表 + 示例 + mimeToExt）
-//   - tasks.md Task 1.4
+// Cơ sở thiết kế:
+//   - requirements.md, yêu cầu 9.1 ~ 9.8 (quy tắc tên tệp tải xuống)
+//   - design.md, mục "Download Filename" (bảng thuật toán, ví dụ và mimeToExt)
+//   - tasks.md, tác vụ 1.4
 //
-// 关键性质（design.md Property P10：filename safety）：
-//   - 输出仅包含 `[a-z0-9.-]`，不会出现路径分隔符 / 控制字符 / 引号；
-//   - prompt slug ≤ 40 字符；
-//   - 空 prompt 或非 ASCII 全空 → 占位符 `image`，永不输出空 slug；
-//   - index 总是 ≥ 1（从 1 起），即便调用方传入 0 / 负数 / NaN 也归一到 1；
-//   - 所有内部辅助 (`sanitizeProvider` / `formatLocalStamp` / `buildPromptSlug` /
-//     `mimeToExt`) 都对 `null` / `undefined` / 非字符串输入安全。
+// Các thuộc tính quan trọng (design.md, tính an toàn tên tệp, thuộc tính P10):
+//   - Đầu ra chỉ chứa `[a-z0-9.-]`, không có dấu phân cách đường dẫn, ký tự điều khiển hay dấu nháy;
+//   - slug của prompt dài tối đa 40 ký tự;
+//   - prompt rỗng hoặc không có ký tự ASCII sẽ dùng `image`, slug không bao giờ rỗng;
+//   - index luôn từ 1 trở lên, kể cả khi bên gọi truyền 0, số âm hoặc NaN;
+//   - mọi hàm hỗ trợ (`sanitizeProvider` / `formatLocalStamp` / `buildPromptSlug` /
+//     `mimeToExt`) đều xử lý an toàn đầu vào `null`, `undefined` và không phải chuỗi.
 //
-// v1 不引入拼音 / 罗马化库：CJK 等无法靠 NFKD 折叠出 ASCII 字母数字的 prompt
-// 会在 slug 阶段被规约为空串，由 buildPromptSlug 的空串回退给出 `image`。
-// 这与 Requirement 9.5 / 9.6 一致——9.6 的 "罗马化优先" 行为留给后续可选扩展。
+// Phiên bản 1 không thêm thư viện phiên âm hoặc chuyển tự: prompt chứa CJK và không thể
+// chuyển thành chữ số ASCII bằng NFKD sẽ cho slug rỗng, sau đó buildPromptSlug dùng `image`.
+// Cách này khớp yêu cầu 9.5 / 9.6; ưu tiên chuyển tự ở mục 9.6 có thể được bổ sung sau.
 
 /**
- * `buildDownloadFilename` 的入参形状。
+ * Cấu trúc tham số của `buildDownloadFilename`.
  *
  * @typedef {Object} BuildDownloadFilenameArgs
  * @property {string} providerId
- *   Provider Registry 中的 ID（如 `'gateway-account'` / `'replicate'`）。会被
- *   `sanitizeProvider` 归一化为 `[a-z0-9-]`。
+ *   ID trong Provider Registry (ví dụ `'gateway-account'` / `'replicate'`), được
+ *   `sanitizeProvider` chuẩn hóa thành `[a-z0-9-]`.
  * @property {string} createdAt
- *   ISO 8601 字符串或 `new Date()` 可接受的形式；按本地时区格式化为
+ *   Chuỗi ISO 8601 hoặc giá trị `new Date()` chấp nhận được; định dạng theo múi giờ địa phương thành
  *   `YYYYMMDD-HHmm`。
  * @property {string} prompt
- *   原始 prompt；空字符串 / 仅 CJK / 仅符号都会回退为 `image`。
+ *   Prompt gốc; chuỗi rỗng, chỉ có CJK hoặc chỉ có ký hiệu sẽ dùng `image`.
  * @property {string} mime
- *   结果资源 MIME，如 `'image/png'` / `'image/jpeg'` / `'image/webp'`，
- *   不识别时回退到 `png`。
+ *   MIME của tài nguyên kết quả như `'image/png'` / `'image/jpeg'` / `'image/webp'`;
+ *   nếu không nhận diện được thì dùng `png`.
  * @property {number} index
- *   0-based 序号，输出会被映射为 `Math.max(1, (index|0) + 1)`。
+ *   Số thứ tự bắt đầu từ 0; đầu ra được ánh xạ thành `Math.max(1, (index|0) + 1)`.
  */
 
 /**
- * 把生成结果元数据折叠为下载文件名。
+ * Gộp siêu dữ liệu kết quả tạo ảnh thành tên tệp tải xuống.
  *
- * 形态：`ai-image-workbench-{provider}-{YYYYMMDD-HHmm}-{slug}-{index}.{ext}`。
+ * Định dạng: `ai-image-workbench-{provider}-{YYYYMMDD-HHmm}-{slug}-{index}.{ext}`.
  *
- * 示例：
+ * Ví dụ:
  *   - `A corgi running on the beach.` / `gateway-account` / `image/png` / index `0`
  *     → `ai-image-workbench-gateway-account-20260517-1330-a-corgi-running-on-the-beach-1.png`
- *   - `咖啡杯特写` / `pollinations` / `image/jpeg` / index `0`
+ *   - `Cận cảnh tách cà phê` / `pollinations` / `image/jpeg` / index `0`
  *     → `ai-image-workbench-pollinations-20260517-1330-image-1.jpg`
  *   - `Café au lait, soft light` / `replicate` / `image/webp` / index `0`
  *     → `ai-image-workbench-replicate-20260517-0905-cafe-au-lait-soft-light-1.webp`
@@ -66,12 +66,12 @@ export function buildDownloadFilename({ providerId, createdAt, prompt, mime, ind
 }
 
 /**
- * 把 Provider ID 归一化到 `[a-z0-9-]`。
+ * Chuẩn hóa Provider ID về `[a-z0-9-]`.
  *
- *   - 转小写；
- *   - 将所有非 `[a-z0-9-]` 字符折叠为单连字符；
- *   - 修剪首尾连字符；
- *   - 空串回退为 `'provider'`，确保文件名永远落在合法区段内。
+ *   - Chuyển thành chữ thường;
+ *   - Gộp mọi ký tự ngoài `[a-z0-9-]` thành một dấu gạch ngang;
+ *   - Xóa dấu gạch ngang ở đầu và cuối;
+ *   - Chuỗi rỗng dùng `'provider'` để tên tệp luôn có đoạn hợp lệ.
  *
  * @param {string} providerId
  * @returns {string}
@@ -85,10 +85,10 @@ export function sanitizeProvider(providerId) {
 }
 
 /**
- * 把 `Date` 按本地时区格式化为 `YYYYMMDD-HHmm`。
+ * Định dạng `Date` theo múi giờ địa phương thành `YYYYMMDD-HHmm`.
  *
- * 无效日期（`Number.isNaN(d.getTime())`）回退为 `'00000000-0000'`，避免抛错
- * 把整个文件名链路打断。
+ * Ngày không hợp lệ (`Number.isNaN(d.getTime())`) dùng `'00000000-0000'` để tránh ném lỗi
+ * và làm gián đoạn toàn bộ quá trình tạo tên tệp.
  *
  * @param {Date} d
  * @returns {string}
@@ -107,25 +107,26 @@ export function formatLocalStamp(d) {
 }
 
 /**
- * 把 prompt 折叠为安全 slug（≤ 40 字符，仅 `[a-z0-9-]`）。
+ * Chuyển prompt thành slug an toàn (tối đa 40 ký tự, chỉ gồm `[a-z0-9-]`).
  *
- * 算法（与 design.md "Download Filename" 节一致）：
- *   1. NFKD 归一化（把 `é` 拆为 `e + 组合符`）；
- *   2. 去掉所有 combining marks（U+0300..U+036F）；
- *   3. 把常见智能引号 / 全角标点替换为空格，避免连续标点被吸进同一连字符；
- *   4. 转小写，把任何非 `[a-z0-9]` 序列折叠为单连字符；
- *   5. 修剪首尾连字符；
- *   6. 截到 40 字符；若截断后以连字符结尾，再修剪一次；
- *   7. 若结果为空（典型如纯 CJK / 纯符号 prompt），回退为 `'image'`。
+ * Thuật toán (theo mục "Download Filename" trong design.md):
+ *   1. Chuẩn hóa NFKD (tách `é` thành `e` và dấu kết hợp);
+ *   2. Xóa mọi dấu kết hợp (U+0300..U+036F);
+ *   3. Đổi dấu nháy thông minh và dấu câu full-width thường gặp thành khoảng trắng;
+ *   4. Chuyển thành chữ thường, gộp chuỗi ký tự ngoài `[a-z0-9]` thành một dấu gạch ngang;
+ *   5. Xóa dấu gạch ngang ở đầu và cuối;
+ *   6. Giới hạn 40 ký tự; nếu kết quả kết thúc bằng dấu gạch ngang thì xóa tiếp;
+ *   7. Nếu kết quả rỗng (thường do prompt chỉ có CJK hoặc ký hiệu), dùng `'image'`.
  *
  * @param {string} prompt
  * @returns {string}
  */
 export function buildPromptSlug(prompt) {
   let text = String(prompt ?? '').normalize('NFKD');
-  // 去 combining marks（NFKD 拆出来的变音符号）。
+  // Xóa dấu kết hợp (dấu phụ được tách ra khi chuẩn hóa NFKD).
   text = text.replace(/[\u0300-\u036f]/g, '');
-  // 把常见智能引号 / 全角空格替换为半角空格，让后续的 [^a-z0-9]+ 折叠更干净。
+  // Đổi dấu nháy thông minh và khoảng trắng full-width thành khoảng trắng thường để bước gộp
+  // `[^a-z0-9]+` tiếp theo xử lý chính xác hơn.
   text = text.replace(/[\u2018\u2019\u201C\u201D'"\u00A0\u3000]/g, ' ');
   text = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   if (text.length > 40) {
@@ -135,15 +136,15 @@ export function buildPromptSlug(prompt) {
 }
 
 /**
- * 把 MIME 字符串映射到下载扩展名。
+ * Ánh xạ chuỗi MIME sang phần mở rộng của tệp tải xuống.
  *
  *   - `'image/png'`              → `'png'`
  *   - `'image/jpeg'` / `'image/jpg'` → `'jpg'`
  *   - `'image/webp'`             → `'webp'`
- *   - 其它（含 `null` / `undefined`） → `'png'`
+ *   - Giá trị khác (kể cả `null` / `undefined`) → `'png'`
  *
- * 仅识别小写形式即可：调用方传入的 MIME 多来自 `Blob.type` / Content-Type，
- * 通常已是小写；若上游返回大写也会经 `.toLowerCase()` 兜底。
+ * Chỉ cần nhận diện dạng chữ thường: MIME bên gọi truyền vào thường lấy từ `Blob.type` /
+ * Content-Type và đã ở dạng chữ thường; nếu dịch vụ nguồn trả chữ hoa, `.toLowerCase()` sẽ xử lý.
  *
  * @param {string} mime
  * @returns {string}

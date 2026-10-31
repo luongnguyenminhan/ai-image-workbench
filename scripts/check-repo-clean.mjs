@@ -85,9 +85,9 @@ for (const ignoreFile of ['.gitignore', '.dockerignore']) {
 const secretPattern = /\bsk-[A-Za-z0-9_-]{20,}\b/g;
 const secretAllowList = new Set([
   'README.md',
-  'README.zh-CN.md',
-  'docs/DEPLOY.zh-CN.md',
-  'docs/DOCKER.zh-CN.md'
+  'README.vi.md',
+  'docs/DEPLOY.vi.md',
+  'docs/DOCKER.vi.md'
 ]);
 
 const secretHits = [];

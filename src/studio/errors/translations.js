@@ -1,28 +1,28 @@
 // src/studio/errors/translations.js
 //
-// Error Translation Table 与 translateError 工具：把任意 Provider 抛出的错误归一化为
-// 中文友好提示，供创作台 UI 渲染（message + hint + 可展开技术详情）。
+// Bảng Error Translation Table và tiện ích translateError: chuẩn hóa lỗi từ mọi nhà cung cấp
+// thành thông báo tiếng Việt thân thiện để giao diện hiển thị (message + hint + chi tiết kỹ thuật có thể mở rộng).
 //
-// 设计依据：
+// Cơ sở thiết kế:
 //   - requirements.md Requirement 4 (4.1 ~ 4.6)
-//   - design.md "Error Translation Table" 一节
-//   - tasks.md Task 1.5
+//   - mục "Error Translation Table" trong design.md
+//   - tác vụ 1.5 trong tasks.md
 //
-// 使用方：
-//   - CreationDesk 的 catch 路径：translateError(providerId, error)
-//   - Hook 内部把上层 fetch reject / Provider 抛出的 { status, providerCode, message, payload }
-//     归一化为 TranslatedError，再交给状态机决定走 error 还是 cancelled 路径。
+// Nơi sử dụng:
+//   - Nhánh catch của CreationDesk: translateError(providerId, error)
+//   - Hook chuẩn hóa lỗi fetch hoặc lỗi nhà cung cấp dạng { status, providerCode, message, payload }
+//     thành TranslatedError, rồi chuyển cho máy trạng thái chọn nhánh error hoặc cancelled.
 //
-// 设计要点：
-//   - 匹配优先级：`${providerId}:${status}` → `${providerId}:${providerCode}`
-//                → `default:${status}` → `default:unknown`
-//   - 5xx 走 `default:5xx` 单一桶。
-//   - AbortError（error.name === 'AbortError'）映射为 `default:abort`，调用方据此走
-//     ProgressMachine 的 CANCEL 转移而不是 error。
-//   - 网络 / CORS（fetch reject，无 status）走 `default:network`。
-//   - raw 字段保留原始 payload（优先 error.payload，缺省回退到 error 本身），
-//     方便 UI 的 "技术详情 / 复制原始报文" 面板使用。
-//   - 函数永远返回 TranslatedError，不抛异常。
+// Điểm thiết kế:
+//   - Thứ tự tra cứu: `${providerId}:${status}` → `${providerId}:${providerCode}`
+//     → `default:${status}` → `default:unknown`.
+//   - Mọi lỗi 5xx dùng chung mục `default:5xx`.
+//   - AbortError (`error.name === 'AbortError'`) ánh xạ sang `default:abort`, để bên gọi
+//     chuyển trạng thái CANCEL trong ProgressMachine thay vì báo lỗi.
+//   - Lỗi mạng / CORS (fetch bị từ chối, không có status) dùng `default:network`.
+//   - Trường raw giữ payload gốc (ưu tiên error.payload, nếu không có thì giữ chính error),
+//     dùng cho bảng "Chi tiết kỹ thuật / Sao chép phản hồi gốc".
+//   - Hàm luôn trả về TranslatedError và không ném ngoại lệ.
 
 /**
  * @typedef {Object} TranslatedError
@@ -41,91 +41,91 @@
  */
 
 /**
- * Error_Translation_Table 初始条目。
+ * Các mục ban đầu của Error_Translation_Table.
  *
- * key 形式：
- *   - `default:${status}` —— HTTP 状态码兜底；5xx 用 `default:5xx`；
- *   - `default:${pseudoCode}` —— 非 HTTP 错误（abort / network / unknown）；
- *   - `${providerId}:${status}` —— 单个 Provider 的状态码差异化覆写；
- *   - `${providerId}:${providerCode}` —— Provider 私有错误码覆写。
+ * Định dạng khóa:
+ *   - `default:${status}` — dự phòng theo mã trạng thái HTTP; 5xx dùng `default:5xx`;
+ *   - `default:${pseudoCode}` — lỗi không thuộc HTTP (abort / network / unknown);
+ *   - `${providerId}:${status}` — ghi đè riêng theo mã trạng thái của từng nhà cung cấp;
+ *   - `${providerId}:${providerCode}` — ghi đè theo mã lỗi riêng của nhà cung cấp.
  *
  * @type {Readonly<Record<string, TranslationEntry>>}
  */
 export const ERROR_TRANSLATIONS = Object.freeze({
-  // --- default 兜底 -----------------------------------------------------------
+  // --- Mục dự phòng mặc định ---------------------------------------------------
   'default:401': Object.freeze({
-    message: '鉴权失败：API Key 无效或已过期',
-    hint: '请到 Settings 重新填写 Key',
+    message: 'Xác thực thất bại: API key không hợp lệ hoặc đã hết hạn',
+    hint: 'Mở Cài đặt và nhập lại key',
   }),
   'default:402': Object.freeze({
-    message: '余额 / 积分不足',
-    hint: '请到账户中心充值或切换 Provider',
+    message: 'Không đủ số dư hoặc điểm',
+    hint: 'Nạp tiền trong tài khoản hoặc đổi nhà cung cấp',
   }),
   'default:403': Object.freeze({
-    message: '没有访问该模型的权限',
-    hint: '检查账号订阅或 Provider 配置',
+    message: 'Bạn không có quyền truy cập model này',
+    hint: 'Kiểm tra gói tài khoản hoặc cấu hình nhà cung cấp',
   }),
   'default:404': Object.freeze({
-    message: '模型未知或网关地址错误',
-    hint: '在 Settings 中确认模型名',
+    message: 'Không tìm thấy model hoặc địa chỉ gateway sai',
+    hint: 'Kiểm tra tên model trong Cài đặt',
   }),
   'default:415': Object.freeze({
-    message: '不支持的媒体类型',
-    hint: '请上传 PNG / JPG / WebP',
+    message: 'Định dạng tệp không được hỗ trợ',
+    hint: 'Hãy tải lên ảnh PNG / JPG / WebP',
   }),
   'default:422': Object.freeze({
-    message: '参数校验失败',
-    hint: '请检查尺寸 / 数量 / 质量是否在允许范围',
+    message: 'Thông số không hợp lệ',
+    hint: 'Kiểm tra kích thước, số lượng và chất lượng có nằm trong giới hạn cho phép không',
   }),
   'default:429': Object.freeze({
-    message: '请求过于频繁，请稍后再试',
-    hint: '通常 1 分钟后自动恢复',
+    message: 'Bạn gửi yêu cầu quá nhanh. Hãy thử lại sau',
+    hint: 'Thường có thể thử lại sau khoảng một phút',
   }),
   'default:5xx': Object.freeze({
-    message: '上游服务暂时不可用',
-    hint: '请稍后重试或更换 Provider',
+    message: 'Dịch vụ nguồn tạm thời không khả dụng',
+    hint: 'Thử lại sau hoặc đổi nhà cung cấp',
   }),
   'default:network': Object.freeze({
-    message: '网络异常或被 CORS 拦截',
-    hint: '检查网络或浏览器扩展',
+    message: 'Lỗi mạng hoặc bị CORS chặn',
+    hint: 'Kiểm tra mạng hoặc tiện ích trình duyệt',
   }),
   'default:abort': Object.freeze({
-    message: '已取消',
+    message: 'Đã hủy',
   }),
 
-  // --- Provider 专属覆写 -----------------------------------------------------
+  // --- Ghi đè riêng cho nhà cung cấp ------------------------------------------
   'replicate:422': Object.freeze({
-    message: 'Replicate 拒绝了该提示词',
-    hint: '通常是 NSFW / 受限内容',
+    message: 'Replicate từ chối prompt này',
+    hint: 'Có thể prompt chứa nội dung nhạy cảm hoặc bị hạn chế',
   }),
   'replicate:nsfw': Object.freeze({
-    message: '提示词触发 NSFW 安全策略',
-    hint: '请去除敏感词后重试',
+    message: 'Prompt bị bộ lọc nội dung nhạy cảm chặn',
+    hint: 'Xóa các từ nhạy cảm rồi thử lại',
   }),
   'pollinations:429': Object.freeze({
-    message: 'Pollinations 当前繁忙',
-    hint: '免费节点限流，可稍后重试',
+    message: 'Pollinations hiện đang bận',
+    hint: 'Máy chủ miễn phí đang giới hạn lượt gọi; hãy thử lại sau',
   }),
   'sub2api:402': Object.freeze({
-    message: '创作台额度不足',
-    hint: '请充值或等待免费额度恢复',
+    message: 'Không đủ hạn mức sử dụng',
+    hint: 'Nạp thêm hoặc đợi hạn mức miễn phí được cấp lại',
   }),
   'fal:401': Object.freeze({
-    message: 'Fal Key 无效',
-    hint: '请到 Settings 重新填写',
+    message: 'Fal key không hợp lệ',
+    hint: 'Mở Cài đặt và nhập lại key',
   }),
   'fal:rate-limited': Object.freeze({
-    message: 'Fal 触发速率限制',
-    hint: '几秒后自动恢复',
+    message: 'Fal đang giới hạn tốc độ yêu cầu',
+    hint: 'Hãy thử lại sau vài giây',
   }),
   'custom-openai:edits-unsupported': Object.freeze({
-    message: '上游不支持图像编辑路径',
-    hint: '请改用 /v1/images/generations 或换一个支持 edits 的网关',
+    message: 'Dịch vụ nguồn không hỗ trợ chỉnh sửa ảnh',
+    hint: 'Chuyển sang /v1/images/generations hoặc dùng gateway hỗ trợ chỉnh sửa ảnh',
   }),
 });
 
 /**
- * 判断错误是否属于 fetch 网络层失败（无 status 的 TypeError、CORS 阻断等）。
+ * Xác định lỗi có phát sinh ở tầng mạng của fetch hay không (TypeError không có status, bị CORS chặn, v.v.).
  *
  * @param {{ name?: string, message?: string }} error
  * @returns {boolean}
@@ -143,10 +143,10 @@ function isNetworkError(error) {
 }
 
 /**
- * 把任意错误归一化为 TranslatedError。
+ * Chuẩn hóa một lỗi bất kỳ thành TranslatedError.
  *
- * 永远返回对象，不抛异常；调用方根据返回值的 message / hint 渲染中文提示，
- * 并可通过 raw 字段展示 "技术详情" 折叠面板。
+ * Luôn trả về một đối tượng, không ném ngoại lệ. Bên gọi dùng message / hint để hiển thị thông báo
+ * và có thể dùng trường raw trong bảng mở rộng "Chi tiết kỹ thuật".
  *
  * @param {string} providerId
  * @param {{
@@ -168,7 +168,7 @@ export function translateError(providerId, error) {
       ? safeError.payload
       : safeError;
 
-  // 1. AbortError 优先：永远走 default:abort，交给状态机的 CANCEL 通路。
+  // 1. Ưu tiên AbortError: luôn dùng default:abort để máy trạng thái xử lý nhánh CANCEL.
   if (safeError && safeError.name === 'AbortError') {
     const entry = ERROR_TRANSLATIONS['default:abort'];
     return {
@@ -180,7 +180,7 @@ export function translateError(providerId, error) {
   }
 
   const status = typeof safeError.status === 'number' ? safeError.status : undefined;
-  // providerCode 既可能挂在 error.providerCode，也可能挂在 error.code（服务端代理常这么传）。
+  // providerCode có thể nằm trong error.providerCode hoặc error.code (proxy phía máy chủ thường dùng trường sau).
   const providerCode =
     typeof safeError.providerCode === 'string' && safeError.providerCode
       ? safeError.providerCode
@@ -188,7 +188,7 @@ export function translateError(providerId, error) {
         ? safeError.code
         : undefined;
 
-  // 2. 按优先级查表。
+  // 2. Tra bảng theo thứ tự ưu tiên.
   const entry = lookupEntry({
     providerId: safeProviderId,
     status,
@@ -207,9 +207,9 @@ export function translateError(providerId, error) {
     };
   }
 
-  // 3. 兜底：default:unknown —— 中文 "生成失败" + 状态码（如有）。
+  // 3. Dự phòng: default:unknown — "Tạo thất bại" kèm mã trạng thái nếu có.
   const fallbackMessage =
-    typeof status === 'number' ? `生成失败（HTTP ${status}）` : '生成失败';
+    typeof status === 'number' ? `Tạo thất bại (HTTP ${status})` : 'Tạo thất bại';
   return {
     providerId: safeProviderId,
     ...(typeof status === 'number' ? { status } : null),
@@ -220,21 +220,21 @@ export function translateError(providerId, error) {
 }
 
 /**
- * 按优先级查找 Error_Translation_Table 命中项。
+ * Tìm mục phù hợp trong Error_Translation_Table theo thứ tự ưu tiên.
  *
- * 顺序：
+ * Thứ tự:
  *   1) `${providerId}:${status}`
  *   2) `${providerId}:${providerCode}`
- *   3) `default:${status}`（5xx 走 `default:5xx`）
- *   4) `default:network`（无 status 且看起来像网络错误）
+ *   3) `default:${status}` (5xx dùng `default:5xx`)
+ *   4) `default:network` (không có status và có vẻ là lỗi mạng)
  *
- * 命中则返回对应 entry，否则返回 null（由调用方进入 default:unknown 兜底）。
+ * Trả về entry nếu tìm thấy; nếu không, trả về null để bên gọi dùng dự phòng default:unknown.
  *
  * @param {{ providerId: string, status?: number, providerCode?: string, error: object }} ctx
  * @returns {TranslationEntry | null}
  */
 function lookupEntry({ providerId, status, providerCode, error }) {
-  // 1) Provider + 状态码精确命中（5xx 走 provider:5xx 桶，留出未来覆写空间）
+  // 1) Khớp chính xác nhà cung cấp + mã trạng thái (5xx dùng nhóm provider:5xx để có thể ghi đè sau này).
   if (typeof status === 'number') {
     const providerStatusKey =
       status >= 500 && status < 600
@@ -245,7 +245,7 @@ function lookupEntry({ providerId, status, providerCode, error }) {
     }
   }
 
-  // 2) Provider + providerCode 命中
+  // 2) Khớp nhà cung cấp + providerCode.
   if (providerCode) {
     const providerCodeKey = `${providerId}:${providerCode}`;
     if (ERROR_TRANSLATIONS[providerCodeKey]) {
@@ -253,7 +253,7 @@ function lookupEntry({ providerId, status, providerCode, error }) {
     }
   }
 
-  // 3) default + 状态码（5xx 折叠到 default:5xx）
+  // 3) Mặc định theo mã trạng thái (gộp 5xx vào default:5xx).
   if (typeof status === 'number') {
     const defaultStatusKey =
       status >= 500 && status < 600 ? 'default:5xx' : `default:${status}`;
@@ -262,7 +262,7 @@ function lookupEntry({ providerId, status, providerCode, error }) {
     }
   }
 
-  // 4) 网络 / CORS 失败
+  // 4) Lỗi mạng / CORS.
   if (typeof status !== 'number' && isNetworkError(error)) {
     return ERROR_TRANSLATIONS['default:network'];
   }

@@ -4,25 +4,12 @@ import path from 'node:path';
 const root = process.cwd();
 const docTargets = [
   'README.md',
-  'README.zh-CN.md',
+  'README.vi.md',
   'RELEASE_NOTES.md',
   'SECURITY.md',
   'docs'
 ];
-const suspiciousPatterns = [
-  /\uFFFD/,
-  /鈹[^\n]*/,
-  /�/,
-  /\?{4,}/,
-  /鎴[^\n]*/,
-  /杩[^\n]*/,
-  /瀵[^\n]*/,
-  /涓[^\n]*/,
-  /鐢[^\n]*/,
-  /鍥[^\n]*/,
-  /乣/,
-  /乚/
-];
+const suspiciousPatterns = [/\uFFFD/, /\?{4,}/, /[\u3400-\u9fff]/u];
 const allowedFiles = new Set();
 
 function walk(target) {

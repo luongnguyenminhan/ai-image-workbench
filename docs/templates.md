@@ -1,28 +1,28 @@
-> [返回 README 首页](../README.md)
+> [Quay lại trang chủ README](../README.md)
 
 <a name="section-templates"></a>
 
-## 提示词模板与防坑指南
+## Mẫu prompt và hướng dẫn tránh lỗi
 
-本文档提供可复制、可改写的生图提示词模板，作为 `image-sub2api-studio` 的社区模板参考。
+Tài liệu này cung cấp các mẫu prompt tạo ảnh có thể sao chép và chỉnh sửa, làm tài liệu tham khảo cho các mẫu cộng đồng của `image-sub2api-studio`.
 
-提示词模板内容来自社区，遵循 CC BY 4.0 许可证；使用和改编时请保留原作者或来源归属。模板只是可选启动内容，不构成本项目来源或归属。
+Nội dung mẫu prompt đến từ cộng đồng và tuân theo giấy phép CC BY 4.0. Khi sử dụng hoặc chỉnh sửa, vui lòng ghi nhận tác giả hoặc nguồn gốc ban đầu. Đây chỉ là nội dung khởi đầu tùy chọn, không phải nội dung do dự án tạo ra hay sở hữu.
 
 <a name="tpl-ui"></a>
 
-### UI与界面
+### UI và giao diện
 
-**常规模板**
+**Mẫu cơ bản**
 
 ```text
-为[产品类型]生成一张[平台，如 iOS/Android/Web]界面图。
-核心功能：[功能点A]、[功能点B]、[功能点C]。
-视觉风格：[极简/科技/拟物]，主色[颜色]，强调色[颜色]。
-布局：[顶部导航/双栏/卡片流]，信息层级清晰，留白充足。
-输出：高保真UI截图，文字清晰可读，比例[9:16/16:9]。
+Tạo ảnh giao diện cho [loại sản phẩm] trên [nền tảng, chẳng hạn iOS/Android/Web].
+Chức năng chính: [tính năng A], [tính năng B], [tính năng C].
+Phong cách hình ảnh: [tối giản/công nghệ/mô phỏng vật thể], màu chủ đạo [màu], màu nhấn [màu].
+Bố cục: [thanh điều hướng trên cùng/hai cột/danh sách thẻ], phân cấp thông tin rõ ràng, có đủ khoảng trống.
+Đầu ra: ảnh chụp giao diện độ trung thực cao, chữ rõ và dễ đọc, tỷ lệ [9:16/16:9].
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -46,66 +46,66 @@
 }
 ```
 
-**截图生成模板**
+**Mẫu tạo ảnh chụp màn hình**
 
 ```text
-生成一张[平台，如 X/抖音/小红书/微信朋友圈]内容截图，[深色/浅色]模式。
-整体比例：[9:16 / 3:4 / 1:1]，手机截图风格。
+Tạo ảnh chụp nội dung trên [nền tảng, chẳng hạn X/TikTok/RedNote/Moments], giao diện [sáng/tối].
+Tỷ lệ tổng thể: [9:16 / 3:4 / 1:1], phong cách ảnh chụp màn hình điện thoại.
 
-核心内容：
-- 账号信息：[头像描述 / 用户名 / 认证标识]
-- 正文内容：[具体文本内容，包含指定中文]
-- 互动数据：[点赞/评论/转发/收藏数量]
+Nội dung chính:
+- Thông tin tài khoản: [mô tả ảnh đại diện / tên người dùng / dấu xác minh]
+- Nội dung bài đăng: [nội dung văn bản cụ thể, bằng tiếng Việt được chỉ định]
+- Số liệu tương tác: [lượt thích/bình luận/chia sẻ/lưu]
 
-界面元素：
-- 顶部：[状态栏/导航栏/搜索栏]
-- 底部：[操作栏/Tab栏/输入框]
-- 附加：[浮窗/弹幕/礼物特效/购物车卡片]
+Thành phần giao diện:
+- Phía trên: [thanh trạng thái/thanh điều hướng/thanh tìm kiếm]
+- Phía dưới: [thanh thao tác/thanh tab/ô nhập]
+- Thành phần bổ sung: [cửa sổ nổi/bình luận chạy hiệu ứng quà tặng/thẻ giỏ hàng]
 
-约束：文字必须准确显示指定的中文，禁止乱码和占位文本，比例固定。
-输出：高仿社交平台截图，文字清晰可读。
+Ràng buộc: hiển thị chính xác phần chữ tiếng Việt được chỉ định, không dùng chữ lỗi hoặc văn bản giữ chỗ, giữ cố định tỷ lệ ảnh.
+Đầu ra: ảnh chụp giao diện mạng xã hội có độ chân thực cao, chữ rõ và dễ đọc.
 ```
 
-**直播界面模板**
+**Mẫu giao diện phát trực tiếp**
 
 ```text
-生成一张[平台，如抖音/快手/B站]直播界面截图。
-主播：[人物描述/名称]，姿态：[坐姿/站立/动作]，服装：[服装描述]。
-背景：[直播间背景描述]，灯光：[暖色/冷色/混合]。
+Tạo ảnh chụp giao diện phát trực tiếp trên [nền tảng, chẳng hạn TikTok/Kuaishou/Bilibili].
+Người phát: [mô tả nhân vật/tên], tư thế: [ngồi/đứng/đang hoạt động], trang phục: [mô tả trang phục].
+Bối cảnh: [mô tả phòng phát trực tiếp], ánh sáng: [tông ấm/tông lạnh/kết hợp].
 
-UI叠加层：
-- 顶部：主播头像 + 关注按钮 + 在线人数 + 排名/热值
-- 左下：弹幕/评论列表（[N]条，内容示例）
-- 右下或中部：商品卡片 / 礼物特效 / PK进度条
-- 底部：输入框 + 功能图标（分享/点赞/礼物/购物车）
+Lớp phủ giao diện:
+- Phía trên: ảnh đại diện người phát + nút theo dõi + số người xem trực tuyến + thứ hạng/độ phổ biến
+- Góc dưới bên trái: danh sách bình luận chạy ( [N] bình luận, có ví dụ nội dung)
+- Góc dưới bên phải hoặc ở giữa: thẻ sản phẩm / hiệu ứng quà tặng / thanh tiến độ PK
+- Phía dưới: ô nhập + biểu tượng chức năng (chia sẻ/thích/quà tặng/giỏ hàng)
 
-风格：[写实直播截图/高保真UI/暗黑系/粉嫩系]，比例 9:16。
-约束：文字清晰可读，弹幕内容合理，界面元素不遮挡主播面部。
-输出：高仿直播截图画面。
+Phong cách: [ảnh chụp buổi phát trực tiếp chân thực/giao diện độ trung thực cao/tông tối/tông hồng pastel], tỷ lệ 9:16.
+Ràng buộc: chữ rõ và dễ đọc, bình luận hợp lý, thành phần giao diện không che khuất mặt người phát.
+Đầu ra: hình ảnh mô phỏng ảnh chụp màn hình buổi phát trực tiếp.
 ```
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **不要给模糊指令**：明确"平台 + 比例 + 布局"，否则模型会像个实习生一样乱排版。
-- **强制文字锁定**：要求"文字绝对可读，必须显示指定的中文"，避免出现乱码按钮和毫无意义的火星文。
-- **截图区分平台特征**：X（Twitter）有蓝勾认证、转发/引用区分；抖音有音乐碟片和点赞动画；小红书有双列瀑布流特征。生成前指定平台，否则模型会混搭。
-- **直播界面先定场景**：带货直播和才艺直播的UI布局差异很大（带货右上角有商品列表，才艺直播偏重在弹幕互动），先锁定直播类型再填细节。
-- **中空界面比例锁定**：车机/智能家居等特殊屏幕有固定比例（如21:9），必须写在最前面，否则模型默认出手机9:16。
+- **Tránh chỉ dẫn mơ hồ**: nêu rõ “nền tảng + tỷ lệ + bố cục”, nếu không mô hình có thể sắp xếp tùy tiện.
+- **Khóa chính xác nội dung chữ**: yêu cầu “chữ phải rõ và hiển thị đúng nội dung tiếng Việt được chỉ định” để tránh nút có chữ lỗi hoặc ký tự vô nghĩa.
+- **Phân biệt đặc trưng từng nền tảng**: X (Twitter) có dấu xác minh màu xanh và phân biệt chia sẻ với trích dẫn; TikTok có đĩa nhạc và hiệu ứng thích; RedNote có bố cục dạng lưới hai cột. Hãy nêu nền tảng trước khi tạo để tránh trộn lẫn các đặc điểm.
+- **Chọn loại buổi phát trực tiếp trước**: giao diện bán hàng và phát trực tiếp biểu diễn khác nhau đáng kể (bán hàng thường có danh sách sản phẩm ở góc trên bên phải, còn biểu diễn chú trọng tương tác bình luận). Hãy xác định loại buổi phát trước khi điền chi tiết.
+- **Khóa tỷ lệ cho giao diện không chuẩn**: màn hình ô tô hoặc nhà thông minh có tỷ lệ cố định (chẳng hạn 21:9); hãy ghi rõ ngay từ đầu, nếu không mô hình thường mặc định tỷ lệ điện thoại 9:16.
 
 <a name="tpl-infographic"></a>
 
-### 图表与信息可视化
+### Biểu đồ và trực quan hóa thông tin
 
-**常规模板**
+**Mẫu cơ bản**
 
 ```text
-生成[主题：明确、具体，避免宽泛。例如：“老年人日常健康管理指南”而非“健康”]信息图，目标读者为[人群:细化人群特征，如年龄段、职业、兴趣等]。
-结构：标题区 + [3-5]个模块（每模块含图标、短标题、1-2句说明,模块间逻辑：可用箭头、颜色区分或连接线提示信息流或关系等适当的方式）。
-图表类型：[流程图/对比图/关系图/时间线]。
-风格：[专业报告/科普插画/儿童教育等]，主色[颜色]，背景[浅色/深色]。
-输出：信息层级清晰、可读性高的中文信息图。
+Tạo đồ họa thông tin về [chủ đề: nêu cụ thể, tránh quá rộng; chẳng hạn “Hướng dẫn chăm sóc sức khỏe hằng ngày cho người cao tuổi” thay vì “Sức khỏe”], dành cho [đối tượng: mô tả rõ độ tuổi, nghề nghiệp, sở thích, v.v.].
+Cấu trúc: vùng tiêu đề + [3-5] mô-đun (mỗi mô-đun có biểu tượng, tiêu đề ngắn và 1-2 câu giải thích; thể hiện mối liên hệ giữa các mô-đun bằng mũi tên, màu sắc hoặc đường nối phù hợp).
+Loại biểu đồ: [lưu đồ/biểu đồ so sánh/sơ đồ quan hệ/dòng thời gian].
+Phong cách: [báo cáo chuyên nghiệp/minh họa phổ biến khoa học/giáo dục trẻ em], màu chủ đạo [màu], nền [sáng/tối].
+Đầu ra: đồ họa thông tin bằng tiếng Việt, phân cấp rõ ràng và dễ đọc.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -113,11 +113,11 @@ UI叠加层：
   "topic": "Urban Metabolism",
   "audience": "General Public",
   "structure": {
-    "title_area": "城市生命系统图谱",
+      "title_area": "Bản đồ hệ thống sống của đô thị",
     "layout": "Isometric cutaway, 12 numbered panels",
     "modules": [
-      {"title": "能源", "icon": "lightning", "text": "Power flows"},
-      {"title": "水循环", "icon": "water_drop", "text": "Water flows"}
+      {"title": "Năng lượng", "icon": "lightning", "text": "Power flows"},
+      {"title": "Vòng tuần hoàn nước", "icon": "water_drop", "text": "Water flows"}
     ]
   },
   "style": {
@@ -129,55 +129,55 @@ UI叠加层：
 }
 ```
 
-**尺度缩放科学信息图模板**
+**Mẫu đồ họa thông tin khoa học theo tỷ lệ quy mô**
 
 ```text
-为[主题]生成一张科学尺度缩放信息图。
-结构：6-8 个圆形或六边形框，按从微观到宏观的尺度递进排列。
-每个框包含：尺度名称、3-5 个词的洞察、测量单位或放大倍率，以及该尺度下的高细节 3D 渲染。
-用细线连接各尺度，避免重复层级。标题使用“[主题]：AT EVERY SCALE”或“ZOOM: THE WORLD OF [主题]”。
-风格：科学编辑信息图、精准微距光、清晰层级、文字短而可读。
-约束：不要通用放大镜图标，不要把所有尺度画成同一大小，不要塞长段正文。
+Tạo đồ họa thông tin khoa học thể hiện các cấp độ quy mô của [chủ đề].
+Cấu trúc: 6-8 khung tròn hoặc lục giác, sắp xếp theo thứ tự từ vi mô đến vĩ mô.
+Mỗi khung gồm: tên cấp độ, nhận xét ngắn 3-5 từ, đơn vị đo hoặc độ phóng đại, cùng hình dựng 3D chi tiết ở cấp độ đó.
+Dùng đường mảnh nối các cấp độ và tránh lặp lại thứ bậc. Đặt tiêu đề “[chủ đề]: Ở MỌI QUY MÔ” hoặc “PHÓNG TO: THẾ GIỚI CỦA [chủ đề]”.
+Phong cách: đồ họa thông tin khoa học dạng biên tập, ánh sáng cận cảnh chính xác, phân cấp rõ, chữ ngắn và dễ đọc.
+Ràng buộc: không dùng biểu tượng kính lúp chung chung, không vẽ mọi cấp độ cùng kích thước, không chèn đoạn văn dài.
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **控制模块数量**：强制定制“模块数量”和“图表类型”，能极大降低画面混乱和信息溢出。
-- **文案克制**：图表场景优先使用短句文案，千万不要把大段正文塞进画面里，模型不是排版工人。
+- **Giới hạn số mô-đun**: chỉ định rõ “số mô-đun” và “loại biểu đồ” để giảm đáng kể tình trạng bố cục rối và quá tải thông tin.
+- **Giữ nội dung ngắn gọn**: ưu tiên câu ngắn trong biểu đồ; đừng đưa cả đoạn văn dài vào hình vì mô hình không phải công cụ dàn trang.
 
 <a name="tpl-poster"></a>
 
-### 海报与排版
+### Áp phích và trình bày chữ
 
-**常规模板**
-
-```text
-设计一张[活动/产品/电影]海报，主题为[主题词]。
-主视觉：[主体元素]，标题文案：[标题]，副标题：[副标题]。
-版式：[居中/左对齐/对角构图]，风格：[复古/未来/极简]。
-色彩：[主色 + 辅色]，氛围：[情绪关键词]。
-输出：可用于社媒传播的高分辨率海报。
-```
-
-**运动商业 Campaign 模板**
+**Mẫu cơ bản**
 
 ```text
-设计一张[运动项目/健身品类]商业 Campaign 海报。
-主体：[运动员/模特/产品道具]，姿态：[坐姿/冲刺/挥拍/力量动作]。
-核心道具：[球拍/哑铃/球鞋/球衣]，以夸张比例或对角构图成为视觉锚点。
-版式：[单张强主视觉/三联画/数据涂鸦海报]。
-大字标题："[主标题]"，辅助文案："[短句/数据/精神口号]"。
-视觉风格：高端运动品牌广告，强光影，反光地面，干净构图，品牌化配色[主色+辅助色]。
-约束：主体清晰，文字可读，色调统一，不要杂乱拼贴，不要生成错误运动器材。
-输出：1:1 或 4:5，适合社媒传播的运动商业视觉。
+Thiết kế áp phích [sự kiện/sản phẩm/phim] với chủ đề [từ khóa chủ đề].
+Hình ảnh chủ đạo: [thành phần chính], nội dung tiêu đề: [tiêu đề], tiêu đề phụ: [tiêu đề phụ].
+Bố cục: [căn giữa/căn trái/đường chéo], phong cách: [cổ điển/tương lai/tối giản].
+Màu sắc: [màu chính + màu phụ], không khí: [từ khóa cảm xúc].
+Đầu ra: áp phích độ phân giải cao, phù hợp chia sẻ trên mạng xã hội.
 ```
 
-**概念字体海报模板**
+**Mẫu áp phích chiến dịch thể thao thương mại**
+
+```text
+Thiết kế áp phích chiến dịch thương mại cho [môn thể thao/nhóm sản phẩm thể hình].
+Chủ thể: [vận động viên/người mẫu/đạo cụ sản phẩm], tư thế: [ngồi/chạy nước rút/vung vợt/tạo dáng thể hiện sức mạnh].
+Đạo cụ chính: [vợt/tạ/giày thể thao/áo đấu], dùng tỷ lệ phóng đại hoặc bố cục chéo để tạo điểm nhấn thị giác.
+Bố cục: [một hình ảnh chủ đạo mạnh/bộ ba tranh/áp phích dữ liệu dạng graffiti].
+Tiêu đề lớn: “[tiêu đề chính]”, nội dung bổ trợ: “[câu ngắn/số liệu/thông điệp cổ vũ]”.
+Phong cách hình ảnh: quảng cáo thương hiệu thể thao cao cấp, ánh sáng tương phản mạnh, sàn phản chiếu, bố cục sạch, màu thương hiệu [màu chính + màu phụ].
+Ràng buộc: chủ thể rõ nét, chữ dễ đọc, tông màu thống nhất, không ghép ảnh lộn xộn, không tạo sai dụng cụ thể thao.
+Đầu ra: tỷ lệ 1:1 hoặc 4:5, hình ảnh thể thao thương mại phù hợp mạng xã hội.
+```
+
+**Mẫu áp phích chữ mang tính khái niệm**
 
 ```text
 Create ONE finished premium conceptual typography poster for the exact title:
 
-"[标题/词语/短句]"
+"[tiêu đề/từ/cụm từ ngắn]"
 
 Single poster only. No moodboard, grid, presentation board, mockup, captions, prompt text, process sheet, or sample labels.
 
@@ -198,251 +198,251 @@ Composition style: high-end editorial poster, museum-quality graphic design, dra
 Avoid generic word art, glossy 3D lettering, random icons, stock-photo realism, cluttered collage, excessive grunge, tourist clichés, official logos, copied slogans, copied campaign aesthetics, unrelated text, and misspelled typography.
 ```
 
-**多风格签名选择海报模板**
+**Mẫu áp phích lựa chọn chữ ký với nhiều phong cách**
 
-> 来源参考：[signature-image-prompts-gpt-image-2.md](https://github.com/zaizhi-1112/ai-image-extension-playbook/blob/main/signature-image-prompts-gpt-image-2.md) / [@liyue_ai](https://x.com/liyue_ai)
+> Nguồn tham khảo: [signature-image-prompts-gpt-image-2.md](https://github.com/zaizhi-1112/ai-image-extension-playbook/blob/main/signature-image-prompts-gpt-image-2.md) / [@liyue_ai](https://x.com/liyue_ai)
 
 ```text
-你是一个高端签名设计系统 + 风格人格视觉系统。
+Bạn là hệ thống thiết kế chữ ký cao cấp kết hợp hệ thống hình ảnh thể hiện cá tính phong cách.
 
-输入：
-姓名：[姓名/昵称]
+Đầu vào:
+Tên: [họ tên/biệt danh]
 
-任务：
-基于姓名自动生成一张 9:16 竖版「多风格签名选择海报」。
-目标是把姓名转译成 6 种具有笔势、气质和力量感的签名方案。
+Nhiệm vụ:
+Dựa trên tên, tự động tạo áp phích dọc tỷ lệ 9:16 để lựa chọn chữ ký với nhiều phong cách.
+Chuyển tên thành 6 phương án chữ ký có nét bút, thần thái và sức biểu đạt riêng.
 
-隐藏分析：
-1. 分析姓名字形：疏密、横竖比例、重心、连笔空间、草写空间。
-2. 推断气质：清冷、张扬、克制、商业、文艺、松弛、锋利、高级。
-3. 为每个签名先设定书写行为：起笔、连笔、节奏、结构变形、收笔。
+Phân tích nội bộ:
+1. Phân tích hình dạng chữ trong tên: độ dày đặc, tỷ lệ nét ngang/dọc, trọng tâm, khả năng nối nét và viết thảo.
+2. Suy ra thần thái: lạnh và thanh, phóng khoáng, tiết chế, thương mại, nghệ thuật, tự nhiên, sắc sảo hoặc cao cấp.
+3. Xác định cách viết cho từng chữ ký: nét bắt đầu, cách nối nét, nhịp điệu, biến đổi cấu trúc và nét kết thúc.
 
-版式：
-- 纯白或极浅灰渐变背景，留白不少于 40%
-- 顶部大标题：[姓名] · 签名风格选择
-- 副标题：不同笔势，不同气场
-- 中部使用 2 列 × 3 行卡片网格
-- 底部小字：选一个，作为你的专属签名。
+Bố cục:
+- Nền trắng hoặc chuyển sắc xám rất nhạt, khoảng trống chiếm ít nhất 40%
+- Tiêu đề lớn phía trên: [tên] · Chọn phong cách chữ ký
+- Tiêu đề phụ: Nét bút khác nhau, thần thái khác nhau
+- Ở giữa là lưới thẻ gồm 2 cột × 3 hàng
+- Chữ nhỏ phía dưới: Chọn một mẫu làm chữ ký riêng của bạn.
 
-卡片规范：
-- 每张卡片统一尺寸、统一间距、整体对齐
-- 轻微圆角 8-16px
-- 极细描边或无边框
-- 极轻阴影
-- 纯白微差、极浅灰、宣纸或磨砂质感
-- 视觉目标接近高级杂志排版，避免强 UI 感
+Quy cách thẻ:
+- Các thẻ có cùng kích thước và khoảng cách, được căn chỉnh thống nhất
+- Bo góc nhẹ 8-16px
+- Viền rất mảnh hoặc không viền
+- Bóng đổ rất nhẹ
+- Bề mặt trắng tinh tế, xám rất nhạt, giấy xuyến chỉ hoặc kính mờ
+- Hướng đến bố cục tạp chí cao cấp, tránh cảm giác giao diện quá rõ
 
-6 种签名：
-1. 极简理性：接近品牌签名，笔画克制，留白清晰
-2. 狂放张力：强连笔，速度感强，尾笔拉伸
-3. 松弛随性：手写感明显，自然舒展，亲和轻松
-4. 东方行草：飞白、墨感、节奏起伏明显
-5. 锋利结构：几何切角，断裂感，冷静克制
-6. 实验风格：部分不可读，结构重塑，先锋个性
+6 phong cách chữ ký:
+1. Tối giản, lý trí: gần với chữ ký thương hiệu, nét bút tiết chế, khoảng trống rõ ràng
+2. Phóng khoáng, mạnh mẽ: nối nét dứt khoát, cảm giác tốc độ, nét cuối kéo dài
+3. Tự nhiên, thoải mái: nét viết tay rõ, mềm mại, thân thiện và gần gũi
+4. Thư pháp phương Đông: nét khô, sắc thái mực tàu, nhịp điệu lên xuống rõ
+5. Cấu trúc sắc nét: góc cắt hình học, nét đứt, cảm giác điềm tĩnh và tiết chế
+6. Thử nghiệm: một phần khó đọc, tái cấu trúc nét chữ, cá tính tiên phong
 
-每张卡片必须包含：
-- 编号
-- 风格名称
-- 大尺寸签名
-- 一句短气质说明
-- 一个极轻微点缀色
+Mỗi thẻ phải có:
+- Số thứ tự
+- Tên phong cách
+- Chữ ký kích thước lớn
+- Một câu ngắn mô tả thần thái
+- Một điểm nhấn màu rất nhẹ
 
-光影与质感：
-高级棚拍光、柔光环境、细腻阴影、干净空气感。
-整体以黑、灰、白为主，点缀色克制。
+Ánh sáng và chất liệu:
+Ánh sáng studio cao cấp, môi trường ánh sáng mềm, bóng đổ tinh tế và cảm giác không gian trong trẻo.
+Tổng thể dùng đen, xám và trắng; màu nhấn cần tiết chế.
 
-禁止项：
-不要字体拼贴，不要普通书法字，不要颜色杂乱，不要签名太小，不要排版松散，不要缺乏笔势，不要模板拼接感。
+Điều cần tránh:
+Không ghép nhiều phông chữ, không dùng chữ thư pháp thông thường, không phối màu lộn xộn, không thu nhỏ chữ ký, không bố cục lỏng lẻo, không làm nét bút thiếu sức sống và không để thiết kế giống mẫu ghép sẵn.
 ```
 
-**单款签名提取模板**
+**Mẫu trích xuất một chữ ký**
 
 ```text
-从输入图中的[位置/编号/风格名]签名里，提取该签名的核心笔势，生成一张纯签名图。
+Trích xuất nét bút cốt lõi của chữ ký [vị trí/số thứ tự/tên phong cách] trong ảnh đầu vào và tạo một ảnh chỉ có chữ ký đó.
 
-要求：
-- 只保留签名主体，不生成海报卡片、标题、副标题或说明文字
-- 保留原签名的起笔、连笔、结构倾斜、飞白和收笔节奏
-- 背景为纯白或极浅米白
-- 签名居中，尺寸充足，边缘留白干净
-- 墨色为深黑或墨黑，带自然笔锋、轻微墨痕和真实手写压力变化
-- 输出适合继续临摹、收藏或二次设计的高清纯签名图
+Yêu cầu:
+- Chỉ giữ phần chữ ký, không tạo thẻ áp phích, tiêu đề, tiêu đề phụ hoặc phần giải thích
+- Giữ nét bắt đầu, cách nối nét, độ nghiêng cấu trúc, nét khô và nhịp kết thúc của chữ ký gốc
+- Nền trắng hoặc trắng ngà rất nhạt
+- Căn chữ ký ở giữa, kích thước đủ lớn, chừa khoảng trống sạch quanh viền
+- Mực đen hoặc đen tuyền, có đầu bút tự nhiên, vết mực nhẹ và thay đổi lực tay chân thực
+- Xuất ảnh chữ ký thuần độ phân giải cao, phù hợp để luyện viết, sưu tầm hoặc dùng cho thiết kế tiếp theo
 
-避免：
-不要新增多种签名，不要变成字体展示，不要加边框，不要加装饰元素，不要弱化原有笔势。
+Tránh:
+Không tạo thêm nhiều chữ ký, không biến thành bảng trưng bày phông chữ, không thêm viền hoặc họa tiết trang trí, không làm yếu nét bút ban đầu.
 ```
 
-**签名练习拆解图模板**
+**Mẫu sơ đồ hướng dẫn luyện viết chữ ký**
 
 ```text
-基于输入的[签名图/签名风格]，生成一张签名练习拆解图。
+Dựa trên [ảnh chữ ký/phong cách chữ ký] đầu vào, tạo sơ đồ hướng dẫn luyện viết chữ ký.
 
-目标：
-帮助用户用黑笔在纸上练好这个签名，拆解每一笔的书写路径、顺序、力度和节奏。
+Mục tiêu:
+Giúp người dùng luyện chữ ký này bằng bút đen trên giấy; phân tích đường đi, thứ tự, lực tay và nhịp điệu của từng nét.
 
-画面结构：
-- 竖版教学图或横版练习板
-- 顶部放最终签名小样
-- 中部用 8-12 个步骤拆解关键笔画
-- 每个步骤展示当前笔画、运动方向箭头、起笔点、停顿点、收笔点
-- 下方展示完整连写路径和 3-5 行练习建议
+Bố cục hình ảnh:
+- Sơ đồ hướng dẫn dọc hoặc bảng luyện viết ngang
+- Đặt mẫu chữ ký hoàn chỉnh ở phía trên
+- Ở giữa, chia các nét chính thành 8-12 bước
+- Mỗi bước thể hiện nét hiện tại, mũi tên chỉ hướng chuyển động, điểm bắt đầu, điểm dừng và điểm kết thúc
+- Phía dưới trình bày đường viết liền hoàn chỉnh và 3-5 dòng gợi ý luyện tập
 
-拆解要求：
-- 每一笔都要对应签名主体中的真实笔势
-- 标出快写、慢写、重压、轻提、转折、回钩、飞白、长甩尾
-- 展示从基础骨架到完整签名的渐进过程
-- 说明字间连接逻辑和整体重心变化
+Yêu cầu phân tích:
+- Mỗi nét phải tương ứng với nét bút thực tế trong chữ ký gốc
+- Đánh dấu viết nhanh, viết chậm, nhấn mạnh, nhấc nhẹ, đổi hướng, móc ngược, nét khô và nét kéo dài
+- Thể hiện tiến trình từ khung nét cơ bản đến chữ ký hoàn chỉnh
+- Giải thích cách nối các chữ và sự thay đổi trọng tâm tổng thể
 
-视觉风格：
-白纸背景、黑色手写线条、红色或蓝色教学箭头、清晰编号、练习册质感。
+Phong cách hình ảnh:
+Nền giấy trắng, nét viết tay màu đen, mũi tên hướng dẫn màu đỏ hoặc xanh, đánh số rõ ràng, cảm giác như vở luyện viết.
 
-避免：
-不要只给成品图，不要省略关键笔画，不要把步骤画成随机涂鸦，不要生成无关书法字帖。
+Tránh:
+Không chỉ đưa ảnh thành phẩm, không lược bỏ nét quan trọng, không vẽ các bước thành nét nguệch ngoạc ngẫu nhiên, không tạo mẫu luyện thư pháp không liên quan.
 
-**中文版：概念字体海报模板**
+**Mẫu tiếng Việt: áp phích chữ mang tính khái niệm**
 
 ```text
-为以下标题生成一张完成度极高的高级概念字体海报，只需要一张。
+Tạo một áp phích chữ mang tính khái niệm cao cấp, hoàn thiện chỉn chu cho tiêu đề sau; chỉ tạo một ảnh duy nhất.
 
-标题：「[标题/词语/短句]」
+Tiêu đề: “[tiêu đề/từ/cụm từ ngắn]”
 
-只需要一张海报。不要 moodboard、不要网格排版、不要展示板、不要样机、不要说明文字、不要过程稿、不要样张标签。
+Chỉ tạo một áp phích. Không tạo moodboard, bố cục dạng lưới, bảng trình bày, mô hình mẫu, phần giải thích, bản phác thảo quy trình hoặc nhãn mẫu.
 
-标题必须是海报的主视觉结构：巨大、可读、有力量、拼写完全正确。不要翻译、缩短、替换或拼错标题。不要添加其他大段可读文字。
+Tiêu đề phải là cấu trúc hình ảnh chủ đạo của áp phích: kích thước lớn, dễ đọc, giàu sức biểu đạt và viết chính xác hoàn toàn. Không dịch, rút gọn, thay thế hoặc viết sai tiêu đề. Không thêm đoạn chữ lớn dễ đọc nào khác.
 
-深入理解标题的含义、情绪、文化氛围、符号关联、心理张力和视觉节奏。把这种理解转化成一个强有力的视觉隐喻。
+Hãy phân tích sâu ý nghĩa, cảm xúc, sắc thái văn hóa, liên tưởng biểu tượng, sức căng tâm lý và nhịp điệu thị giác của tiêu đề. Chuyển cách diễn giải đó thành một ẩn dụ hình ảnh mạnh mẽ.
 
-字体是主角。设计定制的字形，其字重、字宽、对比度、间距、节奏、变形、负空间、边缘质感和墨迹纹理必须表达标题的气质。字体应该看起来经过精心设计，而不是一个默认字体。
+Chữ là nhân vật chính. Thiết kế hình dạng chữ riêng; độ đậm, chiều rộng, độ tương phản, khoảng cách, nhịp điệu, biến dạng, khoảng âm, chất liệu viền và kết cấu mực phải thể hiện thần thái của tiêu đề. Chữ cần trông được thiết kế có chủ đích, không giống phông mặc định.
 
-如果标题指向一个广为人知的人物，让一个大型编辑肖像或半身人物成为主要的视觉存在，占据构图的 40%-70%。人物必须与字体互动：重叠字母、从字母中浮现、被字母框住、在字母上投下阴影、打破字母、或部分隐藏在字母后面。
+Nếu tiêu đề nói về một nhân vật nổi tiếng, hãy đưa ảnh chân dung biên tập cỡ lớn hoặc hình bán thân vào làm điểm nhấn chính, chiếm khoảng 40%-70% bố cục. Nhân vật phải tương tác với chữ: chồng lên chữ cái, xuất hiện từ bên trong, được chữ bao khung, đổ bóng lên chữ, phá vỡ nét chữ hoặc ẩn một phần phía sau chữ.
 
-对于抽象或非人物标题，只有当人像、风景、物体或氛围场景能强化意义时才使用。它必须与字体互动并深化概念，而不是装饰它。
+Với tiêu đề trừu tượng hoặc không nói về con người, chỉ dùng nhân vật, phong cảnh, vật thể hoặc bối cảnh không khí khi chúng giúp tăng cường ý nghĩa. Các thành phần này phải tương tác với chữ và làm sâu sắc thêm ý tưởng, không chỉ đóng vai trò trang trí.
 
-使用受限制的 4-6 色调色板来匹配主题：主背景色、主字体色、人物/风景色调、情感强调色、柔和辅助色、微妙的纸张/墨迹纹理色。
+Dùng bảng màu giới hạn 4-6 màu phù hợp chủ đề: màu nền chính, màu chữ chính, tông màu nhân vật/phong cảnh, màu nhấn cảm xúc, màu phụ dịu và màu tinh tế cho kết cấu giấy/mực.
 
-构图风格：高端编辑海报、博物馆级平面设计、戏剧性尺度、强层级、少元素、聪明留白、大胆平色区域、锐利裁切、丝网/平版/孔版印刷颗粒、纸纤维、微妙油墨瑕疵、精炼视觉张力。
+Phong cách bố cục: áp phích biên tập cao cấp, thiết kế đồ họa đạt chuẩn trưng bày bảo tàng, tỷ lệ ấn tượng, phân cấp mạnh, ít thành phần, khoảng trống có chủ ý, mảng màu phẳng táo bạo, cắt khung sắc nét, hạt in lụa/in thạch bản/in risograph, thớ giấy, khuyết điểm mực tinh tế và sức căng thị giác tinh luyện.
 
-避免：通用字效、光泽 3D 字体、随机图标、素材库写实、杂乱拼贴、过度脏旧、旅游明信片陈词滥调、官方标志、抄袭标语、抄袭 Campaign 美学、无关文字和拼写错误的字体。
+Tránh hiệu ứng chữ chung chung, chữ 3D bóng loáng, biểu tượng ngẫu nhiên, hình ảnh chân thực kiểu ảnh kho, ghép ảnh lộn xộn, làm cũ quá mức, hình ảnh du lịch sáo mòn, logo chính thức, sao chép khẩu hiệu, bắt chước thẩm mỹ chiến dịch, chữ không liên quan và chữ viết sai.
 
 ```
 
-**水墨双重曝光人物海报模板**
+**Mẫu áp phích chân dung phơi sáng kép bằng mực tàu**
 
 ```text
-生成一张[人物/角色/品牌主理人/运动员]的水墨双重曝光人物海报。
-画幅：9:16 竖版，高级电影海报构图。
-主体结构：
-- 上半区：放大的人物头部、面部轮廓或半身剪影，形成最强识别锚点。
-- 中下区：同一人物的全身或半身主体，姿态为[站姿/动作姿态/凝视镜头]。
-- 剪影内部：融合[关键场景]、[象征物]、[叙事片段]、[环境纹理]，形成双重曝光叙事。
-视觉连接：用云雾、水墨扩散、飞白边缘、负空间和柔和明暗过渡，把上方剪影、内部拼贴和下方主体连成一条从上到下的视觉动线。
-风格：东方水墨美学 + 写实电影感，克制、高级、留白充足，层次丰富但不杂乱。
-文字：可加入[标题/姓名/短句]，必须少量、可读、像海报题签而不是信息图说明。
-约束：不要硬拼贴，不要把背景塞满，不要廉价武侠特效，不要复制真实海报版式，不要让剪影和主体互相抢焦点。
-输出：海报级完成图，主体清晰，水墨边缘自然，叙事元素与人物身份强相关。
+Tạo áp phích chân dung phơi sáng kép bằng mực tàu cho [nhân vật/nhân vật hư cấu/nhà sáng lập thương hiệu/vận động viên].
+Khung hình: dọc tỷ lệ 9:16, bố cục áp phích điện ảnh cao cấp.
+Cấu trúc chủ thể:
+- Nửa trên: phóng lớn đầu, đường nét khuôn mặt hoặc bóng bán thân của nhân vật để tạo điểm nhận diện mạnh nhất.
+- Nửa giữa và phía dưới: toàn thân hoặc bán thân của cùng nhân vật, ở tư thế [đứng/đang hoạt động/nhìn vào máy quay].
+- Bên trong bóng nhân vật: kết hợp [bối cảnh chính], [vật thể biểu tượng], [đoạn kể chuyện] và [kết cấu môi trường] để tạo câu chuyện phơi sáng kép.
+Kết nối thị giác: dùng mây sương, hiệu ứng loang mực, viền nét khô, khoảng âm và chuyển sắc sáng tối dịu để nối bóng phía trên, phần ghép bên trong và chủ thể phía dưới thành một dòng thị giác từ trên xuống.
+Phong cách: mỹ học mực tàu phương Đông kết hợp chất điện ảnh chân thực; tiết chế, cao cấp, nhiều khoảng trống, nhiều lớp nhưng không rối.
+Chữ: có thể thêm [tiêu đề/tên/cụm từ ngắn], phải ít, dễ đọc và giống dấu đề trên áp phích chứ không phải chú thích đồ họa thông tin.
+Ràng buộc: không ghép cứng, không lấp kín nền, không dùng hiệu ứng võ hiệp rẻ tiền, không sao chép bố cục áp phích có thật, không để bóng nhân vật và chủ thể tranh giành điểm nhấn.
+Đầu ra: hình hoàn thiện ở cấp độ áp phích, chủ thể rõ nét, viền mực tự nhiên, yếu tố kể chuyện gắn chặt với danh tính nhân vật.
 ```
 
-**自然科普海报模板**
+**Mẫu áp phích phổ biến kiến thức tự nhiên**
 
 ```text
-你是一个高端自然科普海报生成系统，目标是为稀有动物、昆虫、爬行动物、哺乳动物或其他小众生物生成 Apple keynote 风格的高级科普视觉海报。
+Bạn là hệ thống tạo áp phích phổ biến kiến thức tự nhiên cao cấp, hướng đến việc tạo áp phích theo phong cách Apple Keynote về động vật quý hiếm, côn trùng, bò sát, động vật có vú hoặc các sinh vật ít phổ biến khác.
 
-整体视觉方向：
-生成一张 9:16 竖版高级科普海报，画面采用极简、纯白、干净、现代、Apple 式产品发布海报语言。背景应为纯白或极浅灰白渐变，保持大量留白。整体设计应具备高级感、克制感、视觉冲击力和科学展示感。
+Định hướng hình ảnh tổng thể:
+Tạo áp phích phổ biến kiến thức cao cấp, khổ dọc 9:16, theo ngôn ngữ thiết kế tối giản, trắng sạch, hiện đại như áp phích ra mắt sản phẩm của Apple. Nền trắng hoặc chuyển sắc xám trắng rất nhạt, giữ nhiều khoảng trống. Thiết kế tổng thể cần có vẻ cao cấp, tiết chế, tạo ấn tượng thị giác và mang tinh thần trưng bày khoa học.
 
-核心设计原则：
-1. 主体动物必须被极度放大，成为画面最强视觉中心。
-2. 主体应具有强烈立体感、真实质感、高清细节和柔和棚拍光影。
-3. 海报信息要少而准，避免拥挤。
-4. 不使用传统信息图的卡片、圆角框、复杂底纹、淡黄色纸张质感或装饰性边框。
-5. 底部信息区只使用四列极简 icon + 标题 + 短说明，通过细竖线分隔。
-6. 文字排版要像高端发布会视觉，标题巨大，副标题克制，正文小而清晰。
-7. 风格关键词：Apple-inspired, premium editorial, pure white background, hero subject, clean typography, minimal infographic, high-end science poster.
+Nguyên tắc thiết kế cốt lõi:
+1. Phóng lớn con vật làm chủ thể để trở thành tâm điểm thị giác mạnh nhất.
+2. Chủ thể cần có khối nổi rõ, chất liệu chân thực, chi tiết độ phân giải cao và ánh sáng studio mềm.
+3. Thông tin trên áp phích ít nhưng chính xác, tránh chật chội.
+4. Không dùng thẻ, khung bo góc, nền hoa văn phức tạp, chất giấy vàng nhạt hoặc viền trang trí kiểu đồ họa thông tin truyền thống.
+5. Khu vực thông tin phía dưới chỉ có bốn cột tối giản gồm biểu tượng + tiêu đề + mô tả ngắn, ngăn cách bằng đường dọc mảnh.
+6. Trình bày chữ như hình ảnh sự kiện ra mắt cao cấp: tiêu đề rất lớn, tiêu đề phụ tiết chế, nội dung nhỏ nhưng rõ.
+7. Từ khóa phong cách: cảm hứng Apple, biên tập cao cấp, nền trắng tinh, chủ thể nổi bật, kiểu chữ sạch, đồ họa thông tin tối giản, áp phích khoa học cao cấp.
 
-画面结构：
-顶部左侧为标题区：
-中文大标题：{中文物种名}
-中文副标题：{一句有吸引力的物种定位}
-细短横线
-英文名：{英文物种名}
-分布信息：主要分布：{分布区域}
+Bố cục hình ảnh:
+Góc trên bên trái là vùng tiêu đề:
+Tiêu đề tiếng Việt cỡ lớn: {tên loài bằng tiếng Việt}
+Tiêu đề phụ tiếng Việt: {một câu giới thiệu hấp dẫn về loài}
+Một đường ngang ngắn, mảnh
+Tên tiếng Anh: {tên loài bằng tiếng Anh}
+Thông tin phân bố: khu vực phân bố chính {khu vực}
 
-中部与下中部为主体视觉：
-生成一个超高清、真实、具有强烈立体感的 {中文物种名}。
-主体应占据画面 50% 到 70% 的视觉面积。
-主体姿态应具有展示性、力量感或识别度。
-保持白色背景，不添加复杂自然环境。
-可以保留少量必要承托物，例如树枝、岩石、雪地、沙土或木皮，但必须简洁。
-主体要有真实阴影，使其像高级产品摄影一样立在画面中。
+Khu vực giữa và nửa dưới là hình ảnh chủ thể:
+Tạo hình {tên loài bằng tiếng Việt} siêu nét, chân thực và có khối nổi rõ.
+Chủ thể chiếm 50% đến 70% diện tích thị giác.
+Tư thế cần có tính trưng bày, thể hiện sức mạnh hoặc dễ nhận diện.
+Giữ nền trắng, không thêm môi trường tự nhiên phức tạp.
+Có thể giữ lại một vài vật đỡ cần thiết như cành cây, đá, tuyết, cát hoặc vỏ cây, nhưng phải tối giản.
+Tạo bóng đổ chân thực để chủ thể nổi bật như trong ảnh chụp sản phẩm cao cấp.
 
-底部信息区：
-用四个极简信息栏目展示科普信息。
-每个栏目包含：
-一个细线 icon
-一个彩色小标题
-一段 1 到 3 行短文字
-栏目之间用极细浅灰竖线分隔。
-不使用卡片框，不使用圆角背景，不使用大面积色块。
+Khu vực thông tin phía dưới:
+Dùng bốn cột thông tin tối giản để trình bày kiến thức.
+Mỗi cột gồm:
+Một biểu tượng nét mảnh
+Một tiêu đề nhỏ có màu
+Một đoạn ngắn từ 1 đến 3 dòng
+Ngăn cách các cột bằng đường dọc màu xám nhạt thật mảnh.
+Không dùng khung thẻ, nền bo góc hoặc mảng màu lớn.
 
-四个信息栏目：
-栏目 1：
-标题：{重点特征1标题}
-说明：{重点特征1短说明}
+Bốn cột thông tin:
+Cột 1:
+Tiêu đề: {tiêu đề đặc điểm nổi bật 1}
+Mô tả: {mô tả ngắn đặc điểm nổi bật 1}
 
-栏目 2：
-标题：{重点特征2标题}
-说明：{重点特征2短说明}
+Cột 2:
+Tiêu đề: {tiêu đề đặc điểm nổi bật 2}
+Mô tả: {mô tả ngắn đặc điểm nổi bật 2}
 
-栏目 3：
-标题：{重点特征3标题}
-说明：{重点特征3短说明}
+Cột 3:
+Tiêu đề: {tiêu đề đặc điểm nổi bật 3}
+Mô tả: {mô tả ngắn đặc điểm nổi bật 3}
 
-栏目 4：
-标题：{重点特征4标题}
-说明：{重点特征4短说明}
+Cột 4:
+Tiêu đề: {tiêu đề đặc điểm nổi bật 4}
+Mô tả: {mô tả ngắn đặc điểm nổi bật 4}
 
-底部总结句：
-在最底部居中放置一句灰色小字总结：
-{一句高级、克制、有记忆点的科普总结}
+Câu tổng kết phía dưới cùng:
+Căn giữa một câu tổng kết chữ nhỏ màu xám ở cạnh dưới:
+{một câu tổng kết kiến thức cao cấp, tiết chế và dễ nhớ}
 
-字体与排版：
-中文标题使用大号黑色、高级、稳重、有力量感的字体。
-副标题使用灰色，中等字号，字距略宽。
-英文名使用小号灰色，简洁现代。
-正文使用清晰现代中文字体，保持可读。
-所有文字必须留有足够呼吸感。
+Kiểu chữ và trình bày:
+Tiêu đề tiếng Việt dùng chữ đen cỡ lớn, cao cấp, vững chãi và giàu sức biểu đạt.
+Tiêu đề phụ màu xám, cỡ vừa, giãn chữ nhẹ.
+Tên tiếng Anh màu xám, cỡ nhỏ, đơn giản và hiện đại.
+Nội dung dùng kiểu chữ tiếng Việt hiện đại, rõ ràng và dễ đọc.
+Mọi phần chữ đều cần đủ khoảng trống để bố cục thông thoáng.
 
-色彩规范：
-背景：纯白、极浅灰、轻微柔光渐变。
-主标题：黑色或深石墨色。
-副标题与正文：中性灰。
-底部四个信息标题可使用低饱和强调色：
-暖棕、冷蓝、松石绿、紫色、橙色。
-颜色只用于 icon 和小标题，不要大面积铺色。
+Quy chuẩn màu sắc:
+Nền: trắng tinh, xám rất nhạt hoặc chuyển sắc ánh sáng mềm nhẹ.
+Tiêu đề chính: đen hoặc xám than đậm.
+Tiêu đề phụ và nội dung: xám trung tính.
+Bốn tiêu đề thông tin phía dưới có thể dùng màu nhấn bão hòa thấp:
+nâu ấm, xanh lạnh, xanh ngọc, tím hoặc cam.
+Chỉ dùng màu cho biểu tượng và tiêu đề nhỏ, không tô thành mảng lớn.
 
-图像质量：
-2K 高清质感，细节清晰，主体锐利，光影真实。
-主体纹理必须可信，例如毛发、鳞片、甲壳、皮肤褶皱、羽毛或斑纹。
-避免变形、错误肢体、错误解剖结构、模糊主体、低质贴图、塑料感、卡通感。
+Chất lượng hình ảnh:
+Độ nét 2K, chi tiết rõ, chủ thể sắc nét, ánh sáng và bóng đổ chân thực.
+Kết cấu chủ thể phải đáng tin cậy, chẳng hạn lông, vảy, mai, nếp da, lông vũ hoặc hoa văn.
+Tránh hình biến dạng, chi sai, giải phẫu sai, chủ thể mờ, chất liệu phủ kém, cảm giác nhựa hoặc hoạt hình.
 
-禁止项：
-不要使用淡黄色旧纸背景。
-不要使用复杂信息图网格。
-不要使用圆角卡片。
-不要使用厚边框。
-不要使用大面积装饰图形。
-不要添加无关 logo。
-不要添加多余小字。
-不要让主体太小。
-不要让文字压住主体。
-不要让底部信息区过度拥挤。
-不要出现儿童科普风、卡通风、低端展板风。
+Điều cần tránh:
+Không dùng nền giấy cũ màu vàng nhạt.
+Không dùng lưới đồ họa thông tin phức tạp.
+Không dùng thẻ bo góc.
+Không dùng viền dày.
+Không dùng hình trang trí chiếm diện tích lớn.
+Không thêm logo không liên quan.
+Không thêm chữ nhỏ thừa.
+Không thu nhỏ chủ thể.
+Không để chữ che chủ thể.
+Không làm khu vực thông tin phía dưới quá chật.
+Không dùng phong cách tài liệu thiếu nhi, hoạt hình hoặc bảng trưng bày chất lượng thấp.
 
-最终输出：
-生成一张 9:16 竖版、高级、干净、强视觉冲击的 Apple 风自然科普海报。
+Đầu ra cuối cùng:
+Tạo áp phích phổ biến kiến thức tự nhiên khổ dọc 9:16, cao cấp, sạch sẽ, có sức hút thị giác mạnh và mang phong cách Apple.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -462,73 +462,73 @@ Avoid generic word art, glossy 3D lettering, random icons, stock-photo realism, 
 }
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **不要偷懒**：写清“主视觉到底是什么玩意儿”，不要只丢一句“做一张海报”就指望出神图。
-- **文案硬编码**：主标题与副标题都要写死，否则模型会给你疯狂加戏，自动瞎编不知所云的文字。
-- **运动海报先定结构**：运动 Campaign 最容易变成杂乱拼贴，先锁定“单主视觉 / 三联画 / 数据涂鸦”再写主体和文案。
-- **道具要当构图骨架**：球拍、哑铃、球鞋这类道具最好指定角度、比例和位置，否则模型容易把它们画成普通背景装饰。
-- **字体海报先锁标题**：概念字体海报必须明确“标题必须拼写完全正确且成为主视觉”，否则很容易变成漂亮但不可读的字效图。
-- **图像要和字互动**：人物、物体或场景必须嵌入、遮挡、穿过或托起字形，只摆在旁边会像装饰素材。
-- **禁止 moodboard 化**：明确要求 single poster only，避免模型生成多方案展示板、过程稿或样张拼贴。
-- **主体放大**：自然科普海报中，主体动物必须被极度放大，占据画面 50%-70% 的视觉面积，确保成为最强视觉中心。
-- **信息克制**：遵循“少而准”原则，底部信息区只使用四列极简布局，避免信息拥挤和视觉混乱。
-- **风格统一**：严格遵循 Apple 式极简风格，使用纯白背景、干净排版和柔和棚拍光影，避免传统信息图的卡片、圆角框等元素。
+- **Nêu rõ hình ảnh chủ đạo**: mô tả chính xác chủ thể, đừng chỉ yêu cầu “làm một áp phích” rồi mong có kết quả xuất sắc.
+- **Chốt nội dung chữ**: ghi chính xác tiêu đề chính và phụ để mô hình không tự ý thêm thắt hoặc bịa nội dung khó hiểu.
+- **Xác định cấu trúc áp phích thể thao trước**: áp phích chiến dịch thể thao dễ thành ảnh ghép lộn xộn; hãy chọn “một hình chủ đạo / bộ ba tranh / áp phích dữ liệu kiểu graffiti” trước khi mô tả chủ thể và câu chữ.
+- **Dùng đạo cụ làm khung bố cục**: nên chỉ định góc, tỷ lệ và vị trí của vợt, tạ, giày thể thao; nếu không, mô hình có thể biến chúng thành vật trang trí nền thông thường.
+- **Khóa tiêu đề của áp phích chữ trước**: yêu cầu rõ “tiêu đề phải viết hoàn toàn chính xác và trở thành hình ảnh chủ đạo”, nếu không ảnh có thể đẹp nhưng chữ không đọc được.
+- **Tạo tương tác giữa hình và chữ**: nhân vật, vật thể hoặc bối cảnh nên lồng vào, che một phần, xuyên qua hoặc nâng đỡ hình dạng chữ; chỉ đặt cạnh nhau sẽ giống ảnh trang trí.
+- **Tránh biến thành moodboard**: yêu cầu rõ chỉ tạo một áp phích để tránh bảng nhiều phương án, bản quy trình hoặc ảnh ghép mẫu.
+- **Phóng lớn chủ thể**: trong áp phích khoa học tự nhiên, chủ thể động vật phải chiếm 50%-70% diện tích thị giác để trở thành điểm nhấn mạnh nhất.
+- **Tiết chế thông tin**: theo nguyên tắc “ít nhưng chính xác”, chỉ dùng bố cục tối giản bốn cột ở phía dưới để tránh chật chội và rối mắt.
+- **Giữ phong cách thống nhất**: tuân theo mỹ học tối giản kiểu Apple, dùng nền trắng, trình bày sạch và ánh sáng studio mềm; tránh thẻ và khung bo góc kiểu đồ họa thông tin truyền thống.
 
 <a name="tpl-product"></a>
 
-### 商品与电商
+### Sản phẩm và thương mại điện tử
 
-**常规模板**
-
-```text
-生成[商品名]电商主图，卖点为[卖点1]、[卖点2]。
-场景：[纯色棚拍/生活方式场景]，镜头：[特写/半身/全景]。
-材质细节：[材质关键词]，灯光：[柔光/侧光/轮廓光]。
-附加元素：[价格角标/卖点icon/促销文案]。
-输出：电商平台可直接使用的商品展示图。
-```
-
-**个人化美妆推荐报告模板**
+**Mẫu cơ bản**
 
 ```text
-你是一个专业美妆顾问 + 人脸分析系统 + 品牌视觉设计系统。
-目标：基于[用户自拍]与[口红品牌]，生成一张具有“分析 + 推荐 + 试色 + 场景建议”的竖版口红推荐报告信息图。
-
-输入参数：
-用户图像：[用户自拍]
-品牌：[Dior / YSL / Armani / Chanel / TF / 其他品牌]
-风格偏好（可选）：[通勤 / 温柔 / 气场 / 氛围感 / 显白优先]
-推荐数量：[3-5]
-
-分析层：
-- 判断肤色：冷 / 暖 / 中性（含明度）
-- 判断气质：清冷 / 温柔 / 明艳 / 干净 / 成熟
-- 判断唇部基础：唇色深浅、唇形、适合浓淡
-- 输出一句总结：「更适合 [色系] + [饱和度] + [质地] 的口红方向」
-
-推荐层：
-从[品牌]中筛选[3-5]个差异化色号，每个色号包含：
-- 色号名称
-- 色系标签
-- 上脸效果
-- 推荐场景
-
-品牌视觉层：
-根据[品牌]自动生成视觉调性，只用少量品牌强调色做标题、细线、小 icon 和局部点缀。
-示例：YSL 黑金强对比，Dior 法式柔光灰白，Armani 低饱和雾面，Chanel 极简黑白，TF 深色电影感。
-
-版式结构：
-左上：用户输入图 + 肤色分析
-右上：一句分析结论
-中部：3-5 个同一张脸的唇色试色矩阵，每列一个色号
-底部：有判断力的个人建议
-
-视觉要求：
-高端美妆编辑视觉，结构化信息可视化排版，真实皮肤质感，唇色精准，统一光影，9:16 竖版，8K。
+Tạo ảnh sản phẩm chính cho cửa hàng trực tuyến [tên sản phẩm], nêu bật [ưu điểm 1] và [ưu điểm 2].
+Bối cảnh: [chụp studio nền đơn sắc/khung cảnh phong cách sống], góc máy: [cận cảnh/bán thân/toàn cảnh].
+Chi tiết chất liệu: [từ khóa chất liệu], ánh sáng: [ánh sáng mềm/ánh sáng bên/ánh sáng viền].
+Thành phần bổ sung: [nhãn giá/biểu tượng ưu điểm/nội dung khuyến mãi].
+Đầu ra: ảnh giới thiệu sản phẩm có thể dùng trực tiếp trên sàn thương mại điện tử.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu báo cáo tư vấn mỹ phẩm cá nhân hóa**
+
+```text
+Bạn là chuyên gia tư vấn mỹ phẩm, hệ thống phân tích khuôn mặt và hệ thống thiết kế hình ảnh thương hiệu.
+Mục tiêu: dựa trên [ảnh selfie của người dùng] và [thương hiệu son môi], tạo báo cáo đồ họa thông tin dọc về gợi ý son, gồm “phân tích + đề xuất + thử màu + gợi ý hoàn cảnh sử dụng”.
+
+Thông tin đầu vào:
+Ảnh người dùng: [ảnh selfie]
+Thương hiệu: [Dior / YSL / Armani / Chanel / TF / thương hiệu khác]
+Phong cách ưa thích (không bắt buộc): [đi làm / dịu dàng / nổi bật / giàu không khí / ưu tiên tôn da]
+Số lượng gợi ý: [3-5]
+
+Phân tích:
+- Xác định tông da: lạnh / ấm / trung tính (bao gồm độ sáng)
+- Nhận định thần thái: thanh lạnh / dịu dàng / rạng rỡ / trong trẻo / trưởng thành
+- Đánh giá đặc điểm môi: độ đậm nhạt màu môi, dáng môi và sắc độ phù hợp
+- Đưa ra câu kết luận: “Phù hợp hơn với son [nhóm màu] + [độ bão hòa] + [chất son]”
+
+Gợi ý:
+Chọn [3-5] màu son khác biệt từ [thương hiệu], mỗi màu gồm:
+- Tên màu
+- Nhãn nhóm màu
+- Hiệu ứng khi đánh lên môi
+- Hoàn cảnh sử dụng phù hợp
+
+Hình ảnh thương hiệu:
+Dựa trên [thương hiệu] để tự tạo sắc thái hình ảnh phù hợp; chỉ dùng một lượng nhỏ màu nhấn của thương hiệu cho tiêu đề, đường mảnh, biểu tượng nhỏ và chi tiết điểm xuyết.
+Ví dụ: YSL tương phản đen-vàng, Dior ánh sáng Pháp dịu trên nền xám trắng, Armani bề mặt mờ ít bão hòa, Chanel tối giản đen-trắng, TF sắc thái điện ảnh tông tối.
+
+Bố cục:
+Góc trên trái: ảnh người dùng + phân tích tông da
+Góc trên phải: một câu kết luận phân tích
+Ở giữa: bảng thử 3-5 màu son trên cùng một khuôn mặt, mỗi cột là một màu
+Phía dưới: lời khuyên cá nhân có cơ sở
+
+Yêu cầu hình ảnh:
+Phong cách biên tập mỹ phẩm cao cấp, trình bày thông tin có cấu trúc, chất da chân thực, màu môi chính xác, ánh sáng thống nhất, khổ dọc 9:16, độ phân giải 8K.
+```
+
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -550,113 +550,113 @@ Avoid generic word art, glossy 3D lettering, random icons, stock-photo realism, 
 }
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **材质和光影是灵魂**：一定要堆叠材质（如“磨砂质感”）和灯光（如“轮廓光”）的关键词，商品图一旦没有光影，立刻变成地摊货。
-- **别把促销贴满全屏**：文案只给核心的 1-2 句（如“新品上市”），字多了画面就毁了。
-- **先分析再出图**：美妆推荐类不要直接让模型摆色号，先要求它分析肤色、气质、唇部基础，再把结论映射到色号推荐。
-- **品牌只做点缀**：品牌调性应该体现在细线、强调色、字体气质和光影里，不要把 logo 或大色块铺满画面。
-- **试色矩阵要锁定同一张脸**：明确“同一张脸，仅唇色变化”，否则模型容易把每个色号都画成不同的人。
+- **Chất liệu và ánh sáng là cốt lõi**: kết hợp từ khóa về chất liệu (như “bề mặt mờ”) và ánh sáng (như “ánh sáng viền”); ảnh sản phẩm thiếu ánh sáng sẽ trông rẻ tiền.
+- **Đừng phủ kín hình bằng khuyến mãi**: chỉ đưa 1-2 câu nội dung chính (như “Ra mắt sản phẩm mới”); quá nhiều chữ sẽ phá hỏng bố cục.
+- **Phân tích trước khi tạo ảnh**: với gợi ý mỹ phẩm, hãy yêu cầu mô hình phân tích tông da, thần thái và đặc điểm môi trước, rồi mới đối chiếu với màu son.
+- **Chỉ dùng thương hiệu làm điểm nhấn**: thể hiện sắc thái thương hiệu qua đường mảnh, màu nhấn, phong cách chữ và ánh sáng; không phủ kín ảnh bằng logo hoặc mảng màu lớn.
+- **Giữ cùng một khuôn mặt trong bảng thử màu**: nêu rõ “cùng một khuôn mặt, chỉ thay đổi màu son”, nếu không mô hình có thể tạo mỗi màu son trên một người khác nhau.
 
 <a name="tpl-brand"></a>
 
-### 品牌与标志
+### Thương hiệu và logo
 
-**常规模板**
-
-```text
-为[品牌名]设计品牌视觉方案。
-品牌关键词：[关键词1]、[关键词2]、[关键词3]。
-包含：Logo方向[几何/字标/图形]、辅助图形、主辅色、应用示意。
-风格：[现代/高级/亲和]，行业：[行业]，受众：[受众]。
-输出：统一风格的品牌识别视觉图。
-```
-
-**完整品牌身份包模板**
+**Mẫu cơ bản**
 
 ```text
-你是顶级品牌代理创意总监，目标是为[业务/产品]交付一套覆盖 Logo、配色、字体、语调和应用触点的完整品牌身份系统。
-
-输入信息：
-业务名称：[业务名]
-业务描述：[一句话说明]
-行业：[行业]
-目标受众：[详细描述]
-竞争对手：[3-5个]
-品牌个性：[5个关键词]
-希望触发的感受：[信任 / 兴奋 / 奢华 / 亲近 / 力量 / 其他]
-喜欢的视觉身份：[3个参考]
-讨厌的视觉身份：[3个反例]
-设计预算：[免费 / 付费]
-
-请输出：
-1. 品牌战略基础：品牌原型、核心承诺、定位、差异化和唯一关键词。
-2. Logo 概念：生成 3-5 个完全不同的 Logo 方向，每个方向说明核心视觉理念、形状语言、象征意义、字体方向、第一眼情绪和适用触点。
-3. 配色系统：主色、辅助色、强调色、中性色、HEX 代码、心理学解释、使用规则和禁用搭配。
-4. 字体系统：标题字体、正文字体、强调字体、字号层级、字距、行高和免费替代方案。
-5. 应用触点：名片、App 图标、网站首页、社媒模板、广告牌或包装上的应用效果。
-6. 品牌规则：3 条永远不要打破的核心品牌规则。
-
-输出形式：
-结构化品牌手册，任何设计师、开发者或 AI 工具都能在 10 分钟内理解并复用。
+Thiết kế phương án hình ảnh thương hiệu cho [tên thương hiệu].
+Từ khóa thương hiệu: [từ khóa 1], [từ khóa 2], [từ khóa 3].
+Bao gồm: hướng logo [hình học/chữ cách điệu/biểu tượng], họa tiết phụ, màu chính và màu phụ, ví dụ ứng dụng.
+Phong cách: [hiện đại/cao cấp/thân thiện], ngành: [ngành], đối tượng: [khách hàng].
+Đầu ra: hình ảnh nhận diện thương hiệu có phong cách thống nhất.
 ```
 
-**品牌触点系统视觉板模板**
+**Mẫu bộ nhận diện thương hiệu hoàn chỉnh**
 
 ```text
-为[品牌名]生成一张高端品牌触点系统视觉板，不是单张海报，而是一套完整品牌应用展示。
+Bạn là giám đốc sáng tạo tại một công ty thương hiệu hàng đầu; mục tiêu là xây dựng bộ nhận diện hoàn chỉnh cho [doanh nghiệp/sản phẩm], bao gồm logo, màu sắc, kiểu chữ, giọng điệu và các điểm tiếp xúc ứng dụng.
 
-品牌定位：[行业/生活方式/产品品类]
-核心气质：[关键词1]、[关键词2]、[关键词3]
-主视觉场景：[核心产品/服务/体验]，放在[材质表面/空间场景]中，使用[光线]和[镜头]呈现。
+Thông tin đầu vào:
+Tên doanh nghiệp: [tên]
+Mô tả doanh nghiệp: [giải thích trong một câu]
+Ngành: [ngành]
+Khách hàng mục tiêu: [mô tả chi tiết]
+Đối thủ cạnh tranh: [3-5 đối thủ]
+Cá tính thương hiệu: [5 từ khóa]
+Cảm xúc muốn gợi lên: [tin cậy / hào hứng / sang trọng / gần gũi / mạnh mẽ / khác]
+Nhận diện hình ảnh yêu thích: [3 ví dụ]
+Nhận diện hình ảnh không thích: [3 phản ví dụ]
+Ngân sách thiết kế: [miễn phí / trả phí]
 
-触点系统必须包含：
-- 主产品 hero shot
-- 包装盒 / 手提袋 / 杯子 / 标签 / 贴纸 / 封签等品牌物料
-- 菜单卡 / 价目表 / 小型排版样张
-- 生活方式场景或用户使用片段
-- 配色、字体、图形语言在不同触点上的统一应用
+Vui lòng cung cấp:
+1. Nền tảng chiến lược thương hiệu: nguyên mẫu thương hiệu, cam kết cốt lõi, định vị, điểm khác biệt và từ khóa độc nhất.
+2. Ý tưởng logo: đưa ra 3-5 hướng logo hoàn toàn khác nhau; giải thích ý tưởng hình ảnh cốt lõi, ngôn ngữ hình khối, ý nghĩa biểu tượng, định hướng kiểu chữ, cảm xúc ban đầu và điểm tiếp xúc phù hợp.
+3. Hệ màu: màu chính, màu phụ, màu nhấn, màu trung tính, mã HEX, giải thích tâm lý màu sắc, quy tắc sử dụng và các cách phối cần tránh.
+4. Hệ kiểu chữ: phông tiêu đề, phông nội dung, phông nhấn, thứ bậc cỡ chữ, giãn chữ, chiều cao dòng và phương án thay thế miễn phí.
+5. Điểm tiếp xúc ứng dụng: ví dụ trên danh thiếp, biểu tượng ứng dụng, trang chủ, mẫu mạng xã hội, biển quảng cáo hoặc bao bì.
+6. Quy tắc thương hiệu: 3 nguyên tắc cốt lõi tuyệt đối không được phá vỡ.
 
-设计语言：
-[现代极简/日式留白/奢华编辑/科技品牌]，主色[颜色]，辅助色[颜色]，大量留白，细腻材质，真实阴影，微小文字清晰可读。
-
-构图要求：
-像顶级设计机构提案页，所有触点整齐但不死板，主视觉最突出，辅助物料层级清楚，整体有品牌系统感和可落地感。
-
-约束：
-不要只生成一个 logo；不要把所有物料挤成杂乱拼贴；不要使用随机乱码文字；不要让包装、菜单、贴纸彼此风格割裂。
+Hình thức đầu ra:
+Cẩm nang thương hiệu có cấu trúc để bất kỳ nhà thiết kế, lập trình viên hoặc công cụ AI nào cũng có thể hiểu và tái sử dụng trong 10 phút.
 ```
 
-**品牌包络产品广告模板**
+**Mẫu bảng hình ảnh hệ thống điểm tiếp xúc thương hiệu**
 
 ```text
-输入：[产品图]、[品牌身份]、[输出格式]
+Tạo bảng hình ảnh cao cấp về hệ thống điểm tiếp xúc cho [tên thương hiệu]; đây không phải một áp phích riêng lẻ mà là phần trình bày đầy đủ các ứng dụng thương hiệu.
 
-PHASE 1 / ANCHOR：用 2 行描述[品牌身份]，包括调色板、材质、光影和情绪。
-PHASE 2 / INJECT：把[产品]放入这个品牌世界中，产品要服从品牌气质和环境语言。
-PHASE 3 / FORMAT：指定[输出格式]，例如 hero 图、方形广告、竖版 story 或电商头图。
-PHASE 4 / SIGNATURE：加入[品牌元素]，例如颗粒、阴影、叠加纹理、包装符号或图形边框。
+Định vị thương hiệu: [ngành/phong cách sống/nhóm sản phẩm]
+Thần thái cốt lõi: [từ khóa 1], [từ khóa 2], [từ khóa 3]
+Bối cảnh hình ảnh chủ đạo: [sản phẩm/dịch vụ/trải nghiệm chính], đặt trên [bề mặt chất liệu/không gian], thể hiện bằng [ánh sáng] và [góc máy].
 
-变量：
-[品牌身份] / [产品] / [输出格式] / [品牌元素]
+Hệ thống điểm tiếp xúc phải bao gồm:
+- Ảnh chủ đạo của sản phẩm
+- Vật phẩm thương hiệu như hộp, túi xách, cốc, nhãn, nhãn dán hoặc tem niêm phong
+- Thẻ thực đơn, bảng giá và mẫu trình bày chữ cỡ nhỏ
+- Bối cảnh phong cách sống hoặc khoảnh khắc người dùng sử dụng sản phẩm
+- Cách áp dụng thống nhất màu sắc, kiểu chữ và ngôn ngữ đồ họa trên các điểm tiếp xúc
 
-目标：同一品牌下替换不同产品时，视觉世界保持一致，广告图仍然有明确主角和商业质感。
+Ngôn ngữ thiết kế:
+[tối giản hiện đại/khoảng trống kiểu Nhật/biên tập xa xỉ/thương hiệu công nghệ], màu chính [màu], màu phụ [màu], nhiều khoảng trống, chất liệu tinh tế, bóng đổ chân thực, chữ nhỏ rõ và dễ đọc.
+
+Yêu cầu bố cục:
+Giống trang đề xuất của một đơn vị thiết kế hàng đầu; các điểm tiếp xúc được sắp xếp ngăn nắp nhưng không cứng nhắc, hình ảnh chính nổi bật nhất, vật phẩm phụ có thứ bậc rõ ràng, tổng thể thể hiện hệ thống thương hiệu hoàn chỉnh và có thể triển khai thực tế.
+
+Ràng buộc:
+Không chỉ tạo một logo; không dồn mọi vật phẩm thành ảnh ghép lộn xộn; không dùng chữ lỗi ngẫu nhiên; không để bao bì, thực đơn và nhãn dán lệch phong cách với nhau.
 ```
 
-**品牌人格漫画信息图模板**
+**Mẫu quảng cáo sản phẩm theo phong cách thương hiệu**
 
 ```text
-基于上传的[Logo/品牌视觉]，生成一张 4:5 竖版漫画信息图：“What This Brand Feels Like”。
-目标：把品牌变成一个可感知的人格角色，并解释它如何说话、行动、销售、回应竞争和处理批评。
-核心规则：所有颜色、服装、姿态、语气和图形元素都来自 Logo 与品牌关键词。
-主视觉：一个品牌人格化角色，服装、表情和姿态体现[品牌气质]。
-周围结构：6-8 个漫画小分镜，每格包含短标题、动作、气泡或内心独白。
-辅助模块：Voice tone、Energy level、Social behavior、Communication style、DO / DON'T。
-风格：漫画 + 编辑信息图，表达强但保持高级，文字短而有力，画面层级丰富。
-约束：不要通用营销词，不要空白区域，不要把品牌人格画成随机角色。
+Đầu vào: [ảnh sản phẩm], [nhận diện thương hiệu], [định dạng đầu ra]
+
+GIAI ĐOẠN 1 / ĐỊNH HƯỚNG: mô tả [nhận diện thương hiệu] trong 2 dòng, gồm bảng màu, chất liệu, ánh sáng và cảm xúc.
+GIAI ĐOẠN 2 / TÍCH HỢP: đặt [sản phẩm] vào thế giới thương hiệu này; sản phẩm cần phù hợp với thần thái thương hiệu và ngôn ngữ môi trường.
+GIAI ĐOẠN 3 / ĐỊNH DẠNG: chỉ định [định dạng đầu ra], chẳng hạn ảnh chủ đạo, quảng cáo vuông, story dọc hoặc ảnh đầu trang cửa hàng.
+GIAI ĐOẠN 4 / DẤU ẤN: thêm [yếu tố thương hiệu], chẳng hạn hạt ảnh, bóng đổ, kết cấu phủ, biểu tượng bao bì hoặc khung họa tiết.
+
+Biến số:
+[nhận diện thương hiệu] / [sản phẩm] / [định dạng đầu ra] / [yếu tố thương hiệu]
+
+Mục tiêu: khi thay các sản phẩm khác nhau trong cùng một thương hiệu, thế giới hình ảnh vẫn nhất quán; ảnh quảng cáo vẫn có chủ thể rõ ràng và chất lượng thương mại.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu đồ họa thông tin dạng truyện tranh về cá tính thương hiệu**
+
+```text
+Dựa trên [logo/hình ảnh thương hiệu] đã tải lên, tạo đồ họa thông tin truyện tranh khổ dọc 4:5 với tiêu đề “Thương hiệu này mang lại cảm giác gì”.
+Mục tiêu: biến thương hiệu thành một nhân vật có cá tính dễ cảm nhận, đồng thời giải thích cách thương hiệu giao tiếp, hành động, bán hàng, phản hồi đối thủ và xử lý lời phê bình.
+Quy tắc cốt lõi: mọi màu sắc, trang phục, tư thế, giọng điệu và yếu tố đồ họa đều xuất phát từ logo và từ khóa thương hiệu.
+Hình ảnh chính: nhân vật đại diện thương hiệu, trang phục, biểu cảm và tư thế thể hiện [thần thái thương hiệu].
+Bố cục xung quanh: 6-8 khung truyện nhỏ; mỗi khung có tiêu đề ngắn, hành động, bong bóng thoại hoặc độc thoại nội tâm.
+Mô-đun bổ trợ: giọng điệu, mức năng lượng, hành vi xã hội, phong cách giao tiếp, NÊN / KHÔNG NÊN.
+Phong cách: truyện tranh kết hợp đồ họa thông tin biên tập, biểu đạt mạnh nhưng vẫn cao cấp, câu chữ ngắn gọn, bố cục phân tầng phong phú.
+Ràng buộc: không dùng từ ngữ tiếp thị chung chung, không để vùng trống và không biến cá tính thương hiệu thành nhân vật ngẫu nhiên.
+```
+
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -676,29 +676,29 @@ PHASE 4 / SIGNATURE：加入[品牌元素]，例如颗粒、阴影、叠加纹�
 }
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **做减法**：先定义品牌关键词，再要求视觉输出，结果更统一。别让它画“一条喷火的龙缠绕在长城的柱子上还带着闪电”，那不叫 Logo，那叫插画。
-- **强制背景**：必须强调“纯白背景（Pure White Background）”，方便后期抠图。
-- **先做品牌战略再画 Logo**：如果缺少目标受众、竞争对手和情绪目标，Logo 很容易只是漂亮图形，无法解释为什么适合这个品牌。
-- **Logo 必须看应用场景**：要求同时展示名片、App 图标、网站、广告牌等触点，能快速发现缩小后不可读、横竖比例不适配等问题。
-- **品牌手册要写禁用规则**：除了给颜色和字体，也要写“不要怎么用”，否则后续延展很容易把统一性弄丢。
+- **Tinh giản**: xác định từ khóa thương hiệu trước rồi mới yêu cầu tạo hình để kết quả thống nhất hơn. Đừng yêu cầu vẽ “một con rồng phun lửa quấn quanh cột Vạn Lý Trường Thành kèm tia sét”; đó là tranh minh họa, không phải logo.
+- **Quy định nền**: nhấn mạnh “nền trắng tinh (Pure White Background)” để thuận tiện tách nền sau này.
+- **Làm chiến lược thương hiệu trước khi vẽ logo**: thiếu đối tượng mục tiêu, đối thủ và cảm xúc mong muốn sẽ khiến logo chỉ đẹp mà không giải thích được vì sao phù hợp.
+- **Xem logo trong bối cảnh ứng dụng**: yêu cầu trình bày cùng danh thiếp, biểu tượng ứng dụng, trang web, biển quảng cáo và các điểm tiếp xúc khác để nhanh chóng phát hiện vấn đề khó đọc khi thu nhỏ hoặc không phù hợp với bố cục ngang/dọc.
+- **Ghi rõ quy tắc cần tránh trong cẩm nang thương hiệu**: ngoài màu sắc và phông chữ, cần nêu cả “không nên sử dụng như thế nào” để các ứng dụng sau này giữ được tính nhất quán.
 
 <a name="tpl-architecture"></a>
 
-### 建筑与空间
+### Kiến trúc và không gian
 
-**常规模板**
+**Mẫu cơ bản**
 
 ```text
-生成[空间类型]设计效果图，功能定位为[用途]。
-风格：[现代简约/工业/新中式]，材质：[木/石/金属/玻璃]。
-空间结构：[开敞/分区]，动线：[主通道说明]。
-光线：[自然采光/人工照明方案]，时间：[白天/夜景]。
-输出：写实建筑空间渲染图。
+Tạo ảnh phối cảnh thiết kế [loại không gian], với công năng [mục đích sử dụng].
+Phong cách: [tối giản hiện đại/công nghiệp/Trung Hoa đương đại], chất liệu: [gỗ/đá/kim loại/kính].
+Cấu trúc không gian: [mở/phân khu], lối di chuyển: [mô tả lối đi chính].
+Ánh sáng: [ánh sáng tự nhiên/phương án chiếu sáng nhân tạo], thời điểm: [ban ngày/cảnh đêm].
+Đầu ra: hình dựng không gian kiến trúc chân thực.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -717,26 +717,26 @@ PHASE 4 / SIGNATURE：加入[品牌元素]，例如颗粒、阴影、叠加纹�
 }
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **控制视角**：建筑图最容易翻车的就是透视变形。用“Eye-level perspective（人眼视角）”能压住它。
-- **冷暖对比**：室外的冷光（蓝/灰）和室内的暖光（黄/橙）搭配，是提升空间高级感的作弊码。
+- **Kiểm soát góc nhìn**: phối cảnh sai là lỗi dễ gặp nhất trong ảnh kiến trúc. Dùng “phối cảnh tầm mắt (Eye-level perspective)” để hạn chế lỗi này.
+- **Tương phản nóng-lạnh**: kết hợp ánh sáng lạnh bên ngoài (xanh/xám) với ánh sáng ấm bên trong (vàng/cam) là cách hiệu quả để nâng cảm giác cao cấp của không gian.
 
 <a name="tpl-photo"></a>
 
-### 摄影与写实
+### Nhiếp ảnh và phong cách chân thực
 
-**常规模板**
+**Mẫu cơ bản**
 
 ```text
-拍摄主题：[人物/物品/街景]，场景为[地点]。
-摄影参数风格：[35mm/85mm]，[浅景深/深景深]，[纪实/电影感]。
-光线：[自然光/夜景霓虹/逆光]，情绪：[情绪词]。
-细节要求：[肤质/材质/颗粒感]。
-输出：高写实摄影风格图像。
+Chủ thể ảnh: [người/vật thể/cảnh phố], bối cảnh: [địa điểm].
+Phong cách thông số chụp: [35mm/85mm], [độ sâu trường ảnh nông/sâu], [phóng sự/điện ảnh].
+Ánh sáng: [tự nhiên/đèn neon ban đêm/ngược sáng], cảm xúc: [từ khóa cảm xúc].
+Yêu cầu chi tiết: [chất da/chất liệu/hạt ảnh].
+Đầu ra: hình ảnh theo phong cách nhiếp ảnh chân thực cao.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -755,40 +755,40 @@ PHASE 4 / SIGNATURE：加入[品牌元素]，例如颗粒、阴影、叠加纹�
 }
 ```
 
-**街头意外瞬间写实摄影模板**
+**Mẫu ảnh phóng sự chân thực về khoảnh khắc bất ngờ trên phố**
 
 ```text
-生成一张竖版手机纪实照片，主题是[意外事件/日常瞬间]发生在[街头/室外地点]。
-主体：[物品/人物动作/现场痕迹]，必须呈现真实的材质状态，例如[液体扩散/冰块散落/纸张褶皱/灰尘颗粒]。
-环境：[地面材质/墙面/街景元素]，保留自然杂乱和生活痕迹。
-光线：[正午强光/阴天散射光/夜间路灯]，阴影要符合真实方向，可加入[人物影子/路牌影子/树影]。
-镜头：手持手机视角，略微俯拍或低角度，构图自然，像随手拍到的现场。
-画面质感：raw unedited photo look，自然色彩，真实纹理，高细节。
-负面约束：不要插画、动漫、CGI、棚拍光、过度干净、过度构图、假液体、漂浮物、品牌文字、水印、海报设计感。
-输出：一张可信的日常纪实摄影图。
+Tạo ảnh phóng sự dọc bằng điện thoại về [sự cố/khoảnh khắc đời thường] xảy ra ở [đường phố/địa điểm ngoài trời].
+Chủ thể: [vật thể/hành động của nhân vật/dấu vết tại hiện trường], phải thể hiện trạng thái chất liệu chân thực như [chất lỏng loang ra/đá tan vương vãi/giấy nhăn/bụi li ti].
+Bối cảnh: [chất liệu mặt đất/tường/yếu tố đường phố], giữ lại sự lộn xộn tự nhiên và dấu vết sinh hoạt.
+Ánh sáng: [nắng gắt giữa trưa/ánh sáng khuếch tán ngày âm u/đèn đường ban đêm], bóng đổ đúng hướng thực tế; có thể thêm [bóng người/bóng biển báo/bóng cây].
+Góc máy: góc nhìn cầm điện thoại, hơi chụp từ trên xuống hoặc góc thấp, bố cục tự nhiên như ảnh chụp nhanh tại hiện trường.
+Chất ảnh: phong cách ảnh thô chưa chỉnh sửa, màu sắc tự nhiên, kết cấu chân thực, nhiều chi tiết.
+Ràng buộc phủ định: không minh họa, hoạt hình, CGI, ánh sáng studio, vẻ sạch sẽ quá mức, bố cục quá trau chuốt, chất lỏng giả, vật thể lơ lửng, chữ thương hiệu, hình mờ hoặc cảm giác thiết kế áp phích.
+Đầu ra: một ảnh phóng sự đời thường đáng tin cậy.
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **加点瑕疵**：AI 画的人太完美了，反而像假人。加入“皮肤纹理（skin pores）”、“雀斑”、“轻微胶片颗粒（film grain）”，真实感瞬间拉满。
-- **用参数说话**：用 `f/1.4` 代替“浅景深”，用 `50mm` 代替“半身照”，大模型吃这套。
-- **把“不完美”写具体**：写“粗糙石砖、散落冰块、自然阴影、轻微手持感”，比只写“真实”更稳定。
+- **Thêm một chút khuyết điểm**: người do AI tạo thường quá hoàn hảo nên trông giả. Thêm “kết cấu lỗ chân lông”, “tàn nhang” hoặc “hạt phim nhẹ” để tăng cảm giác chân thực.
+- **Dùng thông số cụ thể**: dùng `f/1.4` thay cho “độ sâu trường ảnh nông”, dùng `50mm` thay cho “ảnh bán thân”; mô hình thường phản hồi tốt với cách mô tả này.
+- **Mô tả rõ điều chưa hoàn hảo**: ghi “gạch đá thô ráp, đá lạnh rơi vãi, bóng tự nhiên, cảm giác cầm máy hơi rung” sẽ ổn định hơn chỉ ghi “chân thực”.
 
 <a name="tpl-illustration"></a>
 
-### 插画与艺术
+### Minh họa và nghệ thuật
 
-**常规模板**
+**Mẫu cơ bản**
 
 ```text
-创作[题材]插画，主角为[角色/主体]。
-画风：[日漫/水彩/扁平/厚涂]，线条：[细腻/粗犷]。
-配色：[配色方案]，背景：[简洁/复杂场景]。
-构图：[近景/中景/远景]，重点表现[细节]。
-输出：可用于封面或社媒发布的高质量插画。
+Tạo tranh minh họa về [chủ đề], nhân vật hoặc chủ thể chính là [nhân vật/chủ thể].
+Phong cách vẽ: [anime Nhật/màu nước/phẳng/sơn dày], nét vẽ: [tinh tế/mạnh mẽ].
+Bảng màu: [phương án màu], hậu cảnh: [đơn giản/bối cảnh phức tạp].
+Bố cục: [cận cảnh/trung cảnh/toàn cảnh], nhấn mạnh [chi tiết].
+Đầu ra: tranh minh họa chất lượng cao dùng làm ảnh bìa hoặc đăng mạng xã hội.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -804,56 +804,56 @@ PHASE 4 / SIGNATURE：加入[品牌元素]，例如颗粒、阴影、叠加纹�
 }
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **锁定笔触**：插画如果不限制笔触（如“厚涂”、“水彩晕染”），它通常会给你一种毫无灵魂的 AI 默认塑料风。
-- **慎用大师名**：提大师名字很爽，但容易被模型原样照搬其代表作的构图。建议提取大师的特征（如“梵高的旋转星空笔触”），而不是直接写大师名。
+- **Chốt nét vẽ**: nếu không giới hạn kiểu nét (như “sơn dày” hoặc “loang màu nước”), tranh minh họa có thể mang phong cách AI mặc định bóng nhựa và thiếu sức sống.
+- **Cẩn trọng khi nêu tên danh họa**: gọi tên họ có thể khiến mô hình sao chép bố cục tác phẩm tiêu biểu. Hãy mô tả đặc điểm cụ thể (chẳng hạn “nét vẽ bầu trời xoáy của Van Gogh”) thay vì chỉ nêu tên.
 
 <a name="tpl-character"></a>
 
-### 人物与角色
+### Con người và nhân vật
 
-**常规模板**
-
-```text
-设计[角色身份]角色设定图。
-外观：[年龄/发型/服饰/配件]，性格：[关键词]。
-姿态：[站姿/动态动作]，表情：[情绪]。
-世界观：[时代/阵营/职业]，标志性元素：[元素]。
-输出：角色主视图 + 风格统一的人设图。
-```
-
-**动作分解参考表模板**
+**Mẫu cơ bản**
 
 ```text
-生成一张[角色/人物]动作分解参考表。
-风格：[黑白线稿/3D 灰阶/漫画分镜/教学图]，背景纯净，技术参考图气质。
-版式：4×4 网格，共 16 个等尺寸面板，细线分隔，每格左上角编号 1-16。
-角色一致性：所有面板使用同一角色，保持脸型、服装、比例和发型一致。
-每格结构：
-- 顶部：动作标题
-- 中央：完整身体动作姿态
-- 底部：3-4 行动作说明
-- 叠加：方向箭头、旋转箭头或运动轨迹线
-动作序列：[从基础站姿到结束动作的完整步骤]
-约束：不要复杂背景，不要新增角色，不要彩色干扰，不要改变角色身份。
-输出：清晰可读、可用于动画/舞蹈/游戏动作参考的角色动作表。
+Thiết kế bảng tạo hình cho nhân vật [danh tính nhân vật].
+Ngoại hình: [tuổi/kiểu tóc/trang phục/phụ kiện], tính cách: [từ khóa].
+Tư thế: [đứng/động tác], biểu cảm: [cảm xúc].
+Bối cảnh thế giới: [thời đại phe phái/nghề nghiệp], yếu tố nhận diện: [yếu tố].
+Đầu ra: hình ảnh chính của nhân vật và bảng tạo hình có phong cách thống nhất.
 ```
 
-**参考图转 3D 收藏玩具模板**
+**Mẫu bảng tham chiếu phân tích chuyển động**
 
 ```text
-将输入照片转换为高端 3D 收藏玩具形象。
-身份保持：保留原始人物/角色的脸部身份、主要发型、表情气质和服装识别点。
-造型比例：大头设计，五官轻微夸张，身体比例玩具化，但整体仍保持高级设计感。
-材质：哑光 vinyl / resin / collectible figure finish，皮肤和服饰材质要有细节。
-灯光与背景：柔和棚拍光，干净背景，[黑色/白色/品牌色]，主体居中，轮廓清晰。
-质感：超清锐度，真实材质反射，8K render，premium designer toy aesthetic。
-约束：不要改变身份，不要廉价塑料感，不要多角色，不要复杂背景，不要文字水印。
-输出：一张完整的高端收藏玩具渲染图。
+Tạo bảng tham chiếu phân tích chuyển động cho [nhân vật/con người].
+Phong cách: [nét vẽ đen trắng/3D thang xám/khung truyện tranh/hình hướng dẫn], nền sạch, cảm giác như hình tham khảo kỹ thuật.
+Bố cục: lưới 4×4 gồm 16 khung cùng kích thước, ngăn cách bằng đường mảnh, đánh số 1-16 ở góc trên trái mỗi khung.
+Tính nhất quán nhân vật: dùng cùng một nhân vật trong mọi khung, giữ nguyên khuôn mặt, trang phục, tỷ lệ cơ thể và kiểu tóc.
+Cấu trúc từng khung:
+- Phía trên: tiêu đề động tác
+- Ở giữa: tư thế chuyển động toàn thân
+- Phía dưới: 3-4 dòng mô tả động tác
+- Lớp phủ: mũi tên chỉ hướng, mũi tên xoay hoặc đường quỹ đạo chuyển động
+Chuỗi động tác: [các bước hoàn chỉnh từ tư thế đứng cơ bản đến động tác kết thúc]
+Ràng buộc: không dùng nền phức tạp, không thêm nhân vật, không dùng màu gây nhiễu, không thay đổi danh tính nhân vật.
+Đầu ra: bảng động tác nhân vật rõ ràng, dễ đọc, dùng làm tài liệu tham khảo cho hoạt hình, vũ đạo hoặc chuyển động trong trò chơi.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu chuyển ảnh tham chiếu thành đồ chơi sưu tầm 3D**
+
+```text
+Chuyển ảnh đầu vào thành hình đồ chơi sưu tầm 3D cao cấp.
+Giữ nguyên danh tính: bảo toàn khuôn mặt, kiểu tóc chính, thần thái biểu cảm và đặc điểm trang phục nhận diện của người/nhân vật gốc.
+Tỷ lệ tạo hình: đầu lớn, đường nét khuôn mặt hơi phóng đại, tỷ lệ cơ thể như đồ chơi nhưng tổng thể vẫn có cảm giác thiết kế cao cấp.
+Chất liệu: bề mặt vinyl/resin/mô hình sưu tầm mờ; chất liệu da và quần áo cần có chi tiết.
+Ánh sáng và nền: ánh sáng studio mềm, nền sạch [đen/trắng/màu thương hiệu], chủ thể ở giữa, đường nét rõ.
+Chất lượng: độ sắc nét siêu cao, phản xạ chất liệu chân thực, dựng hình 8K, thẩm mỹ đồ chơi thiết kế cao cấp.
+Ràng buộc: không đổi danh tính, không tạo cảm giác nhựa rẻ tiền, không thêm nhân vật, không dùng nền phức tạp, không có chữ hoặc hình mờ.
+Đầu ra: một ảnh dựng hoàn chỉnh về đồ chơi sưu tầm cao cấp.
+```
+
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -869,29 +869,29 @@ PHASE 4 / SIGNATURE：加入[品牌元素]，例如颗粒、阴影、叠加纹�
 }
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **拆解五官**：不要只写“很美的女孩”，大模型不知道你的审美标准。拆解成“桃花眼、高鼻梁、野生眉”。
-- **服装材质**：写清衣服的材质（如“丝绸”、“机能防风面料”），能让角色立刻变得立体。
-- **动作表要锁网格**：动作分解图必须明确面板数量、编号、每格结构，否则模型会把步骤挤成一张杂乱说明图。
-- **玩具化要保留身份锚点**：先锁脸型、发型、服装识别点，再写大头比例和材质，能减少“变成另一个人”的概率。
-- **角色一致性前置**：动作序列越长越容易换脸换衣服，要把“同一角色、同一服装、同比例”写在动作列表之前。
+- **Mô tả cụ thể đường nét khuôn mặt**: đừng chỉ ghi “cô gái xinh đẹp”, vì mô hình không biết tiêu chuẩn thẩm mỹ của bạn. Hãy mô tả như “mắt long lanh, sống mũi cao, lông mày tự nhiên”.
+- **Nêu chất liệu trang phục**: mô tả rõ chất liệu quần áo (như “lụa” hoặc “vải chắn gió kỹ thuật”) để nhân vật có chiều sâu hơn.
+- **Khóa lưới cho bảng động tác**: nêu rõ số khung, đánh số và cấu trúc từng khung, nếu không các bước có thể bị dồn thành một hình giải thích lộn xộn.
+- **Giữ dấu hiệu nhận diện khi biến thành đồ chơi**: chốt hình dáng khuôn mặt, kiểu tóc và đặc điểm trang phục trước khi mô tả tỷ lệ đầu lớn và chất liệu để giảm nguy cơ nhân vật trông như người khác.
+- **Đặt yêu cầu nhất quán nhân vật lên trước**: chuỗi động tác càng dài càng dễ làm đổi mặt hoặc quần áo; hãy ghi “cùng một nhân vật, cùng trang phục, cùng tỷ lệ” trước danh sách động tác.
 
 <a name="tpl-scene"></a>
 
-### 场景与叙事
+### Bối cảnh và kể chuyện
 
-**常规模板**
+**Mẫu cơ bản**
 
 ```text
-生成[故事主题]场景图，发生在[时间+地点]。
-主事件：[事件描述]，主角：[角色]，冲突点：[冲突]。
-镜头语言：[广角建立镜头/中景叙事/特写]。
-氛围：[紧张/温暖/悬疑]，色调：[冷/暖/高反差]。
-输出：具备叙事张力的场景概念图。
+Tạo hình bối cảnh về [chủ đề câu chuyện], diễn ra tại [thời gian + địa điểm].
+Sự kiện chính: [mô tả sự kiện], nhân vật chính: [nhân vật], xung đột: [xung đột].
+Ngôn ngữ máy quay: [toàn cảnh góc rộng/khung trung cảnh kể chuyện/cận cảnh].
+Không khí: [căng thẳng/ấm áp/bí ẩn], tông màu: [lạnh/ấm/tương phản cao].
+Đầu ra: hình ý tưởng bối cảnh có sức căng kể chuyện.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -907,26 +907,26 @@ PHASE 4 / SIGNATURE：加入[品牌元素]，例如颗粒、阴影、叠加纹�
 }
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **要有“动词”**：叙事图最怕画成风景明信片。一定要写“事件”（如“正在崩塌”、“刚点燃火把”），让画面动起来。
-- **镜头语言**：使用“Low angle shot（低角度仰拍）”或“Dutch angle（倾斜镜头）”来增加戏剧冲突。
+- **Dùng động từ**: hình kể chuyện dễ bị biến thành bưu thiếp phong cảnh. Hãy mô tả sự kiện (như “đang sụp đổ” hoặc “vừa châm đuốc”) để khung hình có chuyển động.
+- **Ngôn ngữ máy quay**: dùng “góc máy thấp (Low angle shot)” hoặc “góc nghiêng Hà Lan (Dutch angle)” để tăng kịch tính.
 
 <a name="tpl-history"></a>
 
-### 历史与古风题材
+### Lịch sử và chủ đề cổ điển
 
-**常规模板**
+**Mẫu cơ bản**
 
 ```text
-生成[朝代/古风设定]题材画面，主题为[主题]。
-人物：[身份/服饰/器物]，场景：[宫廷/市井/山水]。
-美术风格：[工笔/写意/影视写实]，色调：[色调]。
-文化细节：[纹样/礼制/建筑要素]。
-输出：历史氛围准确的古风题材图。
+Tạo hình ảnh theo chủ đề [triều đại/bối cảnh cổ điển], với nội dung [chủ đề].
+Nhân vật: [danh tính/trang phục/vật dụng], bối cảnh: [cung đình/phố thị/phong cảnh núi sông].
+Phong cách mỹ thuật: [vẽ công bút/tả ý/hiện thực điện ảnh], tông màu: [tông màu].
+Chi tiết văn hóa: [hoa văn/lễ nghi/yếu tố kiến trúc].
+Đầu ra: hình ảnh chủ đề cổ điển có không khí lịch sử chính xác.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -934,35 +934,35 @@ PHASE 4 / SIGNATURE：加入[品牌元素]，例如颗粒、阴影、叠加纹�
   "setting": "Tang Dynasty Capital City at Night",
   "subject": {
     "identity": "Noblewoman",
-    "clothing": "Traditional Ruqun (襦裙) with elaborate floral embroidery",
+    "clothing": "Traditional Ruqun (áo váy truyền thống) with elaborate floral embroidery",
     "action": "Holding a glowing silk lantern, looking at fireworks"
   },
-  "style": "Cinematic realism combined with subtle traditional ink wash (水墨) textures",
+  "style": "Cinematic realism combined with subtle traditional ink wash textures",
   "details": "Accurate Tang architecture, bustling crowd in background",
   "constraints": "No modern elements, historically accurate clothing structure"
 }
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **拒绝大杂烩**：明确朝代（唐/宋/明），否则大模型会给你画出一个穿着和服、拿着清朝折扇在唐朝宫殿里的人。
-- **强制排雷**：一定要加上“禁用现代元素（No modern elements）”，防止古风美女手里突然多出一杯星巴克。
+- **Tránh pha trộn tùy tiện**: nêu rõ triều đại (nhà Đường/Tống/Minh), nếu không mô hình có thể vẽ người mặc kimono, cầm quạt gấp thời Thanh nhưng đứng trong cung điện nhà Đường.
+- **Loại bỏ chi tiết sai lệch**: thêm “không có yếu tố hiện đại (No modern elements)” để tránh xuất hiện ly cà phê hiện đại trong tay nhân vật cổ trang.
 
 <a name="tpl-document"></a>
 
-### 文档与出版物
+### Tài liệu và ấn phẩm
 
-**常规模板**
+**Mẫu cơ bản**
 
 ```text
-制作[文档类型，如菜单/杂志内页/报纸版式]。
-版面结构：[栏数/页边距/标题层级]。
-内容模块：[封面区/正文区/图表区/脚注]。
-字体风格：[衬线/无衬线]，配色：[配色方案]。
-输出：可读性强、版式规范的出版物视觉稿。
+Tạo [loại tài liệu, chẳng hạn thực đơn/trang trong tạp chí/bố cục báo].
+Cấu trúc trang: [số cột/lề trang/thứ bậc tiêu đề].
+Mô-đun nội dung: [vùng bìa/vùng nội dung/vùng biểu đồ/chú thích cuối trang].
+Phong cách chữ: [có chân/không chân], bảng màu: [phương án phối màu].
+Đầu ra: bản thiết kế ấn phẩm có bố cục chuẩn và dễ đọc.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -982,52 +982,52 @@ PHASE 4 / SIGNATURE：加入[品牌元素]，例如颗粒、阴影、叠加纹�
 }
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **结构优先**：明确“栏数（columns）”和“留白（margins）”比堆砌风格词更重要。
-- **放弃全文**：不要指望大模型能排出一整页毫无错字的正文，让它用“模拟文本（Simulated text blocks）”填充正文，只写死大标题。
+- **Ưu tiên cấu trúc**: nêu rõ “số cột (columns)” và “lề trang (margins)” quan trọng hơn việc thêm nhiều từ khóa phong cách.
+- **Không yêu cầu tạo toàn văn**: đừng kỳ vọng mô hình dàn cả trang nội dung mà không sai chữ. Hãy dùng “khối văn bản giả lập (Simulated text blocks)” cho phần thân và chỉ chốt chính xác tiêu đề lớn.
 
 <a name="tpl-other"></a>
 
-### 其他应用场景
+### Trường hợp sử dụng khác
 
-**常规模板**
-
-```text
-任务目标：[你要生成的内容类型]。
-输入约束：主体[主体]，场景[场景]，风格[风格]，色彩[配色]。
-质量约束：清晰度[高清/4K]，比例[比例]，构图[构图方式]。
-输出约束：用于[用途]，需突出[核心信息]。
-请输出一版主方案 + 一版备选方案。
-```
-
-**概念产品研发拆解板模板**
+**Mẫu cơ bản**
 
 ```text
-为[产品/家具/装置]生成一张完整的概念产品研发拆解板，而不是单张成品渲染图。
-
-核心概念：
-把[灵感来源，如揉皱纸团/贝壳/折纸/机械结构]转译成[产品类型]。
-设计哲学：[一句话说明功能与情绪，例如“把受控混乱转化为高舒适度座椅”]。
-
-画面结构：
-中心：高质量 hero render，展示最终产品的主要形态、材质和比例。
-左侧：观察与形态分析，包含灵感图、轮廓提取、结构线、折痕/纹理/受力方向标注。
-中部：形态迭代过程，展示从原始形态到产品外壳的 3-5 个演化步骤。
-下方：人体工学或使用场景验证，包含尺寸、角度、使用姿态和关键功能说明。
-右侧：结构集成与材料方案，展示内部骨架、外壳、软垫/面料/连接件等分层拆解。
-底部：最终材质、表面纹理、颜色方案和关键规格表。
-
-视觉风格：
-工业设计提案板，干净白底或浅灰背景，技术图纸 + 产品摄影混合风格，细线标注，清晰标题，真实阴影，材质细节可见。
-
-约束：
-不要只画一个漂亮产品；必须展示分析、迭代、人体工学、结构、材料和规格。
-不要让文字挤满画面；每个阶段只保留短标题和关键标签。
-产品外形应保留[灵感来源]的识别特征，但必须看起来可制造、可使用。
+Mục tiêu tác vụ: [loại nội dung cần tạo].
+Ràng buộc đầu vào: chủ thể [chủ thể], bối cảnh [bối cảnh], phong cách [phong cách], màu sắc [bảng màu].
+Ràng buộc chất lượng: độ nét [cao/4K], tỷ lệ [tỷ lệ], bố cục [kiểu bố cục].
+Ràng buộc đầu ra: dùng cho [mục đích], cần làm nổi bật [thông tin cốt lõi].
+Vui lòng đưa ra một phương án chính và một phương án thay thế.
 ```
 
-**JSON 进阶模板（推荐给 Agent 调用）**
+**Mẫu bảng phân tích nghiên cứu và phát triển sản phẩm ý tưởng**
+
+```text
+Tạo bảng phân tích đầy đủ cho quá trình nghiên cứu và phát triển [sản phẩm/đồ nội thất/thiết bị], không chỉ tạo một ảnh dựng thành phẩm.
+
+Ý tưởng cốt lõi:
+Chuyển hóa [nguồn cảm hứng, chẳng hạn giấy vò/ vỏ sò/giấy gấp/cấu trúc cơ khí] thành [loại sản phẩm].
+Triết lý thiết kế: [một câu mô tả công năng và cảm xúc, chẳng hạn “biến sự hỗn loạn có kiểm soát thành một chiếc ghế ngồi thoải mái”].
+
+Bố cục hình ảnh:
+Ở giữa: ảnh dựng chủ đạo chất lượng cao, thể hiện hình dáng, chất liệu và tỷ lệ chính của sản phẩm hoàn chỉnh.
+Bên trái: quan sát và phân tích hình thái, gồm hình cảm hứng, phác đường viền, đường cấu trúc và chú thích nếp gấp/kết cấu/hướng chịu lực.
+Khu vực giữa: quá trình lặp lại hình thái với 3-5 bước tiến hóa từ hình dạng ban đầu đến vỏ sản phẩm.
+Phía dưới: xác minh công thái học hoặc tình huống sử dụng, gồm kích thước, góc, tư thế sử dụng và mô tả chức năng chính.
+Bên phải: tích hợp cấu trúc và phương án vật liệu, thể hiện phân rã theo lớp của khung bên trong, vỏ, đệm/vải/khớp nối.
+Cuối trang: chất liệu hoàn thiện, kết cấu bề mặt, phương án màu và bảng thông số chính.
+
+Phong cách hình ảnh:
+Bảng đề xuất thiết kế công nghiệp, nền trắng sạch hoặc xám nhạt, kết hợp bản vẽ kỹ thuật và ảnh sản phẩm, chú thích bằng nét mảnh, tiêu đề rõ ràng, bóng đổ chân thực và nhìn thấy chi tiết chất liệu.
+
+Ràng buộc:
+Không chỉ vẽ một sản phẩm đẹp; phải thể hiện phân tích, các bước phát triển, công thái học, cấu trúc, vật liệu và thông số.
+Không để chữ lấp đầy hình; mỗi giai đoạn chỉ giữ tiêu đề ngắn và nhãn quan trọng.
+Hình dáng sản phẩm cần giữ đặc điểm nhận diện của [nguồn cảm hứng], nhưng vẫn trông có thể sản xuất và sử dụng.
+```
+
+**Mẫu JSON nâng cao (khuyến nghị dùng khi gọi Agent)**
 
 ```json
 {
@@ -1051,10 +1051,10 @@ PHASE 4 / SIGNATURE：加入[品牌元素]，例如颗粒、阴影、叠加纹�
 }
 ```
 
-**避坑指南**
+**Hướng dẫn tránh lỗi**
 
-- **先说干嘛的**：一上来先写“任务目标和用途”，让模型建立全局上下文，再写视觉细节。
-- **A/B 测试**：通用场景建议在 prompt 里要求“一次生成主方案 + 备选方案”，方便你直接挑好的。
+- **Nêu mục đích trước**: bắt đầu bằng “mục tiêu và cách sử dụng” để mô hình hiểu bối cảnh tổng thể, rồi mới mô tả chi tiết hình ảnh.
+- **Thử nghiệm A/B**: với trường hợp thông thường, yêu cầu “tạo một phương án chính + một phương án thay thế” trong cùng prompt để dễ chọn kết quả phù hợp.
 
 ***
 

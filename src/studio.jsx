@@ -42,7 +42,9 @@ import {
   Video,
   X
 } from 'lucide-react';
+import '@fontsource-variable/inter/wght.css';
 import './studio.css';
+import './studio-system.css';
 import {
   AiGatewayClient,
   StudioHistoryClient,
@@ -71,16 +73,16 @@ const IMAGE_MODELS = ['gpt-image-2', 'gpt-image-1', 'gpt-image-1-mini'];
 const RESPONSE_MODELS = ['gpt-5.5', 'gpt-5.2', 'gpt-5.1', 'gpt-4.1'];
 const PROMPT_ASSISTANT_MODEL_EXCLUDE_PATTERN = /image|video|sora|runway|kling|veo|codex|review|audit|security|embed|rerank|tts|whisper/i;
 const VIDEO_MODELS = [];
-const IMAGE_GENERATION_ROUTE_LABEL = '自动选择';
+const IMAGE_GENERATION_ROUTE_LABEL = 'Tự chọn';
 const SIZES = ['auto', '1024x1024', '1536x1024', '1024x1536'];
 const ASPECT_OPTIONS = [
   { value: '1:1', label: '1:1', size: '1024x1024' },
   { value: '16:9', label: '16:9', size: '1536x1024' },
   { value: '9:16', label: '9:16', size: '1024x1536' },
-  { value: 'custom', label: '手动', size: '1024x1024' }
+  { value: 'custom', label: 'Tùy chỉnh', size: '1024x1024' }
 ];
 const CUSTOM_SIZE_OPTIONS = [
-  { value: 'auto', label: '自动' },
+  { value: 'auto', label: 'Tự động' },
   { value: '1024x1024', label: '1024 x 1024' },
   { value: '1536x1024', label: '1536 x 1024' },
   { value: '1024x1536', label: '1024 x 1536' }
@@ -124,29 +126,29 @@ const VIDEO_ASPECT_OPTIONS = [
 const VIDEO_DURATIONS = [5, 10];
 const VIDEO_FPS_OPTIONS = [24, 30];
 const VIDEO_MOTIONS = [
-  { value: 'auto', label: '自动' },
-  { value: 'push_in', label: '推近' },
-  { value: 'pull_out', label: '拉远' },
-  { value: 'orbit', label: '环绕' },
-  { value: 'pan', label: '横移' },
-  { value: 'static', label: '固定' }
+  { value: 'auto', label: 'Tự động' },
+  { value: 'push_in', label: 'Tiến gần' },
+  { value: 'pull_out', label: 'Lùi xa' },
+  { value: 'orbit', label: 'Quay vòng' },
+  { value: 'pan', label: 'Quét ngang' },
+  { value: 'static', label: 'Cố định' }
 ];
 const VIDEO_STYLES = [
-  { value: 'cinematic', label: '电影感' },
-  { value: 'product_ad', label: '产品广告' },
-  { value: 'realistic', label: '写实' },
-  { value: 'animation', label: '动画' }
+  { value: 'cinematic', label: 'Điện ảnh' },
+  { value: 'product_ad', label: 'Quảng cáo sản phẩm' },
+  { value: 'realistic', label: 'Chân thực' },
+  { value: 'animation', label: 'Hoạt hình' }
 ];
 const VIDEO_QUALITY = ['auto', 'standard', 'high'];
 const WORKSPACES = [
-  { value: 'image', label: '图片创作' },
-  { value: 'inspiration', label: '灵感库' },
-  { value: 'video', label: '视频创作' },
-  { value: 'history', label: '历史图库' }
+  { value: 'image', label: 'Tạo ảnh' },
+  { value: 'inspiration', label: 'Thư viện ý tưởng' },
+  { value: 'video', label: 'Tạo video' },
+  { value: 'history', label: 'Lịch sử ảnh' }
 ];
 const DESK_MODES = [
-  { value: 'image', label: '文生图', icon: ImageIcon },
-  { value: 'edit', label: '参考图', icon: Images },
+  { value: 'image', label: 'Tạo ảnh từ văn bản', icon: ImageIcon },
+  { value: 'edit', label: 'Ảnh tham chiếu', icon: Images },
   { value: 'mask', label: 'Mask', icon: ScanLine }
 ];
 const MASK_HISTORY_LIMIT = 6;
@@ -178,28 +180,28 @@ function enqueueProtectedImageTask(run) {
   });
 }
 const CATEGORY_LABELS = {
-  'Architecture & Spaces': '建筑空间',
-  'Brand & Logos': '品牌标识',
-  'Characters & People': '人物角色',
-  'Charts & Infographics': '图表信息图',
-  'Community Prompts': '社区灵感',
-  'Documents & Publishing': '文档出版',
-  'Fashion & Beauty': '时尚美妆',
-  'Games & Entertainment': '游戏娱乐',
-  'History & Classical Themes': '历史古风',
-  'Illustration & Art': '插画艺术',
-  'Other Use Cases': '其他场景',
-  'Photography & Realism': '摄影写实',
-  'Posters & Typography': '海报字体',
-  'Products & E-commerce': '产品电商',
-  'Scenes & Storytelling': '场景叙事',
-  'UI & Interfaces': '界面交互'
+  'Architecture & Spaces': 'Kiến trúc và không gian',
+  'Brand & Logos': 'Thương hiệu và logo',
+  'Characters & People': 'Nhân vật và con người',
+  'Charts & Infographics': 'Biểu đồ và đồ họa thông tin',
+  'Community Prompts': 'Prompt cộng đồng',
+  'Documents & Publishing': 'Tài liệu và xuất bản',
+  'Fashion & Beauty': 'Thời trang và làm đẹp',
+  'Games & Entertainment': 'Trò chơi và giải trí',
+  'History & Classical Themes': 'Lịch sử và chủ đề cổ điển',
+  'Illustration & Art': 'Minh họa và nghệ thuật',
+  'Other Use Cases': 'Trường hợp sử dụng khác',
+  'Photography & Realism': 'Nhiếp ảnh và phong cách chân thực',
+  'Posters & Typography': 'Áp phích và kiểu chữ',
+  'Products & E-commerce': 'Sản phẩm và thương mại điện tử',
+  'Scenes & Storytelling': 'Bối cảnh và kể chuyện',
+  'UI & Interfaces': 'Giao diện và trải nghiệm'
 };
 const QUALITY_LABELS = {
-  auto: '自动',
-  low: '低',
-  medium: '中',
-  high: '高'
+  auto: 'Tự động',
+  low: 'Thấp',
+  medium: 'Trung bình',
+  high: 'Cao'
 };
 const RESOLUTION_TIER_LABELS = {
   '1k': '1K',
@@ -212,8 +214,8 @@ const OUTPUT_FORMAT_LABELS = {
   webp: 'WebP'
 };
 const MODERATION_LABELS = {
-  auto: '自动',
-  low: '低'
+  auto: 'Tự động',
+  low: 'Thấp'
 };
 function providerParameterList(provider, key, fallback) {
   const values = provider?.parameters?.[key];
@@ -263,14 +265,14 @@ const THEME_KEY = 'image-sub2api-studio:theme:v1';
 const LEGACY_THEME_KEY = 'ohlaoo-studio:theme:v1';
 const TEMPLATE_FAVORITES_KEY = 'image-sub2api-studio:template-favorites:v1';
 const LEGACY_TEMPLATE_FAVORITES_KEY = 'ohlaoo-studio:template-favorites:v1';
-const WORKBENCH_LAYOUT_KEY = 'image-sub2api-studio:workbench-layout:v5';
+const WORKBENCH_LAYOUT_KEY = 'image-sub2api-studio:workbench-layout:v6';
 const CURRENT_SESSION_KEY = 'image-sub2api-studio:current-session:v1';
 const LOCAL_HISTORY_LIMIT = 30;
 const REFERENCE_ROLES = [
-  { value: 'identity', label: '主体' },
-  { value: 'style', label: '风格' },
-  { value: 'composition', label: '构图' },
-  { value: 'product', label: '产品' }
+  { value: 'identity', label: 'Chủ thể' },
+  { value: 'style', label: 'Phong cách' },
+  { value: 'composition', label: 'Bố cục' },
+  { value: 'product', label: 'Sản phẩm' }
 ];
 const EMPTY_SITE_DATA = {
   totalCases: 0,
@@ -284,9 +286,9 @@ const EMPTY_SITE_DATA = {
   cases: []
 };
 const COMMUNITY_LICENSE_NOTICE = {
-  name: '社区提示词模板 · CC BY 4.0',
+  name: 'Mẫu prompt cộng đồng · CC BY 4.0',
   url: 'https://creativecommons.org/licenses/by/4.0/',
-  text: '提示词模板内容来自公开社区，遵循 CC BY 4.0 许可证；使用和改编时请保留原作者或来源归属。'
+  text: 'Nội dung mẫu prompt đến từ cộng đồng công khai và tuân theo giấy phép CC BY 4.0. Khi sử dụng hoặc chỉnh sửa, vui lòng ghi nhận tác giả hoặc nguồn gốc ban đầu.'
 };
 
 const CATEGORY_COVERS = {
@@ -311,60 +313,60 @@ const PROMPT_PRESETS = FALLBACK_PROMPT_PRESETS;
 const CREATIVE_RECIPES = [
   {
     id: 'commerce-main',
-    title: '电商主图',
-    tone: '干净成交',
+    title: 'Ảnh sản phẩm thương mại điện tử',
+    tone: 'Gọn gàng, dễ bán',
     size: '1024x1024',
     quality: 'high',
     resolutionTier: '2k',
-    prompt: '商业产品摄影，主体居中，纯净浅色背景，柔和棚拍灯光，边缘高光清晰，材质纹理可见，留出少量促销文字空间，适合电商主图。'
+    prompt: 'Ảnh chụp sản phẩm thương mại, đặt chủ thể ở giữa, nền sáng sạch, ánh sáng studio dịu, viền sáng rõ, nhìn thấy kết cấu chất liệu, chừa một khoảng nhỏ cho nội dung khuyến mãi, phù hợp làm ảnh sản phẩm chính trên sàn thương mại điện tử.'
   },
   {
     id: 'lifestyle-scene',
-    title: '生活场景',
-    tone: '真实氛围',
+    title: 'Khung cảnh đời thường',
+    tone: 'Không khí chân thực',
     size: '1024x1536',
     quality: 'high',
     resolutionTier: '2k',
-    prompt: '生活方式摄影，把主体放在真实使用场景中，自然窗光，浅景深，温暖但克制的色彩，画面有故事感，像高端品牌社媒内容。'
+    prompt: 'Ảnh phong cách sống, đặt chủ thể trong bối cảnh sử dụng thực tế, ánh sáng tự nhiên từ cửa sổ, độ sâu trường ảnh nông, màu sắc ấm áp nhưng tiết chế, khung hình giàu câu chuyện như nội dung mạng xã hội của thương hiệu cao cấp.'
   },
   {
     id: 'brand-poster',
-    title: '品牌海报',
-    tone: '强视觉',
+    title: 'Áp phích thương hiệu',
+    tone: 'Ấn tượng thị giác',
     size: '1024x1536',
     quality: 'high',
     resolutionTier: '4k',
-    prompt: '品牌视觉海报，强构图层级，清晰主标题留白区，主体与图形元素形成对角线动势，高级商业广告质感，适合活动推广。'
+    prompt: 'Áp phích nhận diện thương hiệu, bố cục có thứ bậc rõ ràng, chừa vùng trống dễ đọc cho tiêu đề chính, chủ thể và họa tiết tạo chuyển động theo đường chéo, chất lượng quảng cáo thương mại cao cấp, phù hợp quảng bá sự kiện.'
   },
   {
     id: 'ui-mockup',
-    title: '界面样机',
-    tone: '产品展示',
+    title: 'Mô hình giao diện',
+    tone: 'Trình bày sản phẩm',
     size: '1536x1024',
     quality: 'medium',
     resolutionTier: '2k',
-    prompt: '现代产品界面样机，真实设备或浏览器框架，界面信息清楚可读，背景简洁，光影克制，突出工作流和关键操作状态。'
+    prompt: 'Mô hình giao diện sản phẩm hiện đại trong khung thiết bị hoặc trình duyệt chân thực, thông tin trên giao diện rõ ràng và dễ đọc, nền tối giản, ánh sáng tiết chế, làm nổi bật quy trình và trạng thái thao tác quan trọng.'
   },
   {
     id: 'character-sheet',
-    title: '角色设定',
-    tone: '一致形象',
+    title: 'Thiết kế nhân vật',
+    tone: 'Nhất quán tạo hình',
     size: '1024x1536',
     quality: 'high',
     resolutionTier: '2k',
-    prompt: '角色设定图，同一角色的正面姿态，服装、配饰、表情特征清晰，干净背景，适合作为后续图像一致性参考。'
+    prompt: 'Bảng thiết kế nhân vật với cùng một nhân vật ở tư thế nhìn thẳng; trang phục, phụ kiện và đặc điểm biểu cảm rõ nét; nền sạch, phù hợp làm ảnh tham chiếu để giữ tạo hình nhất quán trong các ảnh tiếp theo.'
   },
   {
     id: 'editorial-cover',
-    title: '封面大片',
-    tone: '杂志感',
+    title: 'Ảnh bìa nổi bật',
+    tone: 'Phong cách tạp chí',
     size: '1024x1536',
     quality: 'high',
     resolutionTier: '4k',
-    prompt: '杂志封面摄影，强烈但自然的主视觉，人物或主体占据第一视线，背景有层次，保留标题区，色彩具有高级编辑感。'
+    prompt: 'Ảnh bìa tạp chí với hình ảnh chủ đạo nổi bật nhưng tự nhiên; nhân vật hoặc chủ thể thu hút ánh nhìn đầu tiên, nền có chiều sâu, chừa chỗ cho tiêu đề, màu sắc mang phong cách biên tập cao cấp.'
   }
 ];
-const CREATIVE_RECIPE_PREFIX = '配方增强：';
+const CREATIVE_RECIPE_PREFIX = 'Công thức nâng cao: ';
 
 
 function compact(value, length = 180) {
@@ -463,7 +465,7 @@ function orderTemplates(cases) {
     if (Number.isFinite(leftId) && Number.isFinite(rightId)) return leftId - rightId;
     if (Number.isFinite(leftId)) return -1;
     if (Number.isFinite(rightId)) return 1;
-    return String(left.title || '').localeCompare(String(right.title || ''), 'zh-CN');
+    return String(left.title || '').localeCompare(String(right.title || ''), 'vi-VN');
   });
 }
 
@@ -727,17 +729,17 @@ function loadWorkbenchLayout() {
     const stored = JSON.parse(localStorage.getItem(WORKBENCH_LAYOUT_KEY) || 'null');
     return {
       prompt: stored?.prompt === true,
-      references: stored?.references !== false,
+      references: stored?.references === true,
       parameters: stored?.parameters !== false,
       parametersRail: stored?.parametersRail === true,
-      bottomComposer: stored?.bottomComposer !== false,
+      bottomComposer: true,
       composerParameters: stored?.composerParameters === true,
-      composerFolded: stored?.composerFolded === true
+      composerFolded: false
     };
   } catch {
     return {
       prompt: false,
-      references: true,
+      references: false,
       parameters: true,
       parametersRail: false,
       bottomComposer: true,
@@ -792,7 +794,7 @@ function textSignature(value, length = 72) {
 }
 
 function wantsPromptRewrite(value) {
-  return /(?:重写|重新写|从头|不要基于|不基于|抛开原图|完全换成|换一个全新|重新设计)/.test(String(value || ''));
+  return /(?:viết lại|làm lại từ đầu|không dựa trên|bỏ qua ảnh gốc|thay bằng một ý tưởng mới|thiết kế lại)/i.test(String(value || ''));
 }
 
 function normalizeOutputFormat(value) {
@@ -966,7 +968,7 @@ function currentSessionProject(session) {
     sessionId,
     current: true,
     titleKey: 'rail.currentSession',
-    title: '当前会话',
+    title: 'Phiên hiện tại',
     prompt: session.prompt || firstNode.prompt || firstQueueItem.prompt || '',
     createdAt: session.updatedAt || session.timing?.startedAt || Date.now(),
     model: session.model,
@@ -1146,7 +1148,7 @@ function storedResultUrls(urls) {
 function formatHistoryTime(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return '';
-  return date.toLocaleString('zh-CN', {
+  return date.toLocaleString('vi-VN', {
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
@@ -1520,7 +1522,7 @@ function safeImageCandidate(url) {
 }
 
 function providerLabel(settings, apiKey) {
-  if (settings.apiKeySource === 'manual') return settings.manualGatewayBaseUrl ? '自定义 API' : '自定义连接';
+  if (settings.apiKeySource === 'manual') return settings.manualGatewayBaseUrl ? 'API tùy chỉnh' : 'Kết nối tùy chỉnh';
   return apiKey?.name || 'Gateway Account';
 }
 
@@ -1534,25 +1536,25 @@ function maskApiKey(value) {
 
 function apiKeyDisplay(apiKey) {
   const display = apiKey?.displayKey || apiKey?.key || apiKey?.plain || apiKey?.mask;
-  return display ? maskApiKey(display) : apiKey?.name || '选择密钥';
+  return display ? maskApiKey(display) : apiKey?.name || 'Chọn khóa API';
 }
 
 function workspaceConnectionLabel(activeWorkspace, settings) {
-  if (activeWorkspace === 'video') return '视频接口';
-  if (activeWorkspace === 'inspiration') return '灵感库';
-  if (activeWorkspace === 'history') return '历史图库';
+  if (activeWorkspace === 'video') return 'API video';
+  if (activeWorkspace === 'inspiration') return 'Thư viện ý tưởng';
+  if (activeWorkspace === 'history') return 'Lịch sử ảnh';
   return IMAGE_GENERATION_ROUTE_LABEL;
 }
 
 function apiKeyMeta(apiKey) {
-  const scope = apiKey?.scope || '默认权限';
-  const status = apiKey?.status === 1 || String(apiKey?.status || '').toLowerCase() === 'active' ? '可用' : apiKey?.status || '可用';
+  const scope = apiKey?.scope || 'Quyền mặc định';
+  const status = apiKey?.status === 1 || String(apiKey?.status || '').toLowerCase() === 'active' ? 'Có thể sử dụng' : apiKey?.status || 'Có thể sử dụng';
   return `${status} · ${scope}`;
 }
 
 function categoryLabel(value) {
-  if (value === 'All') return '全部分类';
-  return CATEGORY_LABELS[value] || value || '未分类';
+  if (value === 'All') return 'Tất cả danh mục';
+  return CATEGORY_LABELS[value] || value || 'Chưa phân loại';
 }
 
 
@@ -1620,7 +1622,7 @@ function buildCategoryGroups(cases) {
     if (!group.featured && (item.thumbnail || item.image || item.image_url)) group.featured = item;
     if (group.samples.length < 3) group.samples.push(item);
   }
-  return [...groups.values()].sort((left, right) => right.count - left.count || left.label.localeCompare(right.label, 'zh-CN'));
+  return [...groups.values()].sort((left, right) => right.count - left.count || left.label.localeCompare(right.label, 'vi-VN'));
 }
 
 function parseOptimizedPrompt(text) {
@@ -1667,15 +1669,15 @@ function parseAssistantReply(text) {
 }
 
 function formatUsageValue(value) {
-  if (value === undefined || value === null || value === '') return '后台未返回';
-  if (typeof value === 'number' && Number.isFinite(value)) return value.toLocaleString('zh-CN');
+  if (value === undefined || value === null || value === '') return 'Máy chủ không trả dữ liệu';
+  if (typeof value === 'number' && Number.isFinite(value)) return value.toLocaleString('vi-VN');
   return String(value);
 }
 
 function pointValue(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
-  return (number / 100).toLocaleString('zh-CN', { maximumFractionDigits: 2 });
+  return (number / 100).toLocaleString('vi-VN', { maximumFractionDigits: 2 });
 }
 
 function resultExtension(url, fallback = 'png') {
@@ -1692,48 +1694,48 @@ function modelBillingLabel(model, count = 1) {
   if (unitPoints !== undefined && unitPoints !== null) {
     const unit = pointValue(unitPoints);
     const total = pointValue(Number(unitPoints) * normalizeCount(count));
-    return Number(unitPoints) > 0 ? `${unit} 点/张，预估 ${total} 点` : '后台按模型结算';
+    return Number(unitPoints) > 0 ? `${unit} điểm/ảnh, ước tính ${total} điểm` : 'Máy chủ tính phí theo mô hình';
   }
   if (inputPoints !== undefined || outputPoints !== undefined) {
-    return `输入 ${pointValue(inputPoints || 0)} 点/1K，输出 ${pointValue(outputPoints || 0)} 点/1K`;
+    return `Đầu vào ${pointValue(inputPoints || 0)} điểm/1K, đầu ra ${pointValue(outputPoints || 0)} điểm/1K`;
   }
   const value = raw.price || raw.pricing || raw.unit_price || raw.input_price || raw.output_price || raw.quota || raw.cost || raw.billing || raw.billing_mode;
-  if (!value) return '以后台实际扣费为准';
+  if (!value) return 'Theo mức trừ thực tế trên máy chủ';
   if (typeof value === 'object') return Object.entries(value).map(([key, item]) => `${key}: ${item}`).join(' / ');
   return String(value);
 }
 
-function modelBillingUnitLabel(model, unitLabel = '张', count = 1) {
+function modelBillingUnitLabel(model, unitLabel = 'ảnh', count = 1) {
   const label = modelBillingLabel(model, count);
-  return unitLabel === '张' ? label : label.replaceAll('/张', `/${unitLabel}`);
+  return unitLabel === 'ảnh' ? label : label.replaceAll('/ảnh', `/${unitLabel}`);
 }
 
 function payloadUsageSummary(payload) {
   const usage = payload?.usage || payload?.response?.usage || payload?.billing || payload?.cost || payload?.metadata?.usage;
   if (!usage) return '';
   if (typeof usage === 'string') return usage;
-  if (typeof usage === 'number') return `本次消费 ${pointValue(usage)} 点`;
+  if (typeof usage === 'number') return `Lần này đã dùng ${pointValue(usage)} điểm`;
   const parts = [];
   const pointsTotal = usage.total_points ?? usage.points ?? usage.totalPoint;
   const costPoints = usage.total_cost ?? usage.cost_points ?? usage.costPoints;
   const total = pointsTotal ?? (costPoints !== undefined ? pointValue(costPoints) : undefined) ?? usage.total ?? usage.total_tokens ?? usage.amount ?? usage.cost ?? usage.credits;
   const input = usage.input_tokens || usage.prompt_tokens || usage.input;
   const output = usage.output_tokens || usage.completion_tokens || usage.output;
-  if (total !== undefined) parts.push(`合计 ${formatUsageValue(total)}${(pointsTotal !== undefined || costPoints !== undefined) ? ' 点' : ''}`);
-  if (input !== undefined) parts.push(`输入 ${formatUsageValue(input)}`);
-  if (output !== undefined) parts.push(`输出 ${formatUsageValue(output)}`);
+  if (total !== undefined) parts.push(`Tổng cộng ${formatUsageValue(total)}${(pointsTotal !== undefined || costPoints !== undefined) ? ' điểm' : ''}`);
+  if (input !== undefined) parts.push(`Đầu vào ${formatUsageValue(input)}`);
+  if (output !== undefined) parts.push(`Đầu ra ${formatUsageValue(output)}`);
   return parts.join('，');
 }
 
 function riskLabel(value) {
   const labels = {
-    'brand-risk': '品牌',
-    celebrity: '名人',
-    medical: '医疗',
-    political: '政治',
-    'adult-risk': '成人',
-    'copyright-style': '版权风格',
-    'license-review': '授权待核'
+    'brand-risk': 'Thương hiệu',
+    celebrity: 'Người nổi tiếng',
+    medical: 'Y tế',
+    political: 'Chính trị',
+    'adult-risk': 'Người trưởng thành',
+    'copyright-style': 'Phong cách có bản quyền',
+    'license-review': 'Chờ xác minh giấy phép'
   };
   return labels[value] || value;
 }
@@ -1841,12 +1843,12 @@ function Topbar({
   return (
     <header className="studioTopbar">
       <div className="topbarBrandGroup">
-        <a className="brandLockup" href={assetPath(STUDIO_BACK_URL)} aria-label={t('app.back', '返回画廊')} title={t('app.back', '返回画廊')}>
+        <a className="brandLockup" href={assetPath(STUDIO_BACK_URL)} aria-label={t('app.back', 'Về thư viện')} title={t('app.back', 'Về thư viện')}>
           <ArrowLeft className="brandBackIcon" size={18} />
           <WandSparkles size={21} />
-          <span>{t('app.brand', '创作工作台')}</span>
+          <span>{t('app.brand', 'Không gian sáng tạo')}</span>
         </a>
-        <nav className="workspaceNav" aria-label={t('topbar.navAria', '创作工作区')}>
+        <nav className="workspaceNav" aria-label={t('topbar.navAria', 'Khu vực sáng tạo')}>
           {WORKSPACES.map((item) => (
             <button
               type="button"
@@ -1868,21 +1870,21 @@ function Topbar({
         </button>
         {isAuthenticated ? (
           <>
-            <button type="button" className="iconButton themeButton" onClick={onThemeToggle} aria-label={theme === 'dark' ? t('topbar.light', '切换浅色') : t('topbar.dark', '切换深色')}>
+            <button type="button" className="iconButton themeButton" onClick={onThemeToggle} aria-label={theme === 'dark' ? t('topbar.light', 'Chuyển sang giao diện sáng') : t('topbar.dark', 'Chuyển sang giao diện tối')}>
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <button type="button" className="iconButton" onClick={onLogout} aria-label={t('topbar.logout', '退出')}>
+            <button type="button" className="iconButton" onClick={onLogout} aria-label={t('topbar.logout', 'Đăng xuất')}>
               <LogOut size={18} />
             </button>
           </>
         ) : (
           <>
-            <button type="button" className="iconButton themeButton" onClick={onThemeToggle} aria-label={theme === 'dark' ? t('topbar.light', '切换浅色') : t('topbar.dark', '切换深色')}>
+            <button type="button" className="iconButton themeButton" onClick={onThemeToggle} aria-label={theme === 'dark' ? t('topbar.light', 'Chuyển sang giao diện sáng') : t('topbar.dark', 'Chuyển sang giao diện tối')}>
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <button type="button" className="topbarLogin" onClick={onLogin}>
               <KeyRound size={16} />
-              {t('topbar.login', '登录')}
+              {t('topbar.login', 'Đăng nhập')}
             </button>
           </>
         )}
@@ -1891,7 +1893,7 @@ function Topbar({
   );
 }
 
-function CategoryCard({ group, selected, onSelect }) {
+function CategoryCard({ group, selected, onSelect, t }) {
   const sampleFallback = (group.samples || []).map(libraryFallbackImage).find(Boolean) || libraryFallbackImage(group.featured);
   const fallback = sampleFallback || group.coverFallback || '';
   return (
@@ -1908,7 +1910,7 @@ function CategoryCard({ group, selected, onSelect }) {
       </div>
       <div>
         <strong>{group.label}</strong>
-        <span>{group.count} 个模板</span>
+        <span>{t('gallery.templateCount', '{count} mẫu', { count: group.count })}</span>
         <small>{group.samples.map((item) => item.title).slice(0, 2).join(' / ')}</small>
       </div>
     </button>
@@ -1932,7 +1934,7 @@ function CaseCard({ item, selected, onSelect, favorite, onToggleFavorite, onAppe
           ) : null}
           <ImageIcon size={18} />
         </div>
-        <span>{typeof item.id === 'number' ? `#${item.id}` : t('gallery.external', '外部')}</span>
+        <span>{typeof item.id === 'number' ? `#${item.id}` : t('gallery.external', 'Bên ngoài')}</span>
         <strong>{item.title}</strong>
         {item.sourceName ? <em>{item.sourceName}</em> : null}
         {risks.length ? (
@@ -1948,8 +1950,8 @@ function CaseCard({ item, selected, onSelect, favorite, onToggleFavorite, onAppe
               event.stopPropagation();
               onAppend(item);
             }}
-            aria-label={t('gallery.appendPrompt', '追加模板提示词')}
-            title={t('gallery.appendToPrompt', '追加到当前提示词')}
+            aria-label={t('gallery.appendPrompt', 'Thêm prompt mẫu')}
+            title={t('gallery.appendToPrompt', 'Thêm vào prompt hiện tại')}
           >
             <CirclePlus size={13} />
           </button>
@@ -1961,8 +1963,8 @@ function CaseCard({ item, selected, onSelect, favorite, onToggleFavorite, onAppe
             event.stopPropagation();
             onToggleFavorite(item);
           }}
-          aria-label={favorite ? t('gallery.unfavoriteTemplate', '取消收藏模板') : t('gallery.favoriteTemplate', '收藏模板')}
-          title={favorite ? t('gallery.unfavorite', '取消收藏') : t('gallery.favoriteTemplate', '收藏模板')}
+          aria-label={favorite ? t('gallery.unfavoriteTemplate', 'Bỏ lưu mẫu') : t('gallery.favoriteTemplate', 'Lưu mẫu yêu thích')}
+          title={favorite ? t('gallery.unfavorite', 'Bỏ yêu thích') : t('gallery.favoriteTemplate', 'Lưu mẫu yêu thích')}
         >
           <Star size={13} />
         </button>
@@ -2019,11 +2021,11 @@ function HistoryCard({ item, selected, onSelect, onDelete, t = (key, fallback) =
               fallback={<span className="historyThumbFallback"><History size={22} /></span>}
             />
           ) : isVideo ? <Video size={22} /> : <History size={22} />}
-          <small>{isVideo ? t('rail.video', '视频') : t('rail.imageCount', '{count} 张', { count: Math.max(1, resultCount) })}</small>
+          <small>{isVideo ? t('rail.video', 'Video') : t('rail.imageCount', '{count} ảnh', { count: Math.max(1, resultCount) })}</small>
         </div>
         <div>
-          <span>{formatHistoryTime(item.createdAt)} · {t('rail.session', '会话')} · {isVideo ? t('rail.video', '视频') : t('rail.imageCount', '{count} 张', { count: Math.max(1, resultCount) })}</span>
-          <strong>{isVideo ? t('rail.videoGeneration', '视频生成') : item.case?.title || compact(item.prompt, 24)}</strong>
+          <span>{formatHistoryTime(item.createdAt)} · {t('rail.session', 'Phiên làm việc')} · {isVideo ? t('rail.video', 'Video') : t('rail.imageCount', '{count} ảnh', { count: Math.max(1, resultCount) })}</span>
+          <strong>{isVideo ? t('rail.videoGeneration', 'Tạo video') : item.case?.title || compact(item.prompt, 24)}</strong>
           <p>{compact(item.prompt, 74)}</p>
           <em>{meta.join(' · ')}</em>
         </div>
@@ -2031,11 +2033,11 @@ function HistoryCard({ item, selected, onSelect, onDelete, t = (key, fallback) =
       <div className="historyActions">
         {resultUrl ? (
           <a href={displayResultUrl(resultUrl)} download={downloadName} onClick={(event) => event.stopPropagation()}>
-            <Download size={14} /> {t('canvas.download', '下载')}
+            <Download size={14} /> {t('canvas.download', 'Tải xuống')}
           </a>
         ) : null}
         <button type="button" onClick={() => onDelete(item)}>
-          <Trash2 size={14} /> {t('canvas.delete', '删除')}
+          <Trash2 size={14} /> {t('canvas.delete', 'Xóa')}
         </button>
       </div>
     </div>
@@ -2109,23 +2111,23 @@ function GalleryWorkspacePanel({
 
   if (isHistory) {
     return (
-      <section className="galleryWorkspacePanel historyGalleryWorkspace" aria-label={t('workspace.history', '历史图库')}>
+      <section className="galleryWorkspacePanel historyGalleryWorkspace" aria-label={t('workspace.history', 'Lịch sử ảnh')}>
         <div className="galleryWorkspaceHead">
           <div>
-            <span>{t('workspace.history', '历史图库')}</span>
-            <h2>{t('gallery.historyTitle', '按会话保留每一次生成')}</h2>
-            <p>{t('gallery.historyHint', '点击任意记录会把图片放回画布，并继续基于这一轮创作。')}</p>
+            <span>{t('workspace.history', 'Lịch sử ảnh')}</span>
+            <h2>{t('gallery.historyTitle', 'Lưu mọi lần tạo theo phiên làm việc')}</h2>
+            <p>{t('gallery.historyHint', 'Chọn một mục để đưa ảnh trở lại canvas và tiếp tục sáng tạo.')}</p>
           </div>
           <div className="galleryWorkspaceActions">
             {historyItems.length ? (
               <button type="button" className="secondaryButton" onClick={onClearHistory}>
                 <Trash2 size={15} />
-                {t('gallery.clear', '清空')}
+                {t('gallery.clear', 'Xóa')}
               </button>
             ) : null}
             <button type="button" className="primaryAction" onClick={() => onOpenWorkspace?.('image')}>
               <Sparkles size={16} />
-              {t('gallery.backToCreate', '回到创作')}
+              {t('gallery.backToCreate', 'Quay lại sáng tạo')}
             </button>
           </div>
         </div>
@@ -2154,15 +2156,15 @@ function GalleryWorkspacePanel({
                 }}
                 disabled={!historyLocalHasMore && historyLoadingMore}
               >
-                {historyLoadingMore ? t('gallery.loading', '正在加载') : t('gallery.loadMoreHistory', '加载更多历史')}
+                {historyLoadingMore ? t('gallery.loading', 'Đang tải') : t('gallery.loadMoreHistory', 'Tải thêm lịch sử')}
               </button>
             ) : null}
           </div>
         ) : (
           <div className="workspaceEmptyPanel">
             <History size={34} />
-            <h2>{historyStatus === 'loading' ? t('gallery.loadingHistory', '正在加载历史图库') : t('gallery.noHistory', '还没有历史图片')}</h2>
-            <p>{t('gallery.noHistoryHint', '生成完成后会自动出现在当前会话和历史图库里。')}</p>
+            <h2>{historyStatus === 'loading' ? t('gallery.loadingHistory', 'Đang tải lịch sử ảnh') : t('gallery.noHistory', 'Chưa có ảnh trong lịch sử')}</h2>
+            <p>{t('gallery.noHistoryHint', 'Ảnh đã tạo sẽ tự xuất hiện trong phiên hiện tại và lịch sử.')}</p>
           </div>
         )}
         <HistoryDetailPanel item={selectedHistoryItem} onOpenWorkspace={onOpenWorkspace} t={t} />
@@ -2171,34 +2173,34 @@ function GalleryWorkspacePanel({
   }
 
   return (
-    <section className="galleryWorkspacePanel inspirationWorkspace" aria-label={t('workspace.inspiration', '灵感库')}>
+    <section className="galleryWorkspacePanel inspirationWorkspace" aria-label={t('workspace.inspiration', 'Thư viện ý tưởng')}>
       <div className="galleryWorkspaceHead">
         <div>
-          <span>{t('workspace.inspiration', '灵感库')}</span>
-          <h2>{t('gallery.inspirationTitle', '选择分类，把提示词带入创作会话')}</h2>
-          <p>{t('gallery.inspirationHint', '上方是创作意图，下方是灵感推荐；点击模板会进入中间对话框继续调整。')}</p>
+          <span>{t('workspace.inspiration', 'Thư viện ý tưởng')}</span>
+          <h2>{t('gallery.inspirationTitle', 'Chọn danh mục để đưa prompt vào phiên sáng tạo')}</h2>
+          <p>{t('gallery.inspirationHint', 'Ý tưởng sáng tạo ở trên, gợi ý ở dưới; chọn mẫu để chỉnh sửa trong khung hội thoại.')}</p>
         </div>
         <div className="galleryWorkspaceActions">
-          <div className="galleryKindSwitch" role="group" aria-label={t('gallery.inspirationType', '灵感类型')}>
+          <div className="galleryKindSwitch" role="group" aria-label={t('gallery.inspirationType', 'Loại ý tưởng')}>
             <button type="button" className={!isVideo ? 'active' : ''} onClick={() => setActiveKind('image')}>
               <ImageIcon size={15} />
-              {t('workspace.image', '图片创作')}
+              {t('workspace.image', 'Tạo ảnh')}
             </button>
             <button type="button" className={isVideo ? 'active' : ''} onClick={() => setActiveKind('video')}>
               <Video size={15} />
-              {t('workspace.video', '视频创作')}
+              {t('workspace.video', 'Tạo video')}
             </button>
           </div>
           <button type="button" className="primaryAction" onClick={() => onOpenWorkspace?.(isVideo ? 'video' : 'image')}>
             <MessageSquareText size={16} />
-            {t('gallery.openConversation', '打开会话')}
+            {t('gallery.openConversation', 'Mở hội thoại')}
           </button>
         </div>
       </div>
       <div className="galleryWorkspaceToolbar">
         <label className="gallerySearch">
           <Search size={16} />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={isVideo ? t('gallery.searchVideo', '搜索视频灵感') : t('gallery.searchImage', '搜索图片模板')} />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={isVideo ? t('gallery.searchVideo', 'Tìm ý tưởng video') : t('gallery.searchImage', 'Tìm mẫu ảnh')} />
         </label>
         {!isVideo ? (
           <>
@@ -2208,11 +2210,11 @@ function GalleryWorkspacePanel({
               onClick={onToggleFavoritesOnly}
             >
               <Star size={15} />
-              {showFavoritesOnly ? t('gallery.favorited', '已收藏') : t('gallery.favoriteCount', '收藏 {count}', { count: favoriteTemplates.size })}
+              {showFavoritesOnly ? t('gallery.favorited', 'Đã yêu thích') : t('gallery.favoriteCount', '{count} mục yêu thích', { count: favoriteTemplates.size })}
             </button>
             {browsingCategory ? (
               <button type="button" className="galleryFilterButton" onClick={() => { setCategory('All'); setQuery(''); }}>
-                {t('gallery.backToCategories', '返回分类')}
+                {t('gallery.backToCategories', 'Quay lại danh mục')}
               </button>
             ) : null}
           </>
@@ -2222,8 +2224,8 @@ function GalleryWorkspacePanel({
         {loading ? (
           <div className="workspaceEmptyPanel">
             <ImageIcon size={34} />
-            <h2>{t('gallery.loadingInspiration', '正在加载灵感')}</h2>
-            <p>{t('gallery.loadingInspirationHint', '素材库和提示词加载完成后会出现在这里。')}</p>
+            <h2>{t('gallery.loadingInspiration', 'Đang tải ý tưởng')}</h2>
+            <p>{t('gallery.loadingInspirationHint', 'Tư liệu và prompt đã tải xong sẽ hiện ở đây.')}</p>
           </div>
         ) : isVideo ? (
           visibleVideoInspirations.length ? (
@@ -2233,15 +2235,15 @@ function GalleryWorkspacePanel({
               ))}
               {videoLocalHasMore ? (
                 <button type="button" className="loadMoreButton galleryLoadMore" onClick={() => setVisibleLimit((value) => value + TEMPLATE_PAGE_SIZE)}>
-                  {t('gallery.loadMoreCount', '加载更多 {visible}/{total}', { visible: Math.min(visibleLimit, visibleVideoInspirations.length), total: visibleVideoInspirations.length })}
+                  {t('gallery.loadMoreCount', 'Tải thêm {visible}/{total}', { visible: Math.min(visibleLimit, visibleVideoInspirations.length), total: visibleVideoInspirations.length })}
                 </button>
               ) : null}
             </>
           ) : (
             <div className="workspaceEmptyPanel">
               <Video size={34} />
-              <h2>{t('gallery.noVideoMatch', '没有匹配的视频灵感')}</h2>
-              <p>{t('gallery.tryAnotherKeyword', '换一个关键词再试试。')}</p>
+              <h2>{t('gallery.noVideoMatch', 'Không tìm thấy ý tưởng video phù hợp')}</h2>
+              <p>{t('gallery.tryAnotherKeyword', 'Hãy thử từ khóa khác.')}</p>
             </div>
           )
         ) : browsingCategory ? (
@@ -2260,13 +2262,13 @@ function GalleryWorkspacePanel({
             ))}
             {visibleLimit < cases.length ? (
               <button type="button" className="loadMoreButton galleryLoadMore" onClick={() => setVisibleLimit((value) => value + TEMPLATE_PAGE_SIZE)}>
-                {t('gallery.loadMoreCount', '加载更多 {visible}/{total}', { visible: Math.min(visibleLimit, cases.length), total: cases.length })}
+                {t('gallery.loadMoreCount', 'Tải thêm {visible}/{total}', { visible: Math.min(visibleLimit, cases.length), total: cases.length })}
               </button>
             ) : null}
           </>
         ) : (
           categoryGroups.map((group) => (
-            <CategoryCard group={group} selected={category === group.id} onSelect={setCategory} key={group.id} />
+            <CategoryCard group={group} selected={category === group.id} onSelect={setCategory} t={t} key={group.id} />
           ))
         )}
       </div>
@@ -2275,7 +2277,7 @@ function GalleryWorkspacePanel({
           <span>{licenseNotice?.name || COMMUNITY_LICENSE_NOTICE.name}</span>
           <p>{licenseNotice?.notice || licenseNotice?.text || COMMUNITY_LICENSE_NOTICE.text}</p>
           <a href={licenseNotice?.url || COMMUNITY_LICENSE_NOTICE.url} target="_blank" rel="noreferrer">CC BY 4.0</a>
-          <strong>{browsingCategory ? `${cases.length}/${totalCaseCount}` : t('gallery.categoryCount', '{count} 类', { count: categoryGroups.length })}</strong>
+          <strong>{browsingCategory ? `${cases.length}/${totalCaseCount}` : t('gallery.categoryCount', '{count} danh mục', { count: categoryGroups.length })}</strong>
         </div>
       ) : null}
     </section>
@@ -2307,8 +2309,8 @@ function LeftRail({
 }) {
   const isInspirationWorkspace = activeWorkspace === 'inspiration';
   const isHistoryWorkspace = activeWorkspace === 'history';
-  const accountLabel = isAuthenticated ? (profile?.email || profile?.username || t('rail.loggedIn', '已登录用户')) : t('rail.notLoggedIn', '未登录');
-  const accountDetail = isAuthenticated ? (apiKeyDisplay(apiKey) || t('rail.hiddenKey', 'Key 已隐藏')) : t('rail.chooseKey', '选择 Key');
+  const accountLabel = isAuthenticated ? (profile?.email || profile?.username || t('rail.loggedIn', 'Đã đăng nhập')) : t('rail.notLoggedIn', 'Chưa đăng nhập');
+  const accountDetail = isAuthenticated ? (apiKeyDisplay(apiKey) || t('rail.hiddenKey', 'Đã ẩn key')) : t('rail.chooseKey', 'Chọn key');
   const currentProjectId = currentProject?.sessionId || currentProject?.id || '';
   const currentRecordIds = new Set(currentProject?.recordIds || []);
   const currentLanguage = SUPPORTED_LANGUAGES.find((item) => item.value === language) || SUPPORTED_LANGUAGES[0];
@@ -2324,18 +2326,18 @@ function LeftRail({
 
   if (collapsed) {
     return (
-      <aside className="templateRail collapsed" aria-label={t('rail.aria', '创作侧栏')}>
-        <button type="button" className="railIconAction" onClick={onToggleCollapse} aria-label={t('rail.expand', '展开侧栏')}>
+      <aside className="templateRail collapsed" aria-label={t('rail.aria', 'Thanh công cụ sáng tạo')}>
+        <button type="button" className="railIconAction" onClick={onToggleCollapse} aria-label={t('rail.expand', 'Mở rộng thanh bên')}>
           <PanelLeftOpen size={18} />
         </button>
-        <button type="button" className="railIconAction active" onClick={onToggleCollapse} aria-label={t('rail.session', '会话')}>
+        <button type="button" className="railIconAction active" onClick={onToggleCollapse} aria-label={t('rail.session', 'Phiên làm việc')}>
           <MessageSquareText size={18} />
         </button>
         <button
           type="button"
           className={`railIconAction ${isHistoryWorkspace ? 'active' : ''}`}
           onClick={() => { onWorkspaceChange('history'); onToggleCollapse(); }}
-          aria-label={t('rail.history', '历史图库')}
+          aria-label={t('rail.history', 'Lịch sử ảnh')}
         >
           <History size={18} />
           <span>{historySessionItems.length}</span>
@@ -2344,7 +2346,7 @@ function LeftRail({
           type="button"
           className={`railIconAction ${isInspirationWorkspace ? 'active' : ''}`}
           onClick={() => { onWorkspaceChange('inspiration'); onToggleCollapse(); }}
-          aria-label={t('rail.inspiration', '灵感库')}
+          aria-label={t('rail.inspiration', 'Thư viện ý tưởng')}
         >
           <Sparkles size={18} />
         </button>
@@ -2354,12 +2356,12 @@ function LeftRail({
             className="railIconAction railLanguageButton"
             onClick={onLanguageToggle}
             aria-label={t('language.switchTo', 'Switch language')}
-            title={`${t('language.current', '当前语言')} · ${t('language.switchTo', 'Switch language')}`}
+            title={`${t('language.current', 'Ngôn ngữ hiện tại: Tiếng Việt')} · ${t('language.switchTo', 'Switch language')}`}
           >
             <Languages size={16} />
             <span>{currentLanguage.shortLabel}</span>
           </button>
-          <button type="button" className="railAvatarButton" onClick={onOpenSettings} aria-label={t('rail.settings', '连接设置')}>
+          <button type="button" className="railAvatarButton" onClick={onOpenSettings} aria-label={t('rail.settings', 'Cài đặt kết nối')} title={t('rail.settings', 'Cài đặt kết nối')}>
             <span className="collapsedRailAvatar">{String(accountLabel).slice(0, 1).toUpperCase()}</span>
           </button>
         </div>
@@ -2368,39 +2370,39 @@ function LeftRail({
   }
 
   return (
-    <aside className="templateRail" aria-label={t('rail.aria', '创作侧栏')}>
+    <aside className="templateRail" aria-label={t('rail.aria', 'Thanh công cụ sáng tạo')}>
       <div className="sideBrand">
         <span className="sideBrandMark"><WandSparkles size={15} /></span>
         <span>
-          <strong>{t('rail.brand', '工作台')}</strong>
-          <em>{t('rail.brandMeta', '创作')}</em>
+          <strong>{t('rail.brand', 'Không gian làm việc')}</strong>
+          <em>{t('rail.brandMeta', 'Sáng tạo')}</em>
         </span>
-        <button type="button" className="sideCollapseButton" onClick={onToggleCollapse} aria-label={t('rail.collapse', '收起侧栏')}>
+        <button type="button" className="sideCollapseButton" onClick={onToggleCollapse} aria-label={t('rail.collapse', 'Thu gọn thanh bên')} title={t('rail.collapse', 'Thu gọn thanh bên')}>
           <PanelLeftClose size={15} />
         </button>
       </div>
-      <button type="button" className="newChatButton" onClick={onNewSession}>
+      <button type="button" className="newChatButton" onClick={onNewSession} title={t('rail.newSession', 'Tạo phiên mới')}>
         <CirclePlus size={16} />
-        {t('rail.newSession', '新建会话')}
+        {t('rail.newSession', 'Tạo phiên mới')}
       </button>
-      <nav className="sidePrimaryNav" aria-label={t('rail.workspaces', '工作区')}>
-        <button type="button" className={activeWorkspace === 'image' || activeWorkspace === 'video' ? 'active' : ''} onClick={() => onWorkspaceChange('image')}>
+      <nav className="sidePrimaryNav" aria-label={t('rail.workspaces', 'Không gian làm việc')}>
+        <button type="button" className={activeWorkspace === 'image' || activeWorkspace === 'video' ? 'active' : ''} onClick={() => onWorkspaceChange('image')} title={t('workspace.desk', 'Tạo ảnh')}>
           <MessageSquareText size={16} />
-          {t('workspace.desk', '工作台')}
+          {t('workspace.desk', 'Không gian làm việc')}
         </button>
-        <button type="button" className={isHistoryWorkspace ? 'active' : ''} onClick={() => onWorkspaceChange('history')}>
+        <button type="button" className={isHistoryWorkspace ? 'active' : ''} onClick={() => onWorkspaceChange('history')} title={t('workspace.history', 'Lịch sử ảnh')}>
           <History size={16} />
-          {t('workspace.history', '历史图库')}
+          {t('workspace.history', 'Lịch sử ảnh')}
         </button>
-        <button type="button" className={isInspirationWorkspace ? 'active' : ''} onClick={() => onWorkspaceChange('inspiration')}>
+        <button type="button" className={isInspirationWorkspace ? 'active' : ''} onClick={() => onWorkspaceChange('inspiration')} title={t('workspace.inspiration', 'Thư viện ý tưởng')}>
           <Sparkles size={16} />
-          {t('workspace.inspiration', '灵感库')}
+          {t('workspace.inspiration', 'Thư viện ý tưởng')}
         </button>
       </nav>
       <div className="sideChatBlock">
         <div className="sideProjectHead">
-          <span className="sideSectionLabel">{t('rail.project', '项目')}</span>
-          <button type="button" onClick={() => onWorkspaceChange('history')}>{t('rail.all', '全部')}</button>
+          <span className="sideSectionLabel">{t('rail.project', 'Dự án')}</span>
+          <button type="button" onClick={() => onWorkspaceChange('history')}>{t('rail.all', 'Tất cả')}</button>
         </div>
         {recentProjectItems.length ? (
           <div className="sideProjectList">
@@ -2412,23 +2414,23 @@ function LeftRail({
                 : historyResultUrls(item);
               const title = item.titleKey
                 ? t(item.titleKey, item.title || '')
-                : item.title || (isVideo ? t('rail.videoGeneration', '视频生成') : item.case?.title || compact(item.prompt, 24) || t('rail.unnamedSession', '未命名会话'));
+                : item.title || (isVideo ? t('rail.videoGeneration', 'Tạo video') : item.case?.title || compact(item.prompt, 24) || t('rail.unnamedSession', 'Phiên chưa đặt tên'));
               const count = urls.length;
               const thumb = safeImageCandidate(urls[0] || item.case?.image || item.case?.thumbnail || '');
-              const orderLabel = item.current ? t('rail.current', '当前') : `#${index}`;
+              const orderLabel = item.current ? t('rail.current', 'Hiện tại') : `#${index}`;
               const meta = [
                 formatHistoryTime(item.createdAt),
                 compact(item.model || item.providerId || '', 12)
               ].filter(Boolean).join(' · ');
               const resultLabel = item.canvasCount
-                ? t('rail.nodeCount', '{count} 节点', { count: item.canvasCount })
+                ? t('rail.nodeCount', '{count} nút', { count: item.canvasCount })
                 : isVideo
-                  ? t('rail.video', '视频')
+                  ? t('rail.video', 'Video')
                   : count
-                    ? t('rail.imageCount', '{count} 张', { count })
+                    ? t('rail.imageCount', '{count} ảnh', { count })
                     : item.queueCount
-                      ? t('rail.taskCount', '{count} 个任务', { count: item.queueCount })
-                      : t('rail.noResultYet', '待生成');
+                      ? t('rail.taskCount', '{count} tác vụ', { count: item.queueCount })
+                      : t('rail.noResultYet', 'Chưa tạo');
               const summary = compact(item.prompt || item.generationPrompt || item.case?.promptPreview || '', 34);
               const activeRecordIds = item.recordIds || [item.id];
               const isActiveProject = item.current
@@ -2479,8 +2481,8 @@ function LeftRail({
                       }
                       onDeleteHistory(item);
                     }}
-                    aria-label={`删除 ${title}`}
-                    title={item.current ? t('rail.clearCurrent', '清空当前会话') : t('rail.delete', '删除')}
+                    aria-label={`Xóa ${title}`}
+                    title={item.current ? t('rail.clearCurrent', 'Xóa phiên hiện tại') : t('rail.delete', 'Xóa')}
                   >
                     <Trash2 size={13} />
                   </button>
@@ -2492,14 +2494,14 @@ function LeftRail({
           <button type="button" className="sideChatCard emptyProjectCard" onClick={onNewSession}>
             <span className="sideChatIcon"><BotMessageSquare size={16} /></span>
             <span>
-              <strong>{t('rail.noProject', '还没有项目')}</strong>
-              <em>{t('rail.noProjectHint', '新建会话后，生成记录会出现在这里。')}</em>
+              <strong>{t('rail.noProject', 'Chưa có dự án')}</strong>
+              <em>{t('rail.noProjectHint', 'Tạo phiên mới để xem các kết quả ở đây.')}</em>
             </span>
           </button>
         )}
       </div>
       <div className="railBottomBar">
-        <button type="button" className="railAccountCard" onClick={onOpenSettings}>
+        <button type="button" className="railAccountCard" onClick={onOpenSettings} aria-label={t('rail.settings', 'Cài đặt kết nối')} title={t('rail.settings', 'Cài đặt kết nối')}>
           <span className="railAvatar">{String(accountLabel).slice(0, 1).toUpperCase()}</span>
           <span>
             <strong>{accountLabel}</strong>
@@ -2513,12 +2515,12 @@ function LeftRail({
             className="railThemeButton railLanguageButton"
             onClick={onLanguageToggle}
             aria-label={t('language.switchTo', 'Switch language')}
-            title={`${t('language.current', '当前语言')} · ${t('language.switchTo', 'Switch language')}`}
+            title={`${t('language.current', 'Ngôn ngữ hiện tại: Tiếng Việt')} · ${t('language.switchTo', 'Switch language')}`}
           >
             <Languages size={16} />
             <span>{currentLanguage.shortLabel}</span>
           </button>
-          <button type="button" className="railThemeButton" onClick={onThemeToggle} aria-label={theme === 'dark' ? t('rail.light', '切换浅色') : t('rail.dark', '切换深色')}>
+          <button type="button" className="railThemeButton" onClick={onThemeToggle} aria-label={theme === 'dark' ? t('rail.light', 'Chuyển sang giao diện sáng') : t('rail.dark', 'Chuyển sang giao diện tối')} title={theme === 'dark' ? t('rail.light', 'Chuyển sang giao diện sáng') : t('rail.dark', 'Chuyển sang giao diện tối')}>
             {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>
         </div>
@@ -2528,20 +2530,20 @@ function LeftRail({
 }
 function progressText(progress, fallbackMessage, t = (key, fallback) => fallback || key) {
   if (!progress || progress.stage === 'idle') return fallbackMessage || '';
-  if (progress.stage === 'request') return t('progress.submitted', '已提交');
-  if (progress.stage === 'connected') return t('progress.connected', '已连接');
-  if (progress.stage === 'queued') return t('progress.queued', '排队中');
-  if (progress.stage === 'dispatching') return t('progress.dispatching', '提交上游');
-  if (progress.stage === 'upstream') return t('progress.generating', '生成中');
-  if (progress.stage === 'video') return t('progress.videoGenerating', '视频生成中');
-  if (progress.stage === 'partial') return t('progress.preview', '预览 {count}', { count: progress.partials || 1 });
-  if (progress.stage === 'pending_review') return t('progress.review', '待确认');
+  if (progress.stage === 'request') return t('progress.submitted', 'Đã gửi');
+  if (progress.stage === 'connected') return t('progress.connected', 'Đã kết nối');
+  if (progress.stage === 'queued') return t('progress.queued', 'Đang chờ');
+  if (progress.stage === 'dispatching') return t('progress.dispatching', 'Đang gửi đến dịch vụ nguồn');
+  if (progress.stage === 'upstream') return t('progress.generating', 'Đang tạo');
+  if (progress.stage === 'video') return t('progress.videoGenerating', 'Đang tạo video');
+  if (progress.stage === 'partial') return t('progress.preview', 'Xem trước {count}', { count: progress.partials || 1 });
+  if (progress.stage === 'pending_review') return t('progress.review', 'Chờ xác nhận');
   if (progress.stage === 'image') return `${progress.completed || 1}/${progress.total || 1}`;
-  if (progress.stage === 'saving') return t('progress.saving', '保存中');
-  if (progress.stage === 'completed') return t('progress.completed', '完成');
-  if (progress.stage === 'succeeded') return t('progress.completed', '完成');
-  if (progress.stage === 'canceled') return t('progress.canceled', '已取消');
-  if (progress.stage === 'failed') return t('progress.failed', '已停止');
+  if (progress.stage === 'saving') return t('progress.saving', 'Đang lưu');
+  if (progress.stage === 'completed') return t('progress.completed', 'Hoàn tất');
+  if (progress.stage === 'succeeded') return t('progress.completed', 'Hoàn tất');
+  if (progress.stage === 'canceled') return t('progress.canceled', 'Đã hủy');
+  if (progress.stage === 'failed') return t('progress.failed', 'Đã dừng');
   return fallbackMessage || '';
 }
 
@@ -2549,11 +2551,11 @@ function ProgressBar({ progress, active, t = (key, fallback) => fallback || key 
   if (!active && progress.stage !== 'completed' && progress.stage !== 'failed' && progress.stage !== 'pending_review') return null;
   const percent = Math.max(0, Math.min(100, Number(progress.percent || 0)));
   const steps = [
-    { key: 'request', label: t('progress.stepSubmit', '提交') },
-    { key: 'queued', label: t('progress.stepQueue', '排队') },
-    { key: 'image', label: t('progress.stepGenerate', '生成') },
-    { key: 'saving', label: t('progress.stepSave', '保存') },
-    { key: 'completed', label: t('progress.stepDone', '完成') }
+    { key: 'request', label: t('progress.stepSubmit', 'Gửi yêu cầu') },
+    { key: 'queued', label: t('progress.stepQueue', 'Xếp hàng') },
+    { key: 'image', label: t('progress.stepGenerate', 'Tạo') },
+    { key: 'saving', label: t('progress.stepSave', 'Lưu') },
+    { key: 'completed', label: t('progress.stepDone', 'Hoàn tất') }
   ];
   const stageOrder = {
     idle: -1,
@@ -2574,7 +2576,7 @@ function ProgressBar({ progress, active, t = (key, fallback) => fallback || key 
   };
   const activeIndex = stageOrder[progress.stage] ?? 0;
   return (
-    <div className={`generationProgress ${progress.stage === 'failed' ? 'failed' : ''} ${progress.stage === 'pending_review' ? 'pendingReview' : ''}`} aria-label={t('progress.aria', '生成进度')}>
+    <div className={`generationProgress ${progress.stage === 'failed' ? 'failed' : ''} ${progress.stage === 'pending_review' ? 'pendingReview' : ''}`} aria-label={t('progress.aria', 'Tiến trình tạo')}>
       <div>
         <span>{progressText(progress, '', t)}</span>
         <strong>{percent}%</strong>
@@ -2595,29 +2597,29 @@ function GenerationTimingPanel({ timing, t = (key, fallback) => fallback || key 
   if (!timing) return null;
   const firstMs = timing.firstByteAt ? timing.firstByteAt - timing.startedAt : null;
   const totalMs = (timing.completedAt || Date.now()) - timing.startedAt;
-  const title = timing.status === 'running' ? t('timing.running', '生成计时中') : timing.status === 'failed' ? t('timing.failed', '生成已停止') : t('timing.done', '生成完成');
+  const title = timing.status === 'running' ? t('timing.running', 'Đang tính thời gian tạo') : timing.status === 'failed' ? t('timing.failed', 'Đã dừng tạo') : t('timing.done', 'Đã tạo xong');
   return (
     <div className="generationTimingPanel">
       <div>
         <Clock size={15} />
         <strong>{title}</strong>
-        <span>{t('timing.hint', '响应=首次收到上游数据；总用时=点击生成到当前状态')}</span>
+        <span>{t('timing.hint', 'Phản hồi = lần đầu nhận dữ liệu từ dịch vụ nguồn; tổng thời gian = từ lúc chọn Tạo đến trạng thái hiện tại')}</span>
       </div>
       <dl>
         <div>
-          <dt>{t('timing.response', '响应')}</dt>
-          <dd>{firstMs === null ? t('timing.waiting', '等待中') : formatDuration(firstMs)}</dd>
+          <dt>{t('timing.response', 'Phản hồi')}</dt>
+          <dd>{firstMs === null ? t('timing.waiting', 'Đang chờ') : formatDuration(firstMs)}</dd>
         </div>
         <div>
-          <dt>{t('timing.total', '总用时')}</dt>
+          <dt>{t('timing.total', 'Tổng thời gian')}</dt>
           <dd>{formatDuration(totalMs)}</dd>
         </div>
         <div>
-          <dt>{t('params.model', '模型')}</dt>
+          <dt>{t('params.model', 'Model')}</dt>
           <dd>{timing.model || '--'}</dd>
         </div>
         <div>
-          <dt>{t('timing.spec', '规格')}</dt>
+          <dt>{t('timing.spec', 'Thông số')}</dt>
           <dd>{timing.spec || '--'}</dd>
         </div>
       </dl>
@@ -2626,12 +2628,12 @@ function GenerationTimingPanel({ timing, t = (key, fallback) => fallback || key 
 }
 
 function generationQueueStatusLabel(status, t = (key, fallback) => fallback || key) {
-  if (status === 'running') return t('composer.queueStatusRunning', '生成中');
-  if (status === 'done') return t('composer.queueStatusDone', '完成');
-  if (status === 'failed') return t('composer.queueStatusFailed', '已中断');
-  if (status === 'canceled') return t('composer.queueStatusCanceled', '已取消');
-  if (status === 'unknown') return t('composer.queueStatusUnknown', '结果未知');
-  return t('composer.queueStatusQueued', '排队中');
+  if (status === 'running') return t('composer.queueStatusRunning', 'Đang tạo');
+  if (status === 'done') return t('composer.queueStatusDone', 'Hoàn tất');
+  if (status === 'failed') return t('composer.queueStatusFailed', 'Bị gián đoạn');
+  if (status === 'canceled') return t('composer.queueStatusCanceled', 'Đã hủy');
+  if (status === 'unknown') return t('composer.queueStatusUnknown', 'Chưa rõ kết quả');
+  return t('composer.queueStatusQueued', 'Đang chờ');
 }
 
 function generationQueueSummary(item, t = (key, fallback, values) => {
@@ -2658,12 +2660,12 @@ function generationQueueHeadline(items, t = (key, fallback) => fallback || key) 
   const canceled = countStatus('canceled');
   const done = countStatus('done');
   const parts = [];
-  parts.push(running ? t('composer.queueRunning', '1 个生成中') : t('composer.queueIdle', '当前空闲'));
-  if (queued) parts.push(t('composer.queueWaiting', '{count} 个排队', { count: queued }));
-  if (failed + unknown) parts.push(t('composer.queueNeedsReview', '{count} 个需确认', { count: failed + unknown }));
-  if (canceled) parts.push(t('composer.queueCanceledNotice', '{count} 个已取消', { count: canceled }));
-  if (done) parts.push(t('composer.queueDoneNotice', '{count} 个完成提示', { count: done }));
-  if (!queued && !failed && !unknown && !canceled && !done) parts.push(t('composer.queueWaiting', '{count} 个排队', { count: 0 }));
+  parts.push(running ? t('composer.queueRunning', 'Đang tạo 1 ảnh') : t('composer.queueIdle', 'Đang rảnh'));
+  if (queued) parts.push(t('composer.queueWaiting', '{count} đang chờ', { count: queued }));
+  if (failed + unknown) parts.push(t('composer.queueNeedsReview', '{count} cần xác nhận', { count: failed + unknown }));
+  if (canceled) parts.push(t('composer.queueCanceledNotice', 'Đã hủy {count}', { count: canceled }));
+  if (done) parts.push(t('composer.queueDoneNotice', '{count} thông báo hoàn tất', { count: done }));
+  if (!queued && !failed && !unknown && !canceled && !done) parts.push(t('composer.queueWaiting', '{count} đang chờ', { count: 0 }));
   return parts.join(' · ');
 }
 
@@ -2676,20 +2678,20 @@ function generationErrorMessage(error, t = (key, fallback, values) => {
       || error?.payload?.message
       || error?.payload?.response?.error?.message
       || error?.message
-      || t('errors.generationFailed', '生成失败')
+      || t('errors.generationFailed', 'Tạo ảnh không thành công')
   );
 
   const lowered = message.toLowerCase();
   const requestId = errorRequestId(error, message);
-  const requestSuffix = requestId ? t('errors.requestIdSuffix', ' 请求 ID：{requestId}', { requestId }) : '';
+  const requestSuffix = requestId ? t('errors.requestIdSuffix', ' Mã yêu cầu: {requestId}', { requestId }) : '';
   if (error?.code === 'GENERATION_STOPPED' || lowered.includes('generation_stopped')) {
-    return t('errors.stopped', '已停止本页等待。若请求已经到达上游，仍可能继续处理或产生扣费；请先查看当前画布/历史图库，确认没有新结果后再重试。');
+    return t('errors.stopped', 'Đã dừng chờ trên trang này. Nếu yêu cầu đã đến dịch vụ nguồn, quá trình vẫn có thể tiếp tục hoặc phát sinh phí. Hãy kiểm tra canvas và lịch sử ảnh trước khi thử lại.');
   }
   if (error?.code === 'GENERATION_TIMEOUT' || error?.code === 'JOB_TIMEOUT' || lowered.includes('generation_timeout') || lowered.includes('job_timeout') || lowered.includes('timed out') || lowered.includes('timeout')) {
-    return `${t('errors.timeout', '前端等待超时，这次页面已结束等待；这不代表上游已经取消。本次请求可能仍在处理、排队或已经扣费，请稍后查看历史图库/当前画布，再决定是否重试。')}${requestSuffix}`;
+    return `${t('errors.timeout', 'Trang đã chờ quá lâu và ngừng chờ; điều này không có nghĩa dịch vụ nguồn đã hủy yêu cầu. Yêu cầu có thể vẫn đang xử lý, xếp hàng hoặc đã phát sinh phí. Hãy kiểm tra lịch sử ảnh và canvas rồi quyết định có thử lại không.')}${requestSuffix}`;
   }
   if (lowered.includes('origin_not_allowed') || lowered.includes('origin not allowed')) {
-    return t('errors.originNotAllowed', '生成请求被创作台服务拦截：当前页面来源没有加入 STUDIO_ALLOWED_ORIGINS 白名单。请更新并重启 history/session 服务，或把当前访问地址加入允许来源后再试。');
+    return t('errors.originNotAllowed', 'Dịch vụ không chấp nhận yêu cầu vì địa chỉ trang hiện tại chưa có trong danh sách STUDIO_ALLOWED_ORIGINS. Cập nhật và khởi động lại dịch vụ history/session hoặc thêm địa chỉ này vào danh sách được phép.');
   }
   if (
     lowered.includes('request was rejected by the safety system')
@@ -2699,49 +2701,49 @@ function generationErrorMessage(error, t = (key, fallback, values) => {
     || lowered.includes('safety policy')
     || lowered.includes('policy_violation')
   ) {
-    return `${t('errors.safety', '提示词或参考图触发了上游安全策略，生成已被拒绝。请弱化敏感描述，去掉真实人物、未成年人、暴力色情、仿冒名人等高风险内容后重试。')}${requestSuffix}`;
+    return `${t('errors.safety', 'Prompt hoặc ảnh tham chiếu vi phạm chính sách an toàn của dịch vụ nguồn. Hãy giảm mô tả nhạy cảm và bỏ nội dung rủi ro cao như người thật, trẻ vị thành niên, bạo lực, tình dục hoặc giả mạo người nổi tiếng rồi thử lại.')}${requestSuffix}`;
   }
-  if (lowered.includes('no images') || lowered.includes('returned_no_images') || lowered.includes('没有返回图片')) {
-    return `${t('errors.noImages', '上游请求结束，但没有返回可用图片。通常是模型拒绝、参数不兼容或网关没有透传结果，请换一版提示词或调整模型/尺寸后重试。')}${requestSuffix}`;
+  if (lowered.includes('no images') || lowered.includes('returned_no_images')) {
+    return `${t('errors.noImages', 'Dịch vụ nguồn đã kết thúc yêu cầu nhưng không trả ảnh khả dụng. Model có thể đã từ chối, thông số không tương thích hoặc gateway không chuyển tiếp kết quả. Hãy sửa prompt hoặc model/kích thước rồi thử lại.')}${requestSuffix}`;
   }
   if (lowered.includes('upstream request failed') || lowered.includes('upstream response failed') || lowered.includes('upstream') || lowered.includes('context canceled')) {
-    return `${t('errors.upstream', '请求已经进入中转站，但上游模型服务没有正常返回图片。请在后台按请求 ID 查看最终状态；如果只有重试/切换日志没有成功记录，建议换 Key、降低数量或稍后重试。')}${requestSuffix}`;
+    return `${t('errors.upstream', 'Yêu cầu đã đến máy chủ trung gian nhưng model nguồn không trả ảnh như mong đợi. Kiểm tra trạng thái cuối bằng mã yêu cầu. Nếu nhật ký chỉ có lần thử lại hoặc đổi model mà không có kết quả thành công, hãy đổi key, giảm số lượng hoặc thử lại sau.')}${requestSuffix}`;
   }
   if (error?.status === 400 || lowered.includes('invalid request') || lowered.includes('invalid_request') || lowered.includes('invalid parameter') || lowered.includes('invalid_value')) {
     if (lowered.includes('size') || lowered.includes('quality') || lowered.includes('model')) {
-      return `${t('errors.unsupportedParams', '请求参数不被当前模型支持，请检查模型、尺寸、质量或数量设置。')}${requestSuffix}`;
+      return `${t('errors.unsupportedParams', 'Model hiện tại không hỗ trợ các thông số này. Hãy kiểm tra model, kích thước, chất lượng và số lượng.')}${requestSuffix}`;
     }
-    return `${t('errors.invalidParams', '请求参数有误，生成已停止。请检查提示词、模型、尺寸、数量和参考图设置。')}${requestSuffix}`;
+    return `${t('errors.invalidParams', 'Thông số yêu cầu không hợp lệ nên đã dừng tạo ảnh. Hãy kiểm tra prompt, model, kích thước, số lượng và ảnh tham chiếu.')}${requestSuffix}`;
   }
   if (error?.status === 401 || lowered.includes('unauthorized') || lowered.includes('invalid token') || lowered.includes('invalid api key') || lowered.includes('incorrect api key')) {
-    return t('errors.unauthorized', '账号登录或密钥已失效，请重新登录或更换密钥。');
+    return t('errors.unauthorized', 'Phiên đăng nhập hoặc key đã hết hạn. Hãy đăng nhập lại hoặc đổi key.');
   }
   if (error?.status === 402 || lowered.includes('insufficient') || lowered.includes('balance') || lowered.includes('quota') || lowered.includes('credit') || lowered.includes('billing')) {
-    return t('errors.billing', '当前账号余额或额度不足，生成已停止。');
+    return t('errors.billing', 'Tài khoản hiện tại không đủ số dư hoặc hạn mức nên đã dừng tạo ảnh.');
   }
   if (error?.status === 403 || lowered.includes('forbidden') || lowered.includes('permission') || lowered.includes('not allowed') || lowered.includes('model_not_found')) {
-    return t('errors.forbidden', '当前账号没有调用该模型或接口的权限，生成已停止。');
+    return t('errors.forbidden', 'Tài khoản hiện tại không có quyền dùng model hoặc API này nên đã dừng tạo ảnh.');
   }
   if (error?.status === 404 || lowered.includes('not found')) {
-    return `${t('errors.notFound', '接口或模型不存在。请确认网关地址、接口类型和模型名称是否正确。')}${requestSuffix}`;
+    return `${t('errors.notFound', 'Không tìm thấy API hoặc model. Hãy kiểm tra địa chỉ gateway, loại API và tên model.')}${requestSuffix}`;
   }
   if (error?.status === 408 || error?.status === 504 || lowered.includes('gateway timeout') || lowered.includes('upstream timeout')) {
-    return `${t('errors.gatewayTimeout', '网关响应超时，本页没有继续收到结果；如果请求已经提交上游，仍可能产生扣费。请稍后查看历史图库，再决定是否降低数量/质量重试。')}${requestSuffix}`;
+    return `${t('errors.gatewayTimeout', 'Gateway phản hồi quá lâu và trang không nhận thêm kết quả. Nếu yêu cầu đã gửi đi, vẫn có thể phát sinh phí. Hãy kiểm tra lịch sử ảnh rồi quyết định có giảm số lượng/chất lượng và thử lại không.')}${requestSuffix}`;
   }
   if (error?.status === 429 || lowered.includes('rate limit') || lowered.includes('too many requests')) {
-    return t('errors.rateLimit', '当前账号或接口触发限流，生成已停止。请稍后重试。');
+    return t('errors.rateLimit', 'Tài khoản hoặc API đang bị giới hạn số yêu cầu. Đã dừng tạo ảnh; hãy thử lại sau.');
   }
   if (error?.status >= 500 || lowered.includes('internal server error') || lowered.includes('bad gateway') || lowered.includes('service unavailable')) {
-    return `${t('errors.serviceUnavailable', '上游服务暂时不可用，生成已停止。请稍后重试；如果反复出现，可能是中转站或模型服务异常。')}${requestSuffix}`;
+    return `${t('errors.serviceUnavailable', 'Dịch vụ nguồn tạm thời không khả dụng nên đã dừng tạo ảnh. Hãy thử lại sau; nếu lỗi lặp lại, máy chủ trung gian hoặc model có thể đang gặp sự cố.')}${requestSuffix}`;
   }
   if (lowered.includes('failed to fetch') || lowered.includes('networkerror') || lowered.includes('network error')) {
-    return t('errors.network', '网络连接中断，本页没有收到完整结果；如果请求已经发出，上游可能仍在处理或已经计费。请先检查历史图库/当前画布，再决定是否重试。');
+    return t('errors.network', 'Kết nối mạng bị ngắt nên trang chưa nhận đủ kết quả. Nếu yêu cầu đã gửi đi, dịch vụ nguồn có thể vẫn đang xử lý hoặc đã tính phí. Hãy kiểm tra lịch sử ảnh và canvas trước khi thử lại.');
   }
   if (error?.name === 'AbortError') {
-    return t('errors.abort', '本页监听已停止；如果请求已经到达上游，仍可能继续处理或产生扣费。');
+    return t('errors.abort', 'Trang đã dừng theo dõi. Nếu yêu cầu đã đến dịch vụ nguồn, quá trình vẫn có thể tiếp tục hoặc phát sinh phí.');
   }
   if (/^[\u0000-\u007F]*$/.test(message) && /[A-Za-z]/.test(message)) {
-    return t('errors.unknownEnglish', '生成失败。上游返回了未识别的英文错误，请稍后重试，或调整模型/尺寸/数量后再试。原始信息：{message}', { message: compact(message, 180) });
+    return t('errors.unknownEnglish', 'Tạo ảnh không thành công. Dịch vụ nguồn trả về lỗi tiếng Anh chưa nhận diện được. Hãy thử lại hoặc điều chỉnh model/kích thước/số lượng. Nội dung gốc: {message}', { message: compact(message, 180) });
   }
   return message;
 }
@@ -2765,8 +2767,8 @@ function errorRequestId(error, message = '') {
 }
 
 const PROMPT_SECTION_LABELS = [
-  '主体', '人物', '角色', '产品', '场景', '背景', '风格', '构图', '镜头', '视角', '光线', '色彩', '材质', '细节', '动作', '文字',
-  '负面提示词', '避免事项', '分辨率要求', '质量', '参考图', '延续关系', '基于画布',
+  'chủ thể', 'con người', 'nhân vật', 'sản phẩm', 'bối cảnh', 'hậu cảnh', 'phong cách', 'bố cục', 'ống kính', 'góc nhìn', 'ánh sáng', 'màu sắc', 'chất liệu', 'chi tiết', 'chuyển động', 'chữ',
+  'prompt phủ định', 'điều cần tránh', 'yêu cầu độ phân giải', 'chất lượng', 'ảnh tham chiếu', 'mạch tiếp nối', 'dựa trên khung vẽ',
   'Subject', 'Character', 'Product', 'Scene', 'Background', 'Style', 'Composition', 'Camera', 'View', 'Lighting',
   'Color', 'Material', 'Details', 'Action', 'Text', 'Negative prompt', 'Avoid', 'Resolution', 'Reference', 'Lineage'
 ];
@@ -2798,7 +2800,7 @@ function splitLabeledPromptBlock(block) {
 function promptSectionsFromText(value, t = (key, fallback) => fallback || key) {
   const text = String(value || '').replace(/\r\n/g, '\n').trim();
   if (!text) return [];
-  const fallbackTitle = t('lightbox.promptDefaultTitle', '提示词');
+  const fallbackTitle = t('lightbox.promptDefaultTitle', 'Prompt');
   const blocks = text.split(/\n{2,}/).map((item) => item.trim()).filter(Boolean);
   const sections = [];
 
@@ -2841,7 +2843,7 @@ function promptSectionsFromText(value, t = (key, fallback) => fallback || key) {
 function PromptSectionList({ prompt, t = (key, fallback) => fallback || key }) {
   const sections = promptSectionsFromText(prompt, t);
   if (!sections.length) {
-    return <p className="promptEmptyText">{t('lightbox.noPrompt', '没有记录提示词')}</p>;
+    return <p className="promptEmptyText">{t('lightbox.noPrompt', 'Không có prompt được lưu')}</p>;
   }
   return (
     <div className="promptSectionList">
@@ -2878,22 +2880,22 @@ function Lightbox({ url, index, outputFormat = 'png', downloadMeta, onClose, t =
       if (event.target === event.currentTarget) onClose();
     }}>
       <figure className="lightboxPanel">
-        <button type="button" className="iconButton" onClick={onClose} aria-label={t('settings.close', '关闭')}>
+        <button type="button" className="iconButton" onClick={onClose} aria-label={t('settings.close', 'Đóng')}>
           <X size={18} />
         </button>
         <div className="lightboxImageStage">
-          <img src={url} alt={`${isReferencePreview ? t('references.title', '参考图') : t('lightbox.imageAlt', '生成结果')} ${index + 1}`} />
+          <img src={url} alt={`${isReferencePreview ? t('references.title', 'Ảnh tham chiếu (tùy chọn)') : t('lightbox.imageAlt', 'Kết quả tạo ảnh')} ${index + 1}`} />
         </div>
         <aside className="lightboxPromptPanel">
           <div className="lightboxPromptHead">
             <div>
-              <span>{isReferencePreview ? t('references.preview', '查看参考图') : t('lightbox.promptLabel', '完整提示词')}</span>
-              <strong>{isReferencePreview ? t('references.referenceIndex', '参考 {index}', { index: index + 1 }) : `#${index + 1}`}</strong>
+              <span>{isReferencePreview ? t('references.preview', 'Xem ảnh tham chiếu') : t('lightbox.promptLabel', 'Prompt đầy đủ')}</span>
+              <strong>{isReferencePreview ? t('references.referenceIndex', 'Ảnh tham chiếu {index}', { index: index + 1 }) : `#${index + 1}`}</strong>
             </div>
             {promptText ? (
               <button type="button" onClick={() => navigator.clipboard?.writeText(promptText)}>
                 <Copy size={14} />
-                {t('lightbox.copyPrompt', '复制')}
+                {t('lightbox.copyPrompt', 'Sao chép')}
               </button>
             ) : null}
           </div>
@@ -2905,10 +2907,10 @@ function Lightbox({ url, index, outputFormat = 'png', downloadMeta, onClose, t =
           <PromptSectionList prompt={promptText} t={t} />
         </aside>
         <figcaption>
-          <span>{isReferencePreview ? t('references.referenceIndex', '参考 {index}', { index: index + 1 }) : `#${index + 1}`}</span>
+          <span>{isReferencePreview ? t('references.referenceIndex', 'Ảnh tham chiếu {index}', { index: index + 1 }) : `#${index + 1}`}</span>
           <a href={url} download={downloadName}>
             <Download size={16} />
-            下载
+            Tải xuống
           </a>
         </figcaption>
       </figure>
@@ -2930,15 +2932,15 @@ function VideoLightbox({ url, index = 0, downloadMeta, onClose, t = (key, fallba
       if (event.target === event.currentTarget) onClose();
     }}>
       <figure className="lightboxPanel videoLightboxPanel">
-        <button type="button" className="iconButton" onClick={onClose} aria-label={t('settings.close', '关闭')}>
+        <button type="button" className="iconButton" onClick={onClose} aria-label={t('settings.close', 'Đóng')}>
           <X size={18} />
         </button>
         <video src={url} controls playsInline />
         <figcaption>
-          <span>{t('canvas.videoResult', '视频结果')}</span>
+          <span>{t('canvas.videoResult', 'Kết quả video')}</span>
           <a href={url} download={downloadName}>
             <Download size={16} />
-            {t('canvas.download', '下载')}
+            {t('canvas.download', 'Tải xuống')}
           </a>
         </figcaption>
       </figure>
@@ -2951,7 +2953,7 @@ function ResultGrid({ urls, outputFormat = 'png', downloadMeta, onPreview, t = (
     return (
       <div className="emptyResult">
         <ImageIcon size={32} />
-        <p>{t('composer.resultTitle', '生成结果')}</p>
+        <p>{t('composer.resultTitle', 'Kết quả')}</p>
       </div>
     );
   }
@@ -2960,7 +2962,7 @@ function ResultGrid({ urls, outputFormat = 'png', downloadMeta, onPreview, t = (
       {urls.map((url, index) => (
         <figure key={`${url}-${index}`}>
           <button type="button" className="resultPreviewButton" onClick={() => onPreview(url, index)}>
-            <img src={url} alt={`${t('lightbox.imageAlt', '生成结果')} ${index + 1}`} />
+            <img src={url} alt={`${t('lightbox.imageAlt', 'Kết quả tạo ảnh')} ${index + 1}`} />
           </button>
           <a href={url} download={buildStudioDownloadFilename({
             ...(downloadMeta || {}),
@@ -2969,7 +2971,7 @@ function ResultGrid({ urls, outputFormat = 'png', downloadMeta, onPreview, t = (
             extension: resultExtension(url, outputFormat)
           })}>
             <Download size={16} />
-            {t('canvas.download', '下载')}
+            {t('canvas.download', 'Tải xuống')}
           </a>
         </figure>
       ))}
@@ -2982,7 +2984,7 @@ function VideoResultGrid({ urls, downloadMeta, onPreview, t = (key, fallback) =>
     return (
       <div className="emptyResult">
         <Video size={32} />
-        <p>{t('canvas.videoResult', '视频结果')}</p>
+        <p>{t('canvas.videoResult', 'Kết quả video')}</p>
       </div>
     );
   }
@@ -3000,7 +3002,7 @@ function VideoResultGrid({ urls, downloadMeta, onPreview, t = (key, fallback) =>
             extension: resultVideoExtension(url)
           })}>
             <Download size={16} />
-            {t('canvas.download', '下载')}
+            {t('canvas.download', 'Tải xuống')}
           </a>
         </figure>
       ))}
@@ -3021,11 +3023,11 @@ function WorkPreviewResultActions({ url, index = 0, outputFormat = 'png', isVide
     <div className="workPreviewActions">
       <button type="button" onClick={onPreview}>
         {isVideo ? <Video size={15} /> : <ImageIcon size={15} />}
-        预览
+        Xem trước
       </button>
       <a href={url} download={downloadName}>
         <Download size={15} />
-        下载
+        Tải xuống
       </a>
     </div>
   );
@@ -3036,8 +3038,8 @@ function HistoryDetailPanel({ item, onOpenWorkspace, t = (key, fallback) => fall
     return (
       <section className="workspaceEmptyPanel">
         <History size={34} />
-        <h2>{t('gallery.selectHistory', '选择历史图库')}</h2>
-        <p>{t('gallery.selectHistoryHint', '左侧会显示图片和视频生成结果。选中后可以查看结果，也可以回到对应创作区继续调整。')}</p>
+        <h2>{t('gallery.selectHistory', 'Chọn lịch sử ảnh')}</h2>
+        <p>{t('gallery.selectHistoryHint', 'Ảnh và video đã tạo sẽ hiện ở bên trái. Chọn một mục để xem kết quả hoặc tiếp tục chỉnh sửa.')}</p>
       </section>
     );
   }
@@ -3055,8 +3057,8 @@ function HistoryDetailPanel({ item, onOpenWorkspace, t = (key, fallback) => fall
     <section className="historyWorkspacePanel">
       <div className="historyWorkspaceHero">
         <div>
-          <span>{isVideo ? t('gallery.videoTask', '视频任务') : t('gallery.imageTask', '图片任务')} · {formatHistoryTime(item.createdAt)}</span>
-          <h2>{isVideo ? t('rail.videoGeneration', '视频生成') : item.case?.title || t('gallery.imageGeneration', '图片生成')}</h2>
+          <span>{isVideo ? t('gallery.videoTask', 'Tác vụ video') : t('gallery.imageTask', 'Tác vụ ảnh')} · {formatHistoryTime(item.createdAt)}</span>
+          <h2>{isVideo ? t('rail.videoGeneration', 'Tạo video') : item.case?.title || t('gallery.imageGeneration', 'Tạo ảnh')}</h2>
           <div className="historyPromptSection">
             {promptItems.slice(0, 6).map((result, index) => (
               <article className="historyPromptItem" key={result.id || `${result.displayUrl || result.url || 'prompt'}-${index}`}>
@@ -3065,11 +3067,11 @@ function HistoryDetailPanel({ item, onOpenWorkspace, t = (key, fallback) => fall
               </article>
             ))}
           </div>
-          <em>{meta.join(' · ') || t('gallery.historyMetaFallback', '参数以历史图库记录为准')}</em>
+          <em>{meta.join(' · ') || t('gallery.historyMetaFallback', 'Thông số lấy từ mục trong lịch sử')}</em>
         </div>
         <button type="button" className="primaryAction" onClick={() => onOpenWorkspace(isVideo ? 'video' : 'image')}>
           {isVideo ? <Video size={17} /> : <ImageIcon size={17} />}
-          {isVideo ? t('gallery.openVideoCreate', '打开视频创作') : t('gallery.openImageCreate', '打开图片创作')}
+          {isVideo ? t('gallery.openVideoCreate', 'Mở phần tạo video') : t('gallery.openImageCreate', 'Mở phần tạo ảnh')}
         </button>
       </div>
       {isVideo ? (
@@ -3084,14 +3086,14 @@ function HistoryDetailPanel({ item, onOpenWorkspace, t = (key, fallback) => fall
 function PromptSuggestion({ suggestion, onMerge, onReplace, onCopy, onUse, t = (key, fallback) => fallback || key }) {
   if (!suggestion) return null;
   const rows = [
-    [t('suggestion.subject', '保留主体'), suggestion.subject],
-    [t('suggestion.scene', '场景变化'), suggestion.scene],
-    [t('suggestion.composition', '构图方向'), suggestion.composition],
-    [t('suggestion.style', '风格语气'), suggestion.style],
-    [t('suggestion.lighting', '光线色彩'), suggestion.lighting],
-    [t('suggestion.details', '补充细节'), suggestion.details],
-    [t('suggestion.textRules', '文字规则'), suggestion.textRules],
-    [t('suggestion.constraints', '避免事项'), suggestion.constraints]
+    [t('suggestion.subject', 'Giữ chủ thể'), suggestion.subject],
+    [t('suggestion.scene', 'Thay đổi bối cảnh'), suggestion.scene],
+    [t('suggestion.composition', 'Bố cục'), suggestion.composition],
+    [t('suggestion.style', 'Phong cách'), suggestion.style],
+    [t('suggestion.lighting', 'Ánh sáng và màu sắc'), suggestion.lighting],
+    [t('suggestion.details', 'Bổ sung chi tiết'), suggestion.details],
+    [t('suggestion.textRules', 'Quy tắc chữ viết'), suggestion.textRules],
+    [t('suggestion.constraints', 'Nội dung cần tránh'), suggestion.constraints]
   ].filter(([, value]) => String(value || '').trim());
   const finalPrompt = suggestion.finalPrompt || suggestion.raw || '';
   const finalSections = promptSectionsFromText(finalPrompt, t).slice(0, 4);
@@ -3105,11 +3107,11 @@ function PromptSuggestion({ suggestion, onMerge, onReplace, onCopy, onUse, t = (
       <span>AI</span>
       <div className="promptSuggestionBody">
         <div className="promptSuggestionLead">
-          <strong>{t('suggestion.title', '本轮提示词建议')}</strong>
-          <small>{t('suggestion.hint', 'AI 只整理方向，不自动覆盖当前输入')}</small>
+          <strong>{t('suggestion.title', 'Đề xuất prompt cho lượt này')}</strong>
+          <small>{t('suggestion.hint', 'AI chỉ sắp xếp ý tưởng, không tự thay thế nội dung bạn đang nhập')}</small>
         </div>
         {finalSections.length ? (
-          <span className="promptSuggestionFinalLabel">{t('suggestion.finalPrompt', '可执行提示词')}</span>
+          <span className="promptSuggestionFinalLabel">{t('suggestion.finalPrompt', 'Prompt hoàn chỉnh')}</span>
         ) : null}
         {suggestionSections.length ? (
           <div className="promptSuggestionText">
@@ -3136,10 +3138,10 @@ function PromptSuggestion({ suggestion, onMerge, onReplace, onCopy, onUse, t = (
           {onUse ? (
             <button type="button" onClick={onUse}>
               <Sparkles size={13} />
-              {t('suggestion.useThis', '用这版生成')}
+              {t('suggestion.useThis', 'Tạo ảnh với prompt này')}
             </button>
           ) : null}
-          <button type="button" onClick={onReplace}>{t('composer.putIntoInput', '放入输入框')}</button>
+          <button type="button" onClick={onReplace}>{t('composer.putIntoInput', 'Đưa vào ô nhập')}</button>
         </div>
       </div>
     </div>
@@ -3287,8 +3289,8 @@ function CreativeRecipeBar({ recipes, activeId, onApply, t = (key, fallback) => 
   return (
     <div className="creativeRecipeBar">
       <div className="recipeBarHead">
-        <span>{t('recipe.title', '创作配方')}</span>
-        <em>{t('recipe.hint', '来自参考项目的场景预设思路，可一键套用到当前参数')}</em>
+        <span>{t('recipe.title', 'Công thức sáng tạo')}</span>
+        <em>{t('recipe.hint', 'Gợi ý thiết lập cảnh từ dự án tham khảo, có thể áp dụng nhanh vào thông số hiện tại')}</em>
       </div>
       <div className="recipeScroller">
         {recipes.map((recipe) => (
@@ -3387,7 +3389,7 @@ const MaskEditor = forwardRef(function MaskEditor({
       const next = pushHistory({
         ...createMaskState(),
         imageUrl: imagePreview,
-        imageName: imageFile.name || '参考图',
+      imageName: imageFile.name || 'Ảnh tham chiếu',
         imageSize,
         zoom: imageSize.width > 1400 ? 0.5 : imageSize.width > 900 ? 0.7 : 1
       });
@@ -3525,7 +3527,7 @@ const MaskEditor = forwardRef(function MaskEditor({
   const exportMask = () => {
     const file = exportMaskFile();
     if (!file) {
-      onError?.(t('mask.needImage', '请先上传参考图并绘制 mask。'));
+      onError?.(t('mask.needImage', 'Hãy tải ảnh tham chiếu lên và tô mặt nạ trước.'));
       return;
     }
     const url = URL.createObjectURL(file);
@@ -3541,7 +3543,7 @@ const MaskEditor = forwardRef(function MaskEditor({
         <div className="maskToolGroup">
           <label className="uploadMaskSource">
             <Upload size={15} />
-            <span>{imageFile ? t('mask.replaceReference', '替换参考图') : t('mask.uploadReference', '上传参考图')}</span>
+            <span>{imageFile ? t('mask.replaceReference', 'Thay ảnh tham chiếu') : t('mask.uploadReference', 'Tải ảnh tham chiếu lên')}</span>
             <input
               type="file"
               accept="image/png,image/jpeg,image/webp"
@@ -3554,56 +3556,56 @@ const MaskEditor = forwardRef(function MaskEditor({
           {imageFile ? (
             <button type="button" onClick={onClearImage}>
               <Trash2 size={15} />
-              {t('settings.clear', '清除')}
+              {t('settings.clear', 'Xóa')}
             </button>
           ) : null}
         </div>
         <div className="maskToolGroup">
           <button type="button" className={maskState.tool === 'brush' ? 'active' : ''} onClick={() => updateMaskState({ tool: 'brush' })}>
             <Brush size={15} />
-            {t('mask.brush', '涂抹')}
+            {t('mask.brush', 'Cọ vẽ')}
           </button>
           <button type="button" className={maskState.tool === 'eraser' ? 'active' : ''} onClick={() => updateMaskState({ tool: 'eraser' })}>
             <Eraser size={15} />
-            {t('mask.eraser', '橡皮')}
+            {t('mask.eraser', 'Tẩy')}
           </button>
         </div>
         <label className="maskRange">
-          <span>{t('mask.brushSize', '笔刷 {value}px', { value: maskState.brushSize })}</span>
+          <span>{t('mask.brushSize', 'Cỡ cọ {value}px', { value: maskState.brushSize })}</span>
           <input type="range" min="6" max="220" value={maskState.brushSize} onChange={(event) => updateMaskState({ brushSize: Number(event.target.value) })} />
         </label>
         <label className="maskRange">
-          <span>{t('mask.previewAlpha', '预览 {value}%', { value: maskState.overlayAlpha })}</span>
+          <span>{t('mask.previewAlpha', 'Độ trong khi xem trước {value}%', { value: maskState.overlayAlpha })}</span>
           <input type="range" min="15" max="90" value={maskState.overlayAlpha} onChange={(event) => updateMaskState({ overlayAlpha: Number(event.target.value) })} />
         </label>
         <label className="maskRange">
-          <span>{t('mask.canvasZoom', '画布 {value}%', { value: Math.round(maskState.zoom * 100) })}</span>
+          <span>{t('mask.canvasZoom', 'Thu phóng canvas {value}%', { value: Math.round(maskState.zoom * 100) })}</span>
           <input type="range" min="20" max="140" value={Math.round(maskState.zoom * 100)} onChange={(event) => updateMaskState({ zoom: clamp(Number(event.target.value) / 100, 0.2, 1.4) })} />
         </label>
         <div className="maskToolGroup">
-          <button type="button" onClick={undo} disabled={!canUndo} aria-label={t('mask.undo', '撤销 mask')}>
+          <button type="button" onClick={undo} disabled={!canUndo} aria-label={t('mask.undo', 'Hoàn tác mặt nạ')}>
             <Undo2 size={15} />
           </button>
-          <button type="button" onClick={redo} disabled={!canRedo} aria-label={t('mask.redo', '重做 mask')}>
+          <button type="button" onClick={redo} disabled={!canRedo} aria-label={t('mask.redo', 'Làm lại mặt nạ')}>
             <Redo2 size={15} />
           </button>
           <button type="button" onClick={invertMask} disabled={!imageFile}>
             <FlipHorizontal size={15} />
-            {t('mask.invert', '反转')}
+            {t('mask.invert', 'Đảo ngược')}
           </button>
           <button type="button" onClick={clearMask} disabled={!imageFile}>
-            {t('gallery.clear', '清空')}
+            {t('gallery.clear', 'Xóa')}
           </button>
         </div>
         <div className="maskToolGroup maskExportGroup">
           <button type="button" onClick={exportMask} disabled={!imageFile}>
             <Download size={15} />
-            {t('mask.export', '导出 mask')}
+            {t('mask.export', 'Xuất mặt nạ')}
           </button>
           {onGenerate ? (
             <button type="button" className="maskGenerateButton" onClick={onGenerate} disabled={!imageFile || generating}>
               {generating ? <LoaderCircle className="spin" size={15} /> : <Sparkles size={15} />}
-              {t('mask.generateWithMask', '用这个生成')}
+              {t('mask.generateWithMask', 'Tạo ảnh bằng mặt nạ này')}
             </button>
           ) : null}
         </div>
@@ -3626,14 +3628,14 @@ const MaskEditor = forwardRef(function MaskEditor({
         ) : (
           <div className="maskCanvasEmpty">
             <ScanLine size={30} />
-            <strong>{t('mask.emptyTitle', '上传一张参考图开始制作 mask')}</strong>
-            <span>{t('mask.emptyHint', '涂抹区域会在生成时被重绘，未涂区域会保留。')}</span>
+            <strong>{t('mask.emptyTitle', 'Tải ảnh tham chiếu lên để tạo mặt nạ')}</strong>
+            <span>{t('mask.emptyHint', 'Vùng được tô sẽ được vẽ lại; vùng không tô sẽ được giữ nguyên.')}</span>
           </div>
         )}
       </div>
       <div className="maskMetaLine">
-        <span>{imageFile ? `${maskState.imageName} · ${maskState.imageSize.width}×${maskState.imageSize.height}` : t('mask.sizeAuto', 'Mask 尺寸会自动匹配当前参考图')}</span>
-        <span>{t('mask.transparentMeansRedraw', '透明区 = 要重绘')}</span>
+        <span>{imageFile ? `${maskState.imageName} · ${maskState.imageSize.width}×${maskState.imageSize.height}` : t('mask.sizeAuto', 'Kích thước mặt nạ tự khớp với ảnh tham chiếu hiện tại')}</span>
+        <span>{t('mask.transparentMeansRedraw', 'Vùng trong suốt = vùng cần vẽ lại')}</span>
       </div>
     </div>
   );
@@ -3677,9 +3679,17 @@ function CreationDesk({
   const appliedCasePromptRef = useRef({ key: '', prompt: '' });
   const maskEditorRef = useRef(null);
   const composerThreadRef = useRef(null);
+  const promptInputRef = useRef(null);
+  const [conversationOpen, setConversationOpen] = useState(false);
   const lastSessionSnapshotPayloadRef = useRef('');
   const [mode, setMode] = useState(restoredMode);
   const [prompt, setPrompt] = useState(() => restoredSession?.prompt || draftRef.current?.prompt || selectedCase?.prompt || '');
+  useEffect(() => {
+    const input = promptInputRef.current;
+    if (!input) return;
+    input.style.setProperty('--prompt-height', '0px');
+    input.style.setProperty('--prompt-height', `${Math.min(160, Math.max(56, input.scrollHeight))}px`);
+  }, [prompt]);
   const [model, setModel] = useState(() => restoredSession?.model || initialParameters.model || IMAGE_MODELS[0]);
   const initialSize = normalizeSize(initialParameters.size || initialParameters.customSize || '1024x1024');
   const [aspect, setAspect] = useState(() => normalizeAspect(initialParameters.aspect || initialParameters.aspectRatio, initialSize));
@@ -3709,10 +3719,10 @@ function CreationDesk({
   const [status, setStatus] = useState(restoredWasGenerating ? restoredHasServerJob ? 'loading' : 'error' : 'idle');
   const [message, setMessage] = useState(restoredWasGenerating
     ? restoredHasServerJob
-      ? '检测到服务端仍有生成任务，正在继续同步状态；刷新页面不会丢失队列。'
+      ? 'Phát hiện máy chủ vẫn còn tác vụ tạo ảnh; đang tiếp tục đồng bộ trạng thái. Tải lại trang sẽ không làm mất hàng đợi.'
       : restoredPendingReview
-      ? '页面刷新前有生成请求正在进行，已保留收到的预览/画布。上游可能仍已扣费，请先检查结果或等待，不要立刻重复提交。'
-      : '页面刷新前有生成请求正在进行，但本页已断开监听。上游可能仍已扣费，请先到历史图库或服务端确认，再决定是否重试。'
+      ? 'Yêu cầu tạo ảnh đang chạy trước khi tải lại trang; bản xem trước/khung vẽ đã nhận được vẫn được giữ lại. Hệ thống upstream có thể đã tính phí, hãy kiểm tra kết quả hoặc chờ thêm, đừng gửi lại ngay.'
+      : 'Yêu cầu tạo ảnh đang chạy trước khi tải lại trang nhưng trang này đã ngắt theo dõi. Hệ thống upstream có thể đã tính phí; hãy kiểm tra lịch sử ảnh hoặc máy chủ trước khi quyết định thử lại.'
     : '');
   const [results, setResults] = useState(() => Array.isArray(restoredSession?.results) ? restoredSession.results : []);
   const [videoResults, setVideoResults] = useState(() => Array.isArray(restoredSession?.videoResults) ? restoredSession.videoResults : []);
@@ -3776,6 +3786,16 @@ function CreationDesk({
       return next;
     });
   };
+
+  useEffect(() => {
+    if (referenceItems.length || videoReferenceFiles.length || mode === 'mask') {
+      updateLayoutSections({ references: true });
+    }
+  }, [referenceItems.length, videoReferenceFiles.length, mode]);
+
+  useEffect(() => {
+    if (status === 'error' || status === 'loading') setConversationOpen(true);
+  }, [status]);
 
   useEffect(() => {
     canvasNodesRef.current = canvasNodes;
@@ -3863,24 +3883,24 @@ function CreationDesk({
   const selectedCanvasNode = canvasNodes.find((node) => node.id === selectedCanvasNodeId) || null;
   const canvasNodeMap = useMemo(() => new Map(canvasNodes.map((node) => [node.id, node])), [canvasNodes]);
   const deskModeLabel = (value) => {
-    if (value === 'image') return t('mode.textToImage', '文生图');
-    if (value === 'edit') return t('mode.referenceEdit', '参考图');
+    if (value === 'image') return t('mode.textToImage', 'Tạo ảnh từ văn bản');
+    if (value === 'edit') return t('mode.referenceEdit', 'Ảnh tham chiếu');
     if (value === 'mask') return t('mode.mask', 'Mask');
     return value;
   };
   const qualityLabel = (value) => {
-    if (value === 'auto') return t('quality.auto', '自动');
-    if (value === 'low') return t('quality.low', '低');
-    if (value === 'medium') return t('quality.medium', '中');
-    if (value === 'high') return t('quality.high', '高');
+    if (value === 'auto') return t('quality.auto', 'Tự động');
+    if (value === 'low') return t('quality.low', 'Thấp');
+    if (value === 'medium') return t('quality.medium', 'Trung bình');
+    if (value === 'high') return t('quality.high', 'Cao');
     return value;
   };
-  const aspectLabel = (item) => (item.value === 'custom' ? t('params.manual', '手动') : item.label);
-  const customSizeLabel = (item) => (item.value === 'auto' ? t('params.auto', '自动') : item.label);
-  const videoMotionLabel = (item) => (item.value === 'auto' ? t('params.auto', '自动') : item.label);
-  const videoStyleLabel = (item) => (item.value === 'auto' ? t('params.auto', '自动') : item.label);
+  const aspectLabel = (item) => (item.value === 'custom' ? t('params.manual', 'Tùy chỉnh') : item.label);
+  const customSizeLabel = (item) => (item.value === 'auto' ? t('params.auto', 'Tự động') : item.label);
+  const videoMotionLabel = (item) => (item.value === 'auto' ? t('params.auto', 'Tự động') : item.label);
+  const videoStyleLabel = (item) => (item.value === 'auto' ? t('params.auto', 'Tự động') : item.label);
   const resolutionTierLabel = (item) => RESOLUTION_TIER_LABELS[item.value] || item.label;
-  const imageCountSuffix = t('params.imageCountSuffix', '张');
+  const imageCountSuffix = countValue === 1 ? t('params.singleImage', 'ảnh') : t('params.imageCountSuffix', 'ảnh');
   useEffect(() => {
     if (mode === 'video') return;
     if (count !== countValue) setCount(countValue);
@@ -4063,7 +4083,7 @@ function CreationDesk({
     };
     if (reachesFromTarget(toId)) {
       setStatus('error');
-      setMessage(t('statusMessages.linkCycle', '这条关联会形成循环，请换一个方向连接。'));
+      setMessage(t('statusMessages.linkCycle', 'Liên kết này sẽ tạo thành vòng lặp. Hãy chọn hướng kết nối khác.'));
       window.setTimeout(() => setStatus('idle'), 1600);
       return false;
     }
@@ -4078,7 +4098,7 @@ function CreationDesk({
     ]);
     setSelectedCanvasNodeId(toId);
     setStatus('success');
-    setMessage(t('statusMessages.linkCreated', '已建立画布关联。'));
+    setMessage(t('statusMessages.linkCreated', 'Đã tạo liên kết trên canvas.'));
     window.setTimeout(() => setStatus('idle'), 1200);
     return true;
   }
@@ -4224,10 +4244,10 @@ function CreationDesk({
     );
     setMessage(sessionSnapshot.status === 'loading'
       ? hasRestorableServerJob
-        ? '检测到服务端仍有生成任务，正在继续同步状态；刷新页面不会丢失队列。'
+        ? 'Phát hiện máy chủ vẫn còn tác vụ tạo ảnh; đang tiếp tục đồng bộ trạng thái. Tải lại trang sẽ không làm mất hàng đợi.'
         : interruptedHasResult
-        ? '页面刷新前有生成请求正在进行，已保留收到的预览/画布。上游可能仍已扣费，请先检查结果或等待，不要立刻重复提交。'
-        : '页面刷新前有生成请求正在进行，但本页已断开监听。上游可能仍已扣费，请先到历史图库或服务端确认，再决定是否重试。'
+        ? 'Yêu cầu tạo ảnh đang chạy trước khi tải lại trang; bản xem trước/khung vẽ đã nhận được vẫn được giữ lại. Hệ thống upstream có thể đã tính phí, hãy kiểm tra kết quả hoặc chờ thêm, đừng gửi lại ngay.'
+        : 'Yêu cầu tạo ảnh đang chạy trước khi tải lại trang nhưng trang này đã ngắt theo dõi. Hệ thống upstream có thể đã tính phí; hãy kiểm tra lịch sử ảnh hoặc máy chủ trước khi quyết định thử lại.'
       : (sessionSnapshot.message || ''));
     setProgress(sessionSnapshot.status === 'loading'
       ? {
@@ -4402,7 +4422,7 @@ function CreationDesk({
     ));
     if (!hasRestorableQueuedTask) return;
     restoredQueueStartedRef.current = true;
-    setMessage(t('statusMessages.localQueueRestored', '已恢复刷新前的本地排队任务，正在继续执行。'));
+    setMessage(t('statusMessages.localQueueRestored', 'Đã khôi phục hàng đợi trên máy trước khi tải lại trang và tiếp tục xử lý.'));
     runGenerationQueue();
   }, [isReady]);
 
@@ -4528,7 +4548,7 @@ function CreationDesk({
         setCanvasLinkDraft(null);
       } else {
         setCanvasLinkDraft((current) => current?.fromId === drag.fromId ? { fromId: drag.fromId, point: null } : { fromId: drag.fromId, point: null });
-        setMessage(t('statusMessages.linkTargetHint', '选择另一张图左侧圆点，或拖到目标图片上建立关联。'));
+        setMessage(t('statusMessages.linkTargetHint', 'Chọn chấm tròn bên trái của ảnh khác hoặc kéo ảnh đến mục tiêu để liên kết.'));
       }
     }
     canvasDragRef.current = null;
@@ -4670,7 +4690,7 @@ function CreationDesk({
     selectCanvasNode(node);
   }
 
-  function appendCanvasNodes(urls, { kind = 'image', parentId = '', promptText = '', title = '生成结果', downloadMeta, replaceBatchId = '', persistedUrls = [] } = {}) {
+  function appendCanvasNodes(urls, { kind = 'image', parentId = '', promptText = '', title = 'Kết quả tạo ảnh', downloadMeta, replaceBatchId = '', persistedUrls = [] } = {}) {
     if (!urls.length) return;
     const activeDownloadMeta = downloadMeta || resultBatchMeta;
     setCanvasNodes((current) => {
@@ -4734,7 +4754,7 @@ function CreationDesk({
         prompt: job.prompt || '',
         id: job.id
       },
-      title: '生成结果',
+      title: 'Kết quả tạo ảnh',
       replaceBatchId: job.id,
       persistedUrls
     });
@@ -4752,7 +4772,7 @@ function CreationDesk({
     if (!silent) {
       setStatus('success');
       setProgress({ stage: 'completed', percent: 100, completed: displayUrls.length, total: displayUrls.length || 1 });
-      setMessage(t('statusMessages.serverResultRestored', '已从服务端恢复生成结果。'));
+      setMessage(t('statusMessages.serverResultRestored', 'Đã khôi phục kết quả từ máy chủ.'));
     }
     return true;
   }
@@ -4797,7 +4817,7 @@ function CreationDesk({
       requestIds: Array.isArray(job.requestIds) ? job.requestIds.filter(Boolean).slice(0, 8) : [],
       error: job.error || null,
       selectedCanvasNodeId: job.parentCanvasNodeId || '',
-      summary: inheritedPrompt || job.error?.message || `服务端任务 ${job.id}`,
+      summary: inheritedPrompt || job.error?.message || `Tác vụ máy chủ ${job.id}`,
       restorable: false
     };
     generationQueueRef.current = [
@@ -4865,7 +4885,7 @@ function CreationDesk({
         syncRemoteGenerationJob(activeJob);
         setStatus('loading');
         setProgress(serverJobProgress(activeJob, activeJob.count));
-            setMessage(t('statusMessages.serverJobsSyncing', '检测到服务端仍有生成任务，正在继续同步状态。'));
+            setMessage(t('statusMessages.serverJobsSyncing', 'Máy chủ vẫn còn tác vụ tạo ảnh; đang đồng bộ trạng thái.'));
         const controller = new AbortController();
         syncController = controller;
         generationRef.current = { id: generationRef.current.id + 1, controller, remoteJobId: activeJob.id };
@@ -4898,7 +4918,7 @@ function CreationDesk({
     const parentPrompt = String(node?.prompt || '').trim();
     if (!currentPrompt) return parentPrompt;
     if (!parentPrompt || currentPrompt.startsWith(parentPrompt)) return currentPrompt;
-    return `${parentPrompt}\n\n基于画布 #${node?.canvasIndex || ''} 继续优化：\n${currentPrompt}`.trim();
+    return `${parentPrompt}\n\nTiếp tục chỉnh sửa dựa trên khung vẽ #${node?.canvasIndex || ''}:\n${currentPrompt}`.trim();
   }
 
   function composedGenerationPrompt() {
@@ -4908,7 +4928,7 @@ function CreationDesk({
     return composeCanvasContinuationPrompt(selectedCanvasNode, currentPrompt);
     const parentPrompt = selectedCanvasNode.prompt.trim();
     if (!parentPrompt || currentPrompt.startsWith(parentPrompt)) return currentPrompt;
-    return `${parentPrompt}\n\n基于画布 ${selectedCanvasNode.canvasIndex || ''} 继续优化：${currentPrompt}`.trim();
+    return `${parentPrompt}\n\nTiếp tục chỉnh sửa dựa trên khung vẽ ${selectedCanvasNode.canvasIndex || ''}: ${currentPrompt}`.trim();
   }
 
   function assistantBasePrompt() {
@@ -4925,7 +4945,7 @@ function CreationDesk({
       const file = await imageUrlToFile(node.url, `canvas-${node.canvasIndex || 1}.png`);
       return [file];
     } catch (error) {
-      throw new Error('选中的画布图片无法作为参考图读取，请重新选择图片节点或从历史图库里打开。');
+      throw new Error('Không thể đọc ảnh trên khung vẽ đã chọn làm ảnh tham chiếu. Hãy chọn lại nút ảnh hoặc mở ảnh từ lịch sử.');
     }
   }
 
@@ -4934,7 +4954,7 @@ function CreationDesk({
     if (!text) return;
     await navigator.clipboard.writeText(text);
     setStatus('success');
-    setMessage(t('statusMessages.nodePromptCopied', '#{index} 的提示词已复制。', { index: node.canvasIndex || '' }));
+    setMessage(t('statusMessages.nodePromptCopied', 'Đã sao chép prompt của #{index}.', { index: node.canvasIndex || '' }));
     window.setTimeout(() => setStatus('idle'), 1200);
   }
 
@@ -4947,11 +4967,11 @@ function CreationDesk({
       setMode('edit');
       updateLayoutSections({ references: true, bottomComposer: true });
       setStatus('success');
-      setMessage(t('statusMessages.nodeReferenceSet', '#{index} 已设为本轮参考图。', { index: node.canvasIndex || '' }));
+      setMessage(t('statusMessages.nodeReferenceSet', 'Đã đặt #{index} làm ảnh tham chiếu cho lượt này.', { index: node.canvasIndex || '' }));
       window.setTimeout(() => setStatus('idle'), 1200);
     } catch (error) {
       setStatus('error');
-      setMessage(error?.message || t('statusMessages.nodeReferenceFailed', '这张图暂时无法设为参考图。'));
+      setMessage(error?.message || t('statusMessages.nodeReferenceFailed', 'Chưa thể dùng ảnh này làm ảnh tham chiếu.'));
     }
   }
 
@@ -4993,7 +5013,7 @@ function CreationDesk({
     if (deletedIds.has(selectedCanvasNodeId)) setSelectedCanvasNodeId('');
     if (deletedIds.has(canvasEditorNodeId)) closeCanvasEditor();
     setStatus('success');
-    setMessage(t('statusMessages.nodeDeleted', '#{index} 已从当前画布移除。', { index: node.canvasIndex || '' }));
+    setMessage(t('statusMessages.nodeDeleted', 'Đã xóa #{index} khỏi canvas hiện tại.', { index: node.canvasIndex || '' }));
     window.setTimeout(() => setStatus('idle'), 1200);
   }
 
@@ -5031,7 +5051,7 @@ function CreationDesk({
       setPrompt(generationPrompt);
       if (!maskEditorRef.current?.exportMask?.()) {
         setStatus('idle');
-        setMessage(t('statusMessages.maskPaintRequired', '先在 Mask 面板涂抹需要重绘的区域，再回到这张图点生成。'));
+        setMessage(t('statusMessages.maskPaintRequired', 'Tô vùng cần vẽ lại trong bảng Mask rồi chọn Tạo trên ảnh này.'));
         return;
       }
     }
@@ -5050,7 +5070,7 @@ function CreationDesk({
   function generateMaskFromPanel() {
     if (!selectedCanvasNode) {
       setStatus('error');
-      setMessage(t('statusMessages.maskSelectNode', '请先选中一张画布图片，再用 Mask 继续生成。'));
+      setMessage(t('statusMessages.maskSelectNode', 'Chọn một ảnh trên canvas trước khi tiếp tục tạo bằng Mask.'));
       return;
     }
     setCanvasEditorMode('mask');
@@ -5074,7 +5094,7 @@ function CreationDesk({
     setCanvasEditorNodeId(node.id);
     setCanvasEditorMode('image');
     setCanvasEditorPrompt('');
-    const nextPrompt = node.prompt ? `继续优化 #${node.canvasIndex || ''}：` : '';
+    const nextPrompt = node.prompt ? `Tiếp tục chỉnh sửa #${node.canvasIndex || ''}: ` : '';
     setPrompt(nextPrompt);
     updateLayoutSections({ bottomComposer: true });
     setMode((current) => current === 'video' ? 'video' : 'image');
@@ -5137,7 +5157,7 @@ function CreationDesk({
           .catch((error) => {
             if (resolvingCaseRef.current.id !== requestId) return;
             setStatus('error');
-            setMessage(error?.message || '视频灵感读取失败。');
+            setMessage(error?.message || 'Không thể tải ý tưởng video.');
           })
           .finally(() => {
             if (resolvingCaseRef.current.id === requestId) setCaseResolving(false);
@@ -5165,7 +5185,7 @@ function CreationDesk({
         .catch((error) => {
           if (resolvingCaseRef.current.id !== requestId) return;
           setStatus('error');
-          setMessage(error?.message || '模板详情读取失败。');
+          setMessage(error?.message || 'Không thể tải chi tiết mẫu.');
         })
         .finally(() => {
           if (resolvingCaseRef.current.id === requestId) setCaseResolving(false);
@@ -5209,7 +5229,7 @@ function CreationDesk({
     setPrompt((current) => `${current.trim()}${current.trim() ? '\n\n' : ''}${appendTemplateRequest.prompt}`.trim());
     updateLayoutSections({ bottomComposer: true });
     setStatus('success');
-    setMessage(t('statusMessages.templateAppended', '已追加模板提示词。'));
+    setMessage(t('statusMessages.templateAppended', 'Đã thêm prompt mẫu.'));
     window.setTimeout(() => setStatus('idle'), 1200);
     onAppendTemplateConsumed?.(appendTemplateRequest.id);
   }, [appendTemplateRequest?.id]);
@@ -5234,10 +5254,11 @@ function CreationDesk({
     const nextFiles = supportedReferenceFiles(files, IMAGE_REFERENCE_LIMIT);
     if (!nextFiles.length) {
       setStatus('error');
-      setMessage(t('statusMessages.referenceUnsupported', '只支持 PNG / JPG / WebP 参考图。'));
+      setMessage(t('statusMessages.referenceUnsupported', 'Chỉ hỗ trợ ảnh tham chiếu PNG / JPG / WebP.'));
       return;
     }
     if (mode === 'image') setMode('edit');
+    updateLayoutSections({ references: true });
     setReferenceItems((current) => [
       ...current,
       ...nextFiles.map((file, index) => createReferenceItem(file, current.length + index === 0 ? 'identity' : 'style'))
@@ -5250,10 +5271,11 @@ function CreationDesk({
     const nextFiles = supportedReferenceFiles(files, 1);
     if (!nextFiles.length) {
       setStatus('error');
-      setMessage(t('statusMessages.referenceUnsupported', '只支持 PNG / JPG / WebP 参考图。'));
+      setMessage(t('statusMessages.referenceUnsupported', 'Chỉ hỗ trợ ảnh tham chiếu PNG / JPG / WebP.'));
       return;
     }
     setVideoReferenceFiles(nextFiles);
+    updateLayoutSections({ references: true });
     setStatus('idle');
     setMessage('');
   }
@@ -5288,7 +5310,7 @@ function CreationDesk({
     if (maskExportUrl) URL.revokeObjectURL(maskExportUrl);
     setMaskExportUrl(url);
     setStatus('success');
-    setMessage(t('statusMessages.maskExported', 'Mask 已导出，可用于本次局部重绘。'));
+    setMessage(t('statusMessages.maskExported', 'Đã xuất Mask, có thể dùng để vẽ lại một phần ảnh.'));
     window.setTimeout(() => setStatus('idle'), 1400);
   }
 
@@ -5464,7 +5486,7 @@ function CreationDesk({
       }
     } catch (error) {
       setStatus('error');
-      setMessage(error?.message || '快捷提示词读取失败。');
+      setMessage(error?.message || 'Không thể tải prompt nhanh.');
     } finally {
       setCaseResolving(false);
     }
@@ -5481,13 +5503,13 @@ function CreationDesk({
     if (!currentPrompt) {
       setStatus('error');
       setMessage(caseResolving
-        ? t('statusMessages.templateLoading', '模板提示词正在读取，请稍后。')
-        : t('statusMessages.promptRequired', '请先填写提示词，或先选中一个画布节点继续。'));
+        ? t('statusMessages.templateLoading', 'Đang tải prompt mẫu, vui lòng đợi.')
+        : t('statusMessages.promptRequired', 'Hãy nhập prompt hoặc chọn một nút trên canvas để tiếp tục.'));
       return;
     }
     if (caseResolving) {
       setStatus('error');
-      setMessage(t('statusMessages.templateLoading', '模板提示词正在读取，请稍后。'));
+      setMessage(t('statusMessages.templateLoading', 'Đang tải prompt mẫu, vui lòng đợi.'));
       return;
     }
     if (optimizingPrompt) return;
@@ -5507,14 +5529,14 @@ function CreationDesk({
     if (!providerRequest.apiKey) {
       setStatus('error');
       setMessage(providerSettings.apiKeySource === 'manual'
-        ? t('statusMessages.keyRequired', '请先填写密钥。')
-        : t('statusMessages.accountPreparing', '账号连接还在准备中。'));
+        ? t('statusMessages.keyRequired', 'Hãy nhập key.')
+        : t('statusMessages.accountPreparing', 'Đang chuẩn bị kết nối tài khoản.'));
       onOpenSettings();
       return;
     }
     setOptimizingPrompt(true);
     setStatus('loading');
-    setMessage(t('statusMessages.optimizingPrompt', '正在优化提示词'));
+    setMessage(t('statusMessages.optimizingPrompt', 'Đang tối ưu prompt'));
     try {
       const result = await client.optimizePrompt({
         ...providerRequest,
@@ -5527,16 +5549,16 @@ function CreationDesk({
         onPartial: (text) => {
           const parsed = parseOptimizedPrompt(text);
           if (parsed) setPromptSuggestion(parsed);
-          setMessage(t('statusMessages.receivingSuggestion', '正在接收优化建议'));
+          setMessage(t('statusMessages.receivingSuggestion', 'Đang nhận đề xuất chỉnh sửa'));
         }
       });
       setPromptSuggestion(parseOptimizedPrompt(result.prompt));
       setStatus('success');
-      setMessage(t('statusMessages.suggestionReady', '已生成优化建议，可合并或替换。'));
+      setMessage(t('statusMessages.suggestionReady', 'Đã có đề xuất tối ưu; bạn có thể ghép vào hoặc thay thế prompt.'));
       window.setTimeout(() => setStatus('idle'), 1200);
     } catch (error) {
       setStatus('error');
-      setMessage(error?.message || t('statusMessages.optimizeFailed', '优化失败'));
+      setMessage(error?.message || t('statusMessages.optimizeFailed', 'Tối ưu không thành công'));
     } finally {
       setOptimizingPrompt(false);
     }
@@ -5544,14 +5566,15 @@ function CreationDesk({
 
   async function sendAssistantMessage() {
     const userText = assistantUserInstruction();
+    setConversationOpen(true);
     if (!userText) {
       setStatus('error');
-      setMessage(t('statusMessages.assistantInputRequired', '请先输入你想让 AI 帮你整理的创作想法。'));
+      setMessage(t('statusMessages.assistantInputRequired', 'Nhập ý tưởng bạn muốn AI giúp biên tập.'));
       return;
     }
     if (caseResolving) {
       setStatus('error');
-      setMessage(t('statusMessages.templateLoading', '模板提示词正在读取，请稍后。'));
+      setMessage(t('statusMessages.templateLoading', 'Đang tải prompt mẫu, vui lòng đợi.'));
       return;
     }
     if (optimizingPrompt) return;
@@ -5571,8 +5594,8 @@ function CreationDesk({
     if (!providerRequest.apiKey) {
       setStatus('error');
       setMessage(providerSettings.apiKeySource === 'manual'
-        ? t('statusMessages.keyRequired', '请先填写密钥。')
-        : t('statusMessages.accountPreparing', '账号连接还在准备中。'));
+        ? t('statusMessages.keyRequired', 'Hãy nhập key.')
+        : t('statusMessages.accountPreparing', 'Đang chuẩn bị kết nối tài khoản.'));
       onOpenSettings();
       return;
     }
@@ -5585,14 +5608,14 @@ function CreationDesk({
     const pendingMessage = {
       id: `assistant-${Date.now()}`,
       role: 'assistant',
-      content: t('statusMessages.assistantPending', '正在整理创作提示词...'),
+      content: t('statusMessages.assistantPending', 'Đang biên tập prompt...'),
       pending: true
     };
     const nextMessages = [...assistantMessages, userMessage];
     setAssistantMessages([...nextMessages, pendingMessage]);
     setOptimizingPrompt(true);
     setStatus('loading');
-    setMessage(t('statusMessages.assistantCalling', '正在调用对话模型'));
+    setMessage(t('statusMessages.assistantCalling', 'Đang gọi model hội thoại'));
     try {
       const result = await client.chatPromptAssistant({
         ...providerRequest,
@@ -5609,7 +5632,7 @@ function CreationDesk({
           const parsed = parseAssistantReply(text);
           setAssistantMessages((current) => current.map((item) => item.id === pendingMessage.id ? {
             ...item,
-            content: parsed?.reply || text || t('statusMessages.assistantPending', '正在整理创作提示词...'),
+            content: parsed?.reply || text || t('statusMessages.assistantPending', 'Đang biên tập prompt...'),
             pending: true
           } : item));
         }
@@ -5629,18 +5652,18 @@ function CreationDesk({
       } : item));
       setStatus('success');
       setMessage(parsed?.finalPrompt
-        ? t('statusMessages.assistantReady', '已整理为可生成提示词。')
-        : t('statusMessages.assistantReplied', '助手已回复。'));
+        ? t('statusMessages.assistantReady', 'Đã biên tập prompt có thể dùng để tạo ảnh.')
+        : t('statusMessages.assistantReplied', 'Trợ lý đã trả lời.'));
       window.setTimeout(() => setStatus('idle'), 1200);
     } catch (error) {
       setAssistantMessages((current) => current.map((item) => item.id === pendingMessage.id ? {
         ...item,
-        content: error?.message || t('statusMessages.assistantFailed', '对话模型调用失败'),
+        content: error?.message || t('statusMessages.assistantFailed', 'Không gọi được model hội thoại'),
         pending: false,
         failed: true
       } : item));
       setStatus('error');
-      setMessage(error?.message || t('statusMessages.assistantFailed', '对话模型调用失败'));
+      setMessage(error?.message || t('statusMessages.assistantFailed', 'Không gọi được model hội thoại'));
     } finally {
       setOptimizingPrompt(false);
     }
@@ -5649,7 +5672,7 @@ function CreationDesk({
   function mergeSuggestion() {
     const nextPrompt = promptSuggestion?.finalPrompt || promptSuggestion?.raw || '';
     if (!nextPrompt) return;
-    setPrompt(`${prompt.trim()}\n\n${t('statusMessages.suggestionMergePrefix', '补充优化：')}\n${nextPrompt}`.trim());
+    setPrompt(`${prompt.trim()}\n\n${t('statusMessages.suggestionMergePrefix', 'Gợi ý bổ sung: ')}\n${nextPrompt}`.trim());
     setPromptSuggestion(null);
   }
 
@@ -5665,7 +5688,7 @@ function CreationDesk({
     if (!nextPrompt) return;
     await navigator.clipboard.writeText(nextPrompt);
     setStatus('success');
-    setMessage(t('statusMessages.suggestionCopied', '优化建议已复制。'));
+    setMessage(t('statusMessages.suggestionCopied', 'Đã sao chép đề xuất chỉnh sửa.'));
     window.setTimeout(() => setStatus('idle'), 1200);
   }
 
@@ -5730,7 +5753,7 @@ function CreationDesk({
       selectedCanvasNodeId: overrides.selectedCanvasNodeId ?? selectedCanvasNodeId,
       selectedCanvasNodeSnapshot: taskSelectedCanvasNode,
       referencesOpen: overrides.referencesOpen ?? layoutSections.references,
-      summary: basePrompt || prompt.trim() || selectedCanvasNode?.prompt?.trim() || '未填写提示词'
+    summary: basePrompt || prompt.trim() || selectedCanvasNode?.prompt?.trim() || 'Chưa nhập prompt'
     };
   }
 
@@ -5762,7 +5785,7 @@ function CreationDesk({
           setMessage(serverJobMessage(job || { status: 'canceled' }));
         })
         .catch(() => {
-          setMessage(t('statusMessages.queueCancelFailed', '已从本页移除队列项；服务端取消失败，请稍后查看历史图库确认结果。'));
+          setMessage(t('statusMessages.queueCancelFailed', 'Đã xóa mục khỏi hàng đợi trên trang nhưng không hủy được ở máy chủ. Hãy kiểm tra lịch sử ảnh sau.'));
         });
       return;
     }
@@ -5774,7 +5797,7 @@ function CreationDesk({
       item.id === id ? { ...item, status: 'canceled', completedAt: Date.now() } : item
     ));
     setGenerationQueue(generationQueueRef.current);
-    setMessage(t('statusMessages.queueCanceled', '已取消排队任务。'));
+    setMessage(t('statusMessages.queueCanceled', 'Đã hủy tác vụ đang chờ.'));
   }
 
   function retryGenerationTask(id) {
@@ -5782,7 +5805,7 @@ function CreationDesk({
     if (!target) return;
     if (target.remote || target.restorable === false) {
       setStatus('error');
-      setMessage(t('statusMessages.queueRemoteRetryBlocked', '这个任务来自服务端恢复记录，不能安全自动重提；请先确认历史图库没有新结果，再用当前提示词重新生成。'));
+      setMessage(t('statusMessages.queueRemoteRetryBlocked', 'Không thể tự động gửi lại an toàn tác vụ được khôi phục từ máy chủ. Hãy kiểm tra lịch sử ảnh trước; nếu chưa có kết quả mới, tạo ảnh lại bằng prompt hiện tại.'));
       return;
     }
     const retryTask = {
@@ -5793,14 +5816,14 @@ function CreationDesk({
       startedAt: null,
       completedAt: null,
       restored: false,
-      summary: target.prompt || target.summary || t('statusMessages.queueRetryFallbackSummary', '重试生成任务')
+      summary: target.prompt || target.summary || t('statusMessages.queueRetryFallbackSummary', 'Thử lại tác vụ tạo ảnh')
     };
     generationQueueRef.current = [
       retryTask,
       ...generationQueueRef.current.filter((item) => item.id !== id)
     ].slice(0, GENERATION_QUEUE_LIMIT);
     setGenerationQueue(generationQueueRef.current);
-    setMessage(t('statusMessages.queueRetryAdded', '已重新加入生成队列。'));
+    setMessage(t('statusMessages.queueRetryAdded', 'Đã thêm lại vào hàng đợi tạo ảnh.'));
     runGenerationQueue();
   }
 
@@ -5809,9 +5832,9 @@ function CreationDesk({
     generationQueueRef.current = generationQueueRef.current.filter((item) => item.id !== id);
     setGenerationQueue(generationQueueRef.current);
     if (target?.status === 'unknown') {
-      setMessage(t('statusMessages.queueUnknownDismissed', '已收起结果未知的任务；请稍后查看历史图库，如果没有新结果再重试。'));
+      setMessage(t('statusMessages.queueUnknownDismissed', 'Đã ẩn tác vụ chưa rõ kết quả. Hãy kiểm tra lịch sử ảnh sau; nếu chưa có ảnh mới thì thử lại.'));
     } else {
-      setMessage(t('statusMessages.queueDismissed', '已收起队列提示。'));
+      setMessage(t('statusMessages.queueDismissed', 'Đã ẩn thông báo hàng đợi.'));
     }
   }
 
@@ -5820,21 +5843,21 @@ function CreationDesk({
     if (!task.prompt) {
       setStatus('error');
       setMessage(caseResolving
-        ? t('statusMessages.templateLoading', '模板提示词正在读取，请稍后。')
-        : t('statusMessages.promptRequired', '请先填写提示词，或先选中一个画布节点继续。'));
+        ? t('statusMessages.templateLoading', 'Đang tải prompt mẫu, vui lòng đợi.')
+        : t('statusMessages.promptRequired', 'Hãy nhập prompt hoặc chọn một nút trên canvas để tiếp tục.'));
       return;
     }
     const activeCount = generationQueueRef.current.filter((item) => item.status === 'queued' || item.status === 'running').length;
     if (activeCount >= GENERATION_QUEUE_LIMIT) {
       setStatus('error');
-      setMessage(t('statusMessages.queueLimit', '当前队列已满，最多保留 {count} 个待生成任务。', { count: GENERATION_QUEUE_LIMIT }));
+      setMessage(t('statusMessages.queueLimit', 'Hàng đợi đã đầy, tối đa {count} tác vụ chờ.', { count: GENERATION_QUEUE_LIMIT }));
       return;
     }
     generationQueueRef.current = [...generationQueueRef.current, task].slice(-GENERATION_QUEUE_LIMIT);
     setGenerationQueue(generationQueueRef.current);
     setMessage(activeCount
-      ? t('statusMessages.queueAddedBehind', '已加入队列，前面还有 {count} 个任务。', { count: activeCount })
-      : t('statusMessages.queueAdded', '已加入队列。'));
+      ? t('statusMessages.queueAddedBehind', 'Đã thêm vào hàng đợi; còn {count} tác vụ phía trước.', { count: activeCount })
+      : t('statusMessages.queueAdded', 'Đã thêm vào hàng đợi.'));
     runGenerationQueue();
   }
 
@@ -5849,7 +5872,7 @@ function CreationDesk({
           markGenerationTask(nextTask.id, {
             status: 'failed',
             completedAt: Date.now(),
-            summary: `${nextTask.summary || nextTask.prompt || t('composer.queue', '排队任务')}${t('statusMessages.queueRestoredUnsafeSuffix', '（刷新后不能安全自动重提）')}`
+            summary: `${nextTask.summary || nextTask.prompt || t('composer.queue', 'Hàng đợi tạo ảnh')}${t('statusMessages.queueRestoredUnsafeSuffix', ' (không thể tự động gửi lại an toàn sau khi tải lại trang)')}`
           });
           continue;
         }
@@ -5903,20 +5926,20 @@ function CreationDesk({
 
   function serverJobMessage(job) {
     const status = job?.status || job?.stage;
-    if (status === 'queued') return t('jobs.queued', '已进入服务端队列，刷新页面也会继续保留状态。');
-    if (status === 'dispatching') return t('jobs.dispatching', '服务端正在提交到上游网关。');
-    if (status === 'upstream') return t('jobs.upstream', '上游正在生成，服务端会继续等待并保存结果。');
-    if (status === 'saving') return t('jobs.saving', '正在保存生成结果。');
-    if (status === 'succeeded') return t('jobs.succeeded', '生成完成，结果已保存到服务端。');
-    if (status === 'unknown') return t('jobs.unknown', '服务端等待中断，结果未知；请稍后查看历史图库后再决定是否重试。');
-    if (status === 'canceled') return t('jobs.canceled', '任务已在本地取消。');
+    if (status === 'queued') return t('jobs.queued', 'Yêu cầu đã vào hàng đợi máy chủ; trạng thái vẫn được giữ sau khi tải lại trang.');
+    if (status === 'dispatching') return t('jobs.dispatching', 'Máy chủ đang gửi yêu cầu đến gateway.');
+    if (status === 'upstream') return t('jobs.upstream', 'Dịch vụ nguồn đang tạo ảnh; máy chủ sẽ tiếp tục chờ và lưu kết quả.');
+    if (status === 'saving') return t('jobs.saving', 'Đang lưu kết quả.');
+    if (status === 'succeeded') return t('jobs.succeeded', 'Đã tạo xong và lưu kết quả trên máy chủ.');
+    if (status === 'unknown') return t('jobs.unknown', 'Máy chủ ngừng chờ trước khi nhận kết quả. Hãy kiểm tra lịch sử ảnh rồi quyết định có thử lại không.');
+    if (status === 'canceled') return t('jobs.canceled', 'Tác vụ đã được hủy tại máy này.');
     if (status === 'failed') return generationErrorMessage({
       ...(job?.error || {}),
       message: job?.error?.message || 'GENERATION_JOB_FAILED',
       status: job?.error?.status,
       requestId: job?.error?.requestId || job?.requestIds?.[0] || ''
     }, t);
-    return t('jobs.processing', '服务端任务处理中。');
+    return t('jobs.processing', 'Máy chủ đang xử lý tác vụ.');
   }
 
   async function waitForServerJob(historyClient, jobId, { signal, total }) {
@@ -5984,13 +6007,13 @@ function CreationDesk({
     const activeVideoSize = videoSizeFromAspect(activeVideoAspect);
     if (caseResolving) {
       setStatus('error');
-      setMessage(t('statusMessages.templateLoading', '模板提示词正在读取，请稍后。'));
+      setMessage(t('statusMessages.templateLoading', 'Đang tải prompt mẫu, vui lòng đợi.'));
       return false;
     }
     if (status === 'loading' && !generationRef.current.controller) {
       setStatus('error');
       setProgress((current) => ({ ...current, stage: 'pending_review', percent: current.percent || 0 }));
-      setMessage(t('statusMessages.disconnectedReview', '上一轮生成状态已经断开，请先确认历史图库/当前画布没有新结果，再点“确认重试”。'));
+      setMessage(t('statusMessages.disconnectedReview', 'Trạng thái tạo của lượt trước đã bị ngắt. Hãy kiểm tra lịch sử ảnh và canvas để chắc chắn chưa có kết quả mới rồi mới chọn “Xác nhận thử lại”.'));
       return false;
     }
     if (progress.stage === 'pending_review') {
@@ -6002,16 +6025,16 @@ function CreationDesk({
     if (!basePrompt) {
       setStatus('error');
       setMessage(caseResolving
-        ? t('statusMessages.templateLoading', '模板提示词正在读取，请稍后。')
-        : t('statusMessages.promptRequired', '请先填写提示词，或先选中一个画布节点继续。'));
+        ? t('statusMessages.templateLoading', 'Đang tải prompt mẫu, vui lòng đợi.')
+        : t('statusMessages.promptRequired', 'Hãy nhập prompt hoặc chọn một nút trên canvas để tiếp tục.'));
       return false;
     }
     const willUseCanvasReference = Boolean(activeSelectedNode && activeSelectedNode.kind !== 'video' && activeSelectedNode.url && (activeMode === 'edit' || activeMode === 'mask'));
     if (activeIsImageEditMode && !activeReferenceFiles.length && !willUseCanvasReference) {
       setStatus('error');
       setMessage(activeMode === 'mask'
-        ? t('statusMessages.maskModeReferenceRequired', '请先在 Mask 模式上传参考图。')
-        : t('statusMessages.referenceRequired', '请先上传参考图。'));
+        ? t('statusMessages.maskModeReferenceRequired', 'Hãy tải ảnh tham chiếu lên trong chế độ Mask.')
+        : t('statusMessages.referenceRequired', 'Hãy tải ảnh tham chiếu lên.'));
       return false;
     }
     let maskFile = null;
@@ -6019,7 +6042,7 @@ function CreationDesk({
       maskFile = options.maskFile || maskEditorRef.current?.exportMask?.() || null;
       if (!maskFile) {
         setStatus('error');
-        setMessage(t('statusMessages.maskEditorRequired', '请先在 Mask 编辑器里上传参考图并涂抹要重绘的区域。'));
+        setMessage(t('statusMessages.maskEditorRequired', 'Tải ảnh tham chiếu lên và tô vùng cần vẽ lại trong trình chỉnh sửa Mask.'));
         return false;
       }
     }
@@ -6039,8 +6062,8 @@ function CreationDesk({
     if (!providerRequest.apiKey) {
       setStatus('error');
       setMessage(providerSettings.apiKeySource === 'manual'
-        ? t('statusMessages.keyRequired', '请先填写密钥。')
-        : t('statusMessages.accountPreparing', '账号连接还在准备中。'));
+        ? t('statusMessages.keyRequired', 'Hãy nhập key.')
+        : t('statusMessages.accountPreparing', 'Đang chuẩn bị kết nối tài khoản.'));
       onOpenSettings();
       return false;
     }
@@ -6070,7 +6093,7 @@ function CreationDesk({
     const isCurrentRequest = () => generationRef.current.id === requestId;
     const stallTimer = window.setTimeout(() => {
       if (!isCurrentRequest() || firstByteAt) return;
-      setMessage(t('statusMessages.upstreamStall', '上游还没有返回数据，可能正在排队或生成较慢，请继续等待。'));
+      setMessage(t('statusMessages.upstreamStall', 'Dịch vụ nguồn chưa trả dữ liệu, có thể yêu cầu đang xếp hàng hoặc xử lý chậm. Hãy tiếp tục chờ.'));
       setProgress((current) => current.stage === 'request' ? { ...current, stage: 'queued', percent: Math.max(current.percent || 0, 12) } : current);
     }, GENERATION_STALL_NOTICE_MS);
     const timeoutTimer = window.setTimeout(() => {
@@ -6083,7 +6106,7 @@ function CreationDesk({
         stage: 'pending_review',
         percent: Math.max(current.percent || 0, 12)
       }));
-      setMessage(t('errors.timeout', '等待时间过长，这次页面已结束等待。上游可能仍在处理，请稍后查看历史图库后再决定是否重试。'));
+      setMessage(t('errors.timeout', 'Trang đã chờ quá lâu và ngừng chờ; điều này không có nghĩa dịch vụ nguồn đã hủy yêu cầu. Yêu cầu có thể vẫn đang xử lý, xếp hàng hoặc đã phát sinh phí. Hãy kiểm tra lịch sử ảnh và canvas rồi quyết định có thử lại không.'));
       const timeoutError = new Error('GENERATION_TIMEOUT');
       timeoutError.code = 'GENERATION_TIMEOUT';
       controller.abort(timeoutError);
@@ -6100,7 +6123,7 @@ function CreationDesk({
       model: activeMode === 'video' ? activeVideoModel : activeModel,
       spec: activeMode === 'video' ? `${activeVideoAspect} · ${activeVideoDuration}s · ${activeVideoFps}fps` : `${normalizedActiveSize} · ${normalizedActiveQuality} · ${RESOLUTION_TIER_LABELS[normalizedActiveResolutionTier] || normalizedActiveResolutionTier}`
     });
-    setMessage(t('statusMessages.submitted', '已提交'));
+    setMessage(t('statusMessages.submitted', 'Đã gửi'));
     try {
       if (activeMode === 'video') {
         if (!hasSyncedVideoModels || !activeVideoModel) {
@@ -6109,8 +6132,8 @@ function CreationDesk({
           setProgress({ stage: 'failed', percent: 0, completed: 0, total: 1 });
           setTiming((current) => current ? { ...current, status: 'failed', completedAt: failedAt } : current);
           setMessage(modelsStatus === 'loading'
-            ? t('statusMessages.videoModelsLoadingWait', '正在读取当前 Key 的视频模型，请稍后。')
-            : t('statusMessages.videoModelsUnavailable', '当前 Key 没有开放视频模型。'));
+            ? t('statusMessages.videoModelsLoadingWait', 'Đang tải model video cho key hiện tại, vui lòng đợi.')
+            : t('statusMessages.videoModelsUnavailable', 'Key hiện tại chưa được cấp quyền dùng model video.'));
           return false;
         }
         const referenceImage = activeVideoReferenceFiles[0]
@@ -6149,13 +6172,13 @@ function CreationDesk({
             }
             setVideoTask(nextProgress.task || null);
             setProgress((current) => ({ ...current, ...nextProgress }));
-            setMessage(progressText(nextProgress, t('progress.videoGenerating', '视频生成中')));
+            setMessage(progressText(nextProgress, t('progress.videoGenerating', 'Đang tạo video')));
           }
         });
         if (!isCurrentRequest()) return false;
         const urls = getVideoUrls(payload);
         if (!urls.length) {
-          throw new Error('视频任务已完成，但没有返回视频地址。');
+          throw new Error('Tác vụ video đã hoàn tất nhưng không trả về địa chỉ video.');
         }
         setResults([]);
         setVideoResults(urls);
@@ -6164,7 +6187,7 @@ function CreationDesk({
           parentId: lineageParentId,
           promptText: basePrompt,
           downloadMeta: generationMeta,
-          title: '视频结果'
+          title: 'Kết quả video'
         });
         setVideoTask(payload);
       setProgress({ stage: 'completed', percent: 100, completed: 1, total: 1 });
@@ -6173,7 +6196,8 @@ function CreationDesk({
       clearDraft();
       if (!options.fromQueue) setPrompt('');
       setStatus('success');
-      setMessage(t('statusMessages.videoDone', '视频生成完成。'));
+      setConversationOpen(false);
+      setMessage(t('statusMessages.videoDone', 'Đã tạo xong video.'));
         const historyId = generationMeta.id;
         const historyCreatedAt = generationMeta.createdAt;
         onHistoryAdd({
@@ -6274,7 +6298,7 @@ function CreationDesk({
               serverJobId: job.id,
               remote: true,
               restorable: false,
-              summary: job.prompt || basePrompt || '服务端生成任务'
+      summary: job.prompt || basePrompt || 'Tác vụ tạo ảnh trên máy chủ'
             });
           } else {
             syncRemoteGenerationJob(job);
@@ -6307,7 +6331,7 @@ function CreationDesk({
           }
         } catch (error) {
           if (generationRef.current.remoteJobId) throw error;
-          setMessage(t('statusMessages.serviceQueueFallback', '服务端队列暂不可用，已切换为本页直连生成。'));
+          setMessage(t('statusMessages.serviceQueueFallback', 'Hàng đợi máy chủ tạm thời không khả dụng; đã chuyển sang gửi yêu cầu trực tiếp từ trang này.'));
         }
       }
       if (!payload) {
@@ -6334,11 +6358,11 @@ function CreationDesk({
                 parentId: lineageParentId,
                 promptText: basePrompt,
                 downloadMeta: generationMeta,
-                title: t('statusMessages.previewTitle', '预览结果'),
+                title: t('statusMessages.previewTitle', 'Ảnh xem trước'),
                 replaceBatchId: generationMeta.id
               });
             }
-            setMessage(t('statusMessages.previewReceived', '收到预览'));
+            setMessage(t('statusMessages.previewReceived', 'Đã nhận ảnh xem trước'));
           },
           onProgress: (nextProgress) => {
             if (!isCurrentRequest()) return;
@@ -6347,7 +6371,7 @@ function CreationDesk({
               setTiming((current) => current ? { ...current, firstByteAt } : current);
             }
             setProgress((current) => ({ ...current, ...nextProgress }));
-            setMessage(progressText(nextProgress, t('statusMessages.generating', '生成中')));
+            setMessage(progressText(nextProgress, t('statusMessages.generating', 'Đang tạo')));
           }
         };
         payload = shouldUseImageEdits
@@ -6357,7 +6381,7 @@ function CreationDesk({
       }
       if (!isCurrentRequest()) return false;
       if (!urls.length) {
-        throw new Error(t('statusMessages.noImagesReturned', '请求完成，但没有返回图片。'));
+        throw new Error(t('statusMessages.noImagesReturned', 'Yêu cầu đã hoàn tất nhưng không có ảnh trả về.'));
       }
       setResults(urls);
       appendCanvasNodes(urls, {
@@ -6365,7 +6389,7 @@ function CreationDesk({
         parentId: lineageParentId,
         promptText: basePrompt,
         downloadMeta: generationMeta,
-        title: t('statusMessages.resultTitle', '生成结果'),
+        title: t('statusMessages.resultTitle', 'Kết quả'),
         replaceBatchId: generationMeta.id,
         persistedUrls: persistedResultUrls
       });
@@ -6375,9 +6399,10 @@ function CreationDesk({
       clearDraft();
       if (!options.fromQueue) setPrompt('');
       setStatus('success');
+      setConversationOpen(false);
       setMessage(urls.length
-        ? t('statusMessages.imageDone', '生成完成。')
-        : t('statusMessages.noImagesReturned', '请求完成，但没有返回图片。'));
+        ? t('statusMessages.imageDone', 'Đã tạo xong ảnh.')
+        : t('statusMessages.noImagesReturned', 'Yêu cầu đã hoàn tất nhưng không có ảnh trả về.'));
       const historyId = generationMeta.id;
       const historyCreatedAt = generationMeta.createdAt;
       onHistoryAdd({
@@ -6464,7 +6489,7 @@ function CreationDesk({
       const historyClient = new StudioHistoryClient({ session: loadSession() });
       historyClient.cancelGenerationJob(remoteJobId)
         .then((job) => setMessage(serverJobMessage(job || { status: 'canceled' })))
-        .catch(() => setMessage(t('errors.cancelFailed', '已停止本页等待；服务端取消失败，请稍后查看历史图库/当前画布，再决定是否重试。')));
+        .catch(() => setMessage(t('errors.cancelFailed', 'Đã dừng chờ trên trang này nhưng máy chủ không hủy được yêu cầu. Hãy kiểm tra lịch sử ảnh và canvas rồi quyết định có thử lại không.')));
     }
   }
 
@@ -6484,7 +6509,7 @@ function CreationDesk({
       : '';
   const workPreviewFallback = templateThumbnail(selectedCase);
   const previewAlt = primaryImageResult
-    ? '生成结果 1'
+    ? 'Kết quả tạo ảnh 1'
     : mode === 'video' && videoReferenceFiles[0]
     ? videoReferenceFiles[0].name
     : isImageEditMode && referenceFiles[0]
@@ -6495,20 +6520,28 @@ function CreationDesk({
   const generationActionClass = status === 'error' ? 'isRetryAction' : '';
   const needsReviewBeforeRetry = status === 'error' && progress.stage === 'pending_review';
   const generationActionLabel = isGenerating
-    ? t('composer.queueMore', '加入队列')
+    ? t('composer.queueMore', 'Thêm vào hàng đợi')
     : needsReviewBeforeRetry
-      ? t('composer.confirmRetry', '确认重试')
+      ? t('composer.confirmRetry', 'Xác nhận thử lại')
       : status === 'error'
-        ? t('composer.retry', '重试')
-        : t('composer.generate', '生成');
+        ? t('composer.retry', 'Thử lại')
+        : mode === 'video' ? t('composer.generateVideo', 'Tạo video') : t('composer.generateImage', 'Tạo ảnh');
   const generationActionIcon = status === 'error' ? <Redo2 size={18} /> : <Sparkles size={18} />;
   const compactGenerationActionIcon = status === 'error' ? <Redo2 size={16} /> : <Sparkles size={16} />;
   const handleGenerateAction = () => {
+    if (!isReady) { onOpenSettings(); return; }
+    if (!prompt.trim()) { promptInputRef.current?.focus(); return; }
     if (isGenerating) {
       enqueueGeneration();
       return;
     }
     enqueueGeneration();
+  };
+  const handleImprovePrompt = () => {
+    if (!isReady) { onOpenSettings(); return; }
+    if (!prompt.trim()) { promptInputRef.current?.focus(); return; }
+    if (optimizingPrompt || caseResolving || isGenerating) return;
+    sendAssistantMessage();
   };
   const maskSourcePreview = referencePreviews[0] || (mode === 'mask' && selectedCanvasNode && selectedCanvasNode.kind !== 'video' ? selectedCanvasNode.url : '');
   const maskSourceFile = referenceFiles[0] || (maskSourcePreview ? { name: selectedCanvasNode ? `#${selectedCanvasNode.canvasIndex || 1}.png` : 'reference.png' } : null);
@@ -6520,34 +6553,63 @@ function CreationDesk({
   const referenceSideLimit = mode === 'mask' || mode === 'video' ? 1 : IMAGE_REFERENCE_LIMIT;
   const composerUsesEditRoute = mode === 'mask' || (mode === 'edit' && (referenceFiles.length || selectedCanvasNode?.url));
   const composerRouteLabel = mode === 'video'
-    ? t('composer.routeVideo', '视频任务接口')
+    ? t('composer.routeVideo', 'API tác vụ video')
     : composerUsesEditRoute
       ? '/v1/images/edits'
       : '/v1/images/generations';
   const composerContextTitle = selectedCanvasNode
-    ? t('composer.contextContinue', '基于 #{index} 继续创作', { index: selectedCanvasNode.canvasIndex || '' })
+    ? t('composer.contextContinue', 'Tiếp tục sáng tạo từ #{index}', { index: selectedCanvasNode.canvasIndex || '' })
     : selectedCase?.title
-      ? t('composer.contextTemplate', '来自模板：{title}', { title: selectedCase.title })
-      : t('composer.contextNew', '新的创作会话');
+      ? t('composer.contextTemplate', 'Từ mẫu: {title}', { title: selectedCase.title })
+      : t('composer.contextNew', 'Phiên sáng tạo mới');
   const composerContextMeta = selectedCanvasNode
     ? composerUsesEditRoute
-      ? t('composer.contextUsesReference', '当前会把选中图片作为参考图')
-      : t('composer.contextLineageOnly', '当前只继承提示词和画布关系')
+      ? t('composer.contextUsesReference', 'Ảnh đã chọn sẽ được dùng làm ảnh tham chiếu')
+      : t('composer.contextLineageOnly', 'Chỉ kế thừa prompt và liên kết trên canvas')
     : mode === 'video'
-      ? t('composer.contextVideo', '视频参数在右侧设置')
-      : t('composer.title', '把想法说出来，先整理，再生成');
+      ? t('composer.contextVideo', 'Cài thông số video ở bên phải')
+      : t('composer.title', 'Chia sẻ ý tưởng, hoàn thiện prompt rồi tạo ảnh');
   const composerGenerationVisible = status === 'loading' || progress.stage === 'failed' || progress.stage === 'pending_review' || (status === 'error' && Boolean(message));
   const composerThreadHasContent = Boolean(composerGenerationVisible || assistantMessages.length || promptSuggestion);
+  const conversationVisible = conversationOpen && composerThreadHasContent;
+  const hasCanvasContent = Boolean(canvasNodes.length || hasPrimaryResult || workPreviewImage);
+  const isStarting = !hasCanvasContent && !isGenerating;
+  const starterIdeas = mode === 'video' ? [
+    { id: 'product-video', label: t('starter.videoProduct', 'Video sản phẩm'), prompt: t('starter.videoProductPrompt', 'Máy quay chậm rãi di chuyển quanh một chai nước hoa trên nền đá sáng, ánh sáng cửa sổ mềm, khung hình ổn định.') },
+    { id: 'landscape', label: t('starter.landscape', 'Phong cảnh'), prompt: t('starter.landscapePrompt', 'Máy quay lướt chậm qua một thung lũng phủ sương vào bình minh, ánh sáng ấm, chuyển động tự nhiên.') },
+    { id: 'animation', label: t('starter.animation', 'Hoạt hình'), prompt: t('starter.animationPrompt', 'Một nhân vật bằng giấy đang đọc sách bên cửa sổ, phong cách hoạt hình thủ công, chuyển động nhẹ nhàng.') }
+  ] : [
+    { id: 'product', label: t('starter.product', 'Ảnh sản phẩm'), prompt: t('starter.productPrompt', 'Ảnh sản phẩm: một chai nước hoa trên nền đá sáng, ánh sáng cửa sổ mềm, bố cục tối giản, không có chữ.') },
+    { id: 'illustration', label: t('starter.illustration', 'Minh họa'), prompt: t('starter.illustrationPrompt', 'Minh họa một tiệm sách nhỏ vào buổi tối, ánh đèn vàng ấm, nét vẽ tay và bảng màu dịu.') },
+    { id: 'poster', label: t('starter.poster', 'Áp phích'), prompt: t('starter.posterPrompt', 'Áp phích cho một triển lãm kiến trúc, hình khối táo bạo, tông đen và kem, chừa khoảng trống để đặt tiêu đề.') }
+  ];
   const activeGenerationQueueItems = generationQueue.filter((item) => CURRENT_PROJECT_QUEUE_STATUSES.has(item.status));
   const composerFolded = layoutSections.bottomComposer && layoutSections.composerFolded === true;
-  const toggleComposerFold = () => updateLayoutSections({
-    bottomComposer: true,
-    composerFolded: !composerFolded,
-    composerParameters: composerFolded ? layoutSections.composerParameters : false
-  });
 
   return (
-    <section className={`creationDesk ${layoutSections.references ? 'referencesOpen' : ''} ${layoutSections.bottomComposer ? 'composerOpen' : ''} ${composerThreadHasContent ? 'composerHasThread' : ''} ${layoutSections.composerParameters === false ? 'composerParamsCollapsed' : ''} ${layoutSections.parametersRail === false ? 'paramRailCollapsed' : ''} ${composerFolded ? 'composerFolded' : ''}`}>
+    <section className={`creationDesk ${isStarting ? 'isStarting' : 'hasWorkspaceContent'} ${layoutSections.references ? 'referencesOpen' : ''} ${layoutSections.bottomComposer ? 'composerOpen' : ''} ${conversationVisible ? 'composerHasThread' : ''} ${layoutSections.composerParameters === false ? 'composerParamsCollapsed' : ''} ${layoutSections.parametersRail === false ? 'paramRailCollapsed' : ''} ${composerFolded ? 'composerFolded' : ''}`}
+      onDragOver={(event) => {
+        if (!event.dataTransfer?.types?.includes('Files')) return;
+        event.preventDefault();
+        if (!layoutSections.references) updateLayoutSections({ references: true });
+      }}
+      onDrop={(event) => {
+        if (event.defaultPrevented) return;
+        const files = event.dataTransfer?.files;
+        if (!files?.length) return;
+        event.preventDefault();
+        if (mode === 'video') appendVideoReferenceImage(files);
+        else appendReferenceImages(files);
+      }}>
+      {isStarting ? (
+        <div className="starterWelcome">
+          <h2>{mode === 'video' ? t('starter.videoTitle', 'Tạo video đầu tiên') : t('starter.title', 'Tạo ảnh đầu tiên')}</h2>
+          <p>{t('starter.hint', 'Chọn một gợi ý hoặc mô tả ý tưởng của bạn.')}</p>
+          <div className="starterIdeas">
+            {starterIdeas.map((idea) => <button type="button" key={idea.id} onClick={() => { setPrompt(idea.prompt); requestAnimationFrame(() => promptInputRef.current?.focus()); }}>{idea.label}</button>)}
+          </div>
+        </div>
+      ) : null}
       <div
         ref={workPreviewRef}
         className={`workPreview infiniteCanvas ${hasPrimaryResult ? 'hasResult' : ''} ${canvasPerformanceMode ? 'performanceMode' : ''}`}
@@ -6555,11 +6617,23 @@ function CreationDesk({
         onPointerMove={moveCanvasPan}
         onPointerUp={endCanvasPan}
         onPointerCancel={endCanvasPan}
+        onDragOver={(event) => {
+          if (!event.dataTransfer?.types?.includes('Files')) return;
+          event.preventDefault();
+          if (!layoutSections.references) updateLayoutSections({ references: true });
+        }}
+        onDrop={(event) => {
+          const files = supportedReferenceFiles(event.dataTransfer?.files, mode === 'video' ? 1 : IMAGE_REFERENCE_LIMIT);
+          if (!files.length) return;
+          event.preventDefault();
+          if (mode === 'video') appendVideoReferenceImage(files);
+          else appendReferenceImages(files);
+        }}
       >
         {activeGenerationQueueItems.length ? (
-          <div className="canvasQueueDock" aria-label={t('composer.queue', '生成队列')} onPointerDown={(event) => event.stopPropagation()}>
+          <div className="canvasQueueDock" aria-label={t('composer.queue', 'Hàng đợi tạo ảnh')} onPointerDown={(event) => event.stopPropagation()}>
             <div className="canvasQueueHead">
-              <strong>{t('composer.queue', '生成队列')}</strong>
+              <strong>{t('composer.queue', 'Hàng đợi tạo ảnh')}</strong>
               <span>{generationQueueHeadline(activeGenerationQueueItems, t)}</span>
             </div>
             <div className="canvasQueueList">
@@ -6572,8 +6646,8 @@ function CreationDesk({
                     <button
                       type="button"
                       onClick={() => cancelGenerationTask(item.id)}
-                      aria-label={item.status === 'running' ? t('composer.cancelRunningTask', '停止当前任务') : t('composer.cancelQueuedTask', '取消排队任务')}
-                      title={item.status === 'running' ? t('composer.cancelRunningTask', '停止当前任务') : t('composer.cancelQueuedTask', '取消排队任务')}
+                      aria-label={item.status === 'running' ? t('composer.cancelRunningTask', 'Dừng tác vụ hiện tại') : t('composer.cancelQueuedTask', 'Hủy tác vụ đang chờ')}
+                      title={item.status === 'running' ? t('composer.cancelRunningTask', 'Dừng tác vụ hiện tại') : t('composer.cancelQueuedTask', 'Hủy tác vụ đang chờ')}
                     >
                       <X size={13} />
                     </button>
@@ -6583,8 +6657,8 @@ function CreationDesk({
                       type="button"
                       className="retryQueueAction"
                       onClick={() => retryGenerationTask(item.id)}
-                      aria-label={t('composer.retryTask', '重试这个任务')}
-                      title={t('composer.retryTask', '重试这个任务')}
+                      aria-label={t('composer.retryTask', 'Thử lại tác vụ này')}
+                      title={t('composer.retryTask', 'Thử lại tác vụ này')}
                     >
                       <Redo2 size={13} />
                     </button>
@@ -6593,8 +6667,8 @@ function CreationDesk({
                     <button
                       type="button"
                       onClick={() => acknowledgeGenerationTask(item.id)}
-                      aria-label={t('composer.dismissQueueNotice', '收起队列提示')}
-                      title={t('composer.dismissQueueNotice', '收起队列提示')}
+                      aria-label={t('composer.dismissQueueNotice', 'Ẩn thông báo hàng đợi')}
+                      title={t('composer.dismissQueueNotice', 'Ẩn thông báo hàng đợi')}
                     >
                       <X size={13} />
                     </button>
@@ -6604,11 +6678,11 @@ function CreationDesk({
             </div>
           </div>
         ) : null}
-        <div className="canvasToolbar" aria-label={t('canvas.toolbar', '画布工具')}>
-          <button type="button" onClick={() => setCanvasZoom((value) => value - 0.1)} aria-label={t('canvas.zoomOut', '缩小画布')} title={`${t('canvas.zoomOut', '缩小画布')} Ctrl/Cmd + -`}>-</button>
+        <div className="canvasToolbar" aria-label={t('canvas.toolbar', 'Công cụ canvas')}>
+          <button type="button" onClick={() => setCanvasZoom((value) => value - 0.1)} aria-label={t('canvas.zoomOut', 'Thu nhỏ canvas')} title={`${t('canvas.zoomOut', 'Thu nhỏ canvas')} Ctrl/Cmd + -`}>-</button>
           <span>{Math.round(canvasView.zoom * 100)}%</span>
-          <button type="button" onClick={() => setCanvasZoom((value) => value + 0.1)} aria-label={t('canvas.zoomIn', '放大画布')} title={`${t('canvas.zoomIn', '放大画布')} Ctrl/Cmd + +`}>+</button>
-          <button type="button" onClick={resetCanvasView} title={`${t('canvas.reset', '重置')} Ctrl/Cmd + 0`}>{t('canvas.reset', '重置')}</button>
+          <button type="button" onClick={() => setCanvasZoom((value) => value + 0.1)} aria-label={t('canvas.zoomIn', 'Phóng to canvas')} title={`${t('canvas.zoomIn', 'Phóng to canvas')} Ctrl/Cmd + +`}>+</button>
+          <button type="button" onClick={resetCanvasView} title={`${t('canvas.reset', 'Đặt lại')} Ctrl/Cmd + 0`}>{t('canvas.reset', 'Đặt lại')}</button>
         </div>
         <div
           className="canvasPlane"
@@ -6710,16 +6784,16 @@ function CreationDesk({
                   className="canvasPort canvasPortIn"
                   data-node-id={node.id}
                   onPointerDown={(event) => finishCanvasLink(event, node)}
-                  aria-label={`${t('canvas.connectTo', '连接到这张图')} #${node.canvasIndex || ''}`}
-                  title={t('canvas.connectTo', '连接到这张图')}
+                  aria-label={`${t('canvas.connectTo', 'Kết nối với ảnh này')} #${node.canvasIndex || ''}`}
+                  title={t('canvas.connectTo', 'Kết nối với ảnh này')}
                 />
                 <button
                   type="button"
                   className="canvasPort canvasPortOut"
                   data-node-id={node.id}
                   onPointerDown={(event) => startCanvasLink(event, node)}
-                  aria-label={`${t('canvas.dragConnect', '拖到另一张图建立关联')} #${node.canvasIndex || ''}`}
-                  title={t('canvas.dragConnect', '拖到另一张图建立关联')}
+                  aria-label={`${t('canvas.dragConnect', 'Kéo đến ảnh khác để tạo liên kết')} #${node.canvasIndex || ''}`}
+                  title={t('canvas.dragConnect', 'Kéo đến ảnh khác để tạo liên kết')}
                 />
                 <button
                   type="button"
@@ -6743,7 +6817,7 @@ function CreationDesk({
                       <ProtectedStudioImage
                         src={displayResultUrl(node.url)}
                         alt={node.title}
-                        fallback={<span className="canvasNodeMissing">{t('canvas.recovering', '图片正在恢复，若仍为空请从历史图库重新打开本次会话')}</span>}
+                        fallback={<span className="canvasNodeMissing">{t('canvas.recovering', 'Đang khôi phục ảnh. Nếu canvas vẫn trống, hãy mở lại phiên này từ lịch sử ảnh.')}</span>}
                       />
                     </>
                   )}
@@ -6758,52 +6832,52 @@ function CreationDesk({
                   }}
                 >
                   <SquarePen size={13} />
-                  {t('canvas.continueEdit', '继续优化')}
+                  {t('canvas.continueEdit', 'Tiếp tục chỉnh sửa')}
                 </button>
                 <div className="canvasNodeToolbar" onClick={(event) => event.stopPropagation()}>
-                  <button type="button" onClick={() => previewCanvasNode(node)} aria-label={`${t('canvas.preview', '预览')} #${node.canvasIndex || ''}`} title={t('canvas.preview', '预览')}>
+                  <button type="button" onClick={() => previewCanvasNode(node)} aria-label={`${t('canvas.preview', 'Xem trước')} #${node.canvasIndex || ''}`} title={t('canvas.preview', 'Xem trước')}>
                     <Search size={13} />
                   </button>
-                  <button type="button" onClick={() => openCanvasEditor(node)} aria-label={`${t('canvas.continueEdit', '继续优化')} #${node.canvasIndex || ''}`} title={t('canvas.continueEdit', '继续优化')}>
+                  <button type="button" onClick={() => openCanvasEditor(node)} aria-label={`${t('canvas.continueEdit', 'Tiếp tục chỉnh sửa')} #${node.canvasIndex || ''}`} title={t('canvas.continueEdit', 'Tiếp tục chỉnh sửa')}>
                     <SquarePen size={13} />
                   </button>
                   {node.kind !== 'video' ? (
-                    <button type="button" onClick={() => setCanvasNodeAsReference(node)} aria-label={`${t('canvas.setReference', '设为参考')} #${node.canvasIndex || ''}`} title={t('canvas.setReference', '设为参考')}>
+                    <button type="button" onClick={() => setCanvasNodeAsReference(node)} aria-label={`${t('canvas.setReference', 'Đặt làm ảnh tham chiếu')} #${node.canvasIndex || ''}`} title={t('canvas.setReference', 'Đặt làm ảnh tham chiếu')}>
                       <ImageIcon size={13} />
                     </button>
                   ) : null}
-                  <button type="button" onClick={() => copyCanvasNodePrompt(node)} disabled={!node.prompt} aria-label={`${t('canvas.copyPrompt', '复制提示词')} #${node.canvasIndex || ''}`} title={t('canvas.copyPrompt', '复制提示词')}>
+                  <button type="button" onClick={() => copyCanvasNodePrompt(node)} disabled={!node.prompt} aria-label={`${t('canvas.copyPrompt', 'Sao chép prompt')} #${node.canvasIndex || ''}`} title={t('canvas.copyPrompt', 'Sao chép prompt')}>
                     <Copy size={13} />
                   </button>
-                  <a href={displayResultUrl(node.url)} download={nodeDownloadName} aria-label={`${t('canvas.download', '下载')} #${node.canvasIndex || ''}`} title={t('canvas.download', '下载')}>
+                  <a href={displayResultUrl(node.url)} download={nodeDownloadName} aria-label={`${t('canvas.download', 'Tải xuống')} #${node.canvasIndex || ''}`} title={t('canvas.download', 'Tải xuống')}>
                     <Download size={13} />
                   </a>
-                  <button type="button" onClick={() => deleteCanvasNode(node)} aria-label={`${t('canvas.delete', '删除')} #${node.canvasIndex || ''}`} title={t('canvas.delete', '删除')}>
+                  <button type="button" onClick={() => deleteCanvasNode(node)} aria-label={`${t('canvas.delete', 'Xóa')} #${node.canvasIndex || ''}`} title={t('canvas.delete', 'Xóa')}>
                     <Trash2 size={13} />
                   </button>
                 </div>
                 {canvasEditorNodeId === node.id ? (
                   <div className="canvasInlineEditor" onClick={(event) => event.stopPropagation()}>
                     <div className="canvasInlineEditorHead">
-                      <strong>{t('canvas.inlineContinue', '#{index} 继续优化', { index: node.canvasIndex || '' })}</strong>
-                      <button type="button" onClick={closeCanvasEditor} aria-label={t('settings.close', '关闭')}>
+                      <strong>{t('canvas.inlineContinue', '#{index} Tiếp tục chỉnh sửa', { index: node.canvasIndex || '' })}</strong>
+                      <button type="button" onClick={closeCanvasEditor} aria-label={t('settings.close', 'Đóng')}>
                         <X size={13} />
                       </button>
                     </div>
                     <textarea
                       value={canvasEditorPrompt}
                       onChange={(event) => setCanvasEditorPrompt(event.target.value)}
-                      placeholder={t('canvas.inlinePlaceholder', '输入这一轮要补充、调整或重绘的地方')}
+                      placeholder={t('canvas.inlinePlaceholder', 'Nhập nội dung cần bổ sung, chỉnh sửa hoặc vẽ lại trong lượt này')}
                       autoFocus
                     />
-                    <div className="canvasInlineModes" role="group" aria-label={t('canvas.continueMode', '续作方式')}>
-                      <button type="button" className={canvasEditorMode === 'image' ? 'active' : ''} onClick={() => changeCanvasEditorMode('image')}>{t('canvas.derive', '衍生')}</button>
-                      <button type="button" className={canvasEditorMode === 'edit' ? 'active' : ''} onClick={() => changeCanvasEditorMode('edit')}>{t('canvas.referenceEdit', '参考编辑')}</button>
+                    <div className="canvasInlineModes" role="group" aria-label={t('canvas.continueMode', 'Cách tiếp tục')}>
+                      <button type="button" className={canvasEditorMode === 'image' ? 'active' : ''} onClick={() => changeCanvasEditorMode('image')}>{t('canvas.derive', 'Tạo biến thể')}</button>
+                      <button type="button" className={canvasEditorMode === 'edit' ? 'active' : ''} onClick={() => changeCanvasEditorMode('edit')}>{t('canvas.referenceEdit', 'Chỉnh theo ảnh tham chiếu')}</button>
                       <button type="button" className={canvasEditorMode === 'mask' ? 'active' : ''} onClick={() => changeCanvasEditorMode('mask')}>Mask</button>
                     </div>
-                    {canvasEditorMode === 'image' ? <p>{t('canvas.deriveHint', '只继承提示词和画布关系，不把原图作为参考图。')}</p> : null}
-                    {canvasEditorMode === 'edit' ? <p>{t('canvas.editHint', '会把这张图作为参考图，调用 /v1/images/edits。')}</p> : null}
-                    {canvasEditorMode === 'mask' ? <p>{t('canvas.maskHint', '先在 Mask 面板涂抹要重绘的区域，再用这个节点继续生成。')}</p> : null}
+                    {canvasEditorMode === 'image' ? <p>{t('canvas.deriveHint', 'Chỉ kế thừa prompt và liên kết trên canvas, không dùng ảnh gốc làm ảnh tham chiếu.')}</p> : null}
+                    {canvasEditorMode === 'edit' ? <p>{t('canvas.editHint', 'Ảnh này sẽ được dùng làm ảnh tham chiếu qua /v1/images/edits.')}</p> : null}
+                    {canvasEditorMode === 'mask' ? <p>{t('canvas.maskHint', 'Tô vùng cần vẽ lại trong bảng Mask, rồi dùng nút này để tiếp tục tạo ảnh.')}</p> : null}
                     <button
                       type="button"
                       className={`canvasInlineGenerate ${generationActionClass}`}
@@ -6819,14 +6893,14 @@ function CreationDesk({
                   type="button"
                   className="canvasNodeResize"
                   onPointerDown={(event) => startCanvasNodeResize(event, node)}
-                  aria-label={`${t('canvas.resize', '拖拽调整窗口大小')} #${node.canvasIndex || ''}`}
-                  title={t('canvas.resize', '拖拽调整窗口大小')}
+                  aria-label={`${t('canvas.resize', 'Kéo để thay đổi kích thước cửa sổ')} #${node.canvasIndex || ''}`}
+                  title={t('canvas.resize', 'Kéo để thay đổi kích thước cửa sổ')}
                 />
                 <small>{compact(node.prompt, 46)}</small>
                 {selectedCanvasNodeId === node.id && !childNodeIds.size ? (
                   <div className="canvasNextHint">
-                    <strong>{t('canvas.continueTitle', '继续这张图')}</strong>
-                    <span>{t('canvas.continueHint', '在下方会话补充要求，或点右上角继续优化。')}</span>
+                    <strong>{t('canvas.continueTitle', 'Tiếp tục chỉnh ảnh này')}</strong>
+                    <span>{t('canvas.continueHint', 'Bổ sung yêu cầu trong phiên bên dưới hoặc chọn tiếp tục chỉnh sửa ở góc trên bên phải.')}</span>
                   </div>
                 ) : null}
               </div>
@@ -6834,8 +6908,8 @@ function CreationDesk({
           }) : primaryVideoResult ? (
             <div className="canvasNode emptyCanvasNode previewFallbackNode">
               <Video size={28} />
-              <strong>{t('canvas.videoResult', '视频结果')}</strong>
-              <span>{t('canvas.nextNodeHint', '下一次生成会在画布里形成节点关系。')}</span>
+              <strong>{t('canvas.videoResult', 'Kết quả video')}</strong>
+              <span>{t('canvas.nextNodeHint', 'Lần tạo tiếp theo sẽ được nối thành một nút trên canvas.')}</span>
             </div>
           ) : workPreviewImage ? (
             <div className="canvasNode sourceNode previewFallbackNode">
@@ -6844,26 +6918,26 @@ function CreationDesk({
                 fallbackSrc={workPreviewFallback}
                 alt={previewAlt}
               />
-              <span className="canvasNodeLabel">{hasPrimaryResult ? '#1' : selectedCase?.title || t('canvas.sourceImage', '参考画面')}</span>
+              <span className="canvasNodeLabel">{hasPrimaryResult ? '#1' : selectedCase?.title || t('canvas.sourceImage', 'Ảnh tham chiếu')}</span>
             </div>
           ) : (
             <div className="canvasNode emptyCanvasNode">
               <ImageIcon size={28} />
-              <strong>{t('canvas.title', '画布')}</strong>
-              <span>{t('canvas.empty', '在底部输入想法并生成，第一张会成为 #1；选中任意图片后，再补充要求即可继续延伸。')}</span>
+              <strong>{t('canvas.title', 'Canvas')}</strong>
+              <span>{t('canvas.empty', 'Nhập ý tưởng ở phía dưới để tạo ảnh đầu tiên (#1). Chọn ảnh bất kỳ rồi bổ sung yêu cầu để tiếp tục.')}</span>
             </div>
           )}
         </div>
       </div>
-      <aside className={`referenceSidePanel ${layoutSections.references ? 'isOpen' : 'isCollapsed'}`} aria-label={t('references.title', '参考图（可选）')}>
+      <aside className={`referenceSidePanel ${layoutSections.references ? 'isOpen' : 'isCollapsed'}`} aria-label={t('references.title', 'Ảnh tham chiếu (tùy chọn)')}>
         {layoutSections.references ? (
           <>
             <div className="referenceSideHead">
               <div>
-                <strong>{mode === 'mask' ? t('references.maskTitle', '参考图与蒙版') : t('references.title', '参考图（可选）')}</strong>
-                <span>{mode === 'mask' ? 'Mask / edits' : referenceFiles.length || videoReferenceFiles.length ? t('references.selected', '已选择 {count} 张', { count: mode === 'video' ? videoReferenceFiles.length : referenceFiles.length }) : t('references.sideHint', '拖拽、粘贴或上传')}</span>
+                <strong>{mode === 'mask' ? t('references.maskTitle', 'Ảnh tham chiếu và mặt nạ') : t('references.title', 'Ảnh tham chiếu (tùy chọn)')}</strong>
+                <span>{mode === 'mask' ? 'Mask / edits' : referenceFiles.length || videoReferenceFiles.length ? t('references.selected', 'Đã chọn {count} ảnh', { count: mode === 'video' ? videoReferenceFiles.length : referenceFiles.length }) : t('references.sideHint', 'Kéo, dán hoặc tải lên')}</span>
               </div>
-              <button type="button" onClick={() => toggleLayoutSection('references')} aria-label={t('references.collapse', '收起参考图')}>
+              <button type="button" onClick={() => toggleLayoutSection('references')} aria-label={t('references.collapse', 'Thu gọn ảnh tham chiếu')}>
                 <PanelLeftClose size={15} />
               </button>
             </div>
@@ -6877,7 +6951,7 @@ function CreationDesk({
                     const nextFile = supportedReferenceFiles(files, 1)[0];
                     if (!nextFile) {
                       setStatus('error');
-                      setMessage(t('references.unsupportedFormat', '只支持 PNG / JPG / WebP 参考图。'));
+                      setMessage(t('references.unsupportedFormat', 'Chỉ hỗ trợ ảnh PNG / JPG / WebP.'));
                       return;
                     }
                     setReferenceItems([createReferenceItem(nextFile, 'identity')]);
@@ -6900,8 +6974,8 @@ function CreationDesk({
                 />
                 {maskExportUrl ? (
                   <div className="maskExportPreview">
-                    <img src={maskExportUrl} alt="已导出的 mask" />
-                    <span>{t('references.exportedMask', '已导出 mask.png')}</span>
+                    <img src={maskExportUrl} alt="Mask đã xuất" />
+                    <span>{t('references.exportedMask', 'Đã xuất mask.png')}</span>
                   </div>
                 ) : null}
               </div>
@@ -6927,7 +7001,7 @@ function CreationDesk({
                   onPaste={videoReferencePasteFiles}
                 >
                   <Upload size={18} />
-                  <span>{videoReferenceFiles.length ? t('references.replaceVideo', '更换 / 拖入更多') : t('references.optionalUpload', '拖拽 / 粘贴 / 上传参考图，可选')}</span>
+                  <span>{videoReferenceFiles.length ? t('references.replaceVideo', 'Thay thế hoặc kéo thả thêm') : t('references.optionalUpload', 'Kéo / dán / tải ảnh tham chiếu lên (tùy chọn)')}</span>
                   <input
                     type="file"
                     accept="image/png,image/jpeg,image/webp"
@@ -6954,11 +7028,11 @@ function CreationDesk({
                               createdAt: new Date().toISOString()
                             }
                           })}
-                          aria-label={t('references.preview', '查看参考图')}
+                          aria-label={t('references.preview', 'Xem ảnh tham chiếu')}
                         >
-                          <LazyImage src={url} alt={videoReferenceFiles[index]?.name || t('references.videoReference', '视频参考图')} />
+                          <LazyImage src={url} alt={videoReferenceFiles[index]?.name || t('references.videoReference', 'Video tham chiếu')} />
                         </button>
-                        <button type="button" onClick={removeVideoReferenceImage} aria-label={t('references.remove', '移除参考图')}>
+                        <button type="button" onClick={removeVideoReferenceImage} aria-label={t('references.remove', 'Xóa ảnh tham chiếu')}>
                           <X size={13} />
                         </button>
                       </figure>
@@ -6988,7 +7062,7 @@ function CreationDesk({
                   onPaste={referencePasteFiles}
                 >
                   <Upload size={18} />
-                  <span>{referenceFiles.length ? t('references.addMore', '继续添加 / 拖入更多') : t('references.upload', '拖拽 / 粘贴 / 上传参考图')}</span>
+                  <span>{referenceFiles.length ? t('references.addMore', 'Thêm ảnh hoặc kéo thả vào đây') : t('references.upload', 'Kéo / dán / tải ảnh tham chiếu lên')}</span>
                   <input
                     type="file"
                     accept="image/png,image/jpeg,image/webp"
@@ -7016,34 +7090,34 @@ function CreationDesk({
                               createdAt: new Date().toISOString()
                             }
                           })}
-                          aria-label={t('references.preview', '查看参考图')}
+                          aria-label={t('references.preview', 'Xem ảnh tham chiếu')}
                         >
-                          <LazyImage src={url} alt={referenceItems[index]?.file?.name || t('references.referenceIndex', '参考 {index}', { index: index + 1 })} />
+                          <LazyImage src={url} alt={referenceItems[index]?.file?.name || t('references.referenceIndex', 'Ảnh tham chiếu {index}', { index: index + 1 })} />
                         </button>
                         <figcaption>
                           <select
                             value={referenceItems[index]?.role || 'identity'}
                             onChange={(event) => updateReferenceRole(index, event.target.value)}
-                            aria-label={t('references.role', '参考图 {index} 角色', { index: index + 1 })}
+                            aria-label={t('references.role', 'Vai trò của ảnh tham chiếu {index}', { index: index + 1 })}
                           >
                             {REFERENCE_ROLES.map((role) => (
                               <option key={role.value} value={role.value}>{role.label}</option>
                             ))}
                           </select>
-                          <span>{index === 0 ? t('references.mainReference', '主参考') : t('references.referenceIndex', '参考 {index}', { index: index + 1 })}</span>
+                          <span>{index === 0 ? t('references.mainReference', 'Ảnh tham chiếu chính') : t('references.referenceIndex', 'Ảnh tham chiếu {index}', { index: index + 1 })}</span>
                         </figcaption>
                         <div className="referenceFileMeta">
-                          <strong>{referenceItems[index]?.file?.name || t('references.referenceIndex', '参考 {index}', { index: index + 1 })}</strong>
-                          <span>{formatFileSize(referenceItems[index]?.file?.size) || t('references.preview', '查看参考图')}</span>
+                          <strong>{referenceItems[index]?.file?.name || t('references.referenceIndex', 'Ảnh tham chiếu {index}', { index: index + 1 })}</strong>
+                          <span>{formatFileSize(referenceItems[index]?.file?.size) || t('references.preview', 'Xem ảnh tham chiếu')}</span>
                         </div>
                         <div className="referenceThumbActions">
-                          <button type="button" onClick={() => moveReferenceImage(index, -1)} disabled={index === 0} aria-label={t('references.moveBefore', '前移参考图')}>
+                          <button type="button" onClick={() => moveReferenceImage(index, -1)} disabled={index === 0} aria-label={t('references.moveBefore', 'Đưa ảnh tham chiếu lên trước')}>
                             <ArrowUp size={13} />
                           </button>
-                          <button type="button" onClick={() => moveReferenceImage(index, 1)} disabled={index === referencePreviews.length - 1} aria-label={t('references.moveAfter', '后移参考图')}>
+                          <button type="button" onClick={() => moveReferenceImage(index, 1)} disabled={index === referencePreviews.length - 1} aria-label={t('references.moveAfter', 'Đưa ảnh tham chiếu xuống sau')}>
                             <ArrowDown size={13} />
                           </button>
-                          <button type="button" onClick={() => removeReferenceImage(index)} aria-label={t('references.remove', '移除参考图')}>
+                          <button type="button" onClick={() => removeReferenceImage(index)} aria-label={t('references.remove', 'Xóa ảnh tham chiếu')}>
                             <X size={13} />
                           </button>
                         </div>
@@ -7055,13 +7129,13 @@ function CreationDesk({
             )}
             <div className="referenceSideFoot">
               <span>{referenceSideCount}/{referenceSideLimit}</span>
-              <strong>{t('references.title', '参考图')}</strong>
+              <strong>{t('references.title', 'Ảnh tham chiếu (tùy chọn)')}</strong>
             </div>
           </>
         ) : (
-          <button type="button" className="referenceSideCollapsed" onClick={() => toggleLayoutSection('references')}>
+          <button type="button" className="referenceSideCollapsed" onClick={() => toggleLayoutSection('references')} title={t('references.add', 'Thêm ảnh tham chiếu')}>
             <Images size={17} />
-            <span>{t('references.title', '参考图')}</span>
+            <span>{t('references.add', 'Thêm ảnh tham chiếu')}</span>
           </button>
         )}
       </aside>
@@ -7080,14 +7154,14 @@ function CreationDesk({
         ) : (
           <div className="workspaceTitleStrip">
             <Video size={17} />
-            <span>{t('workspace.video', '视频创作')}</span>
+            <span>{t('workspace.video', 'Tạo video')}</span>
           </div>
         )}
         {selectedCase && mode === 'image' ? (
           <div className="caseMeta">
-            <span>{typeof selectedCase.id === 'number' ? `#${selectedCase.id}` : t('gallery.external', '外部')}</span>
+            <span>{typeof selectedCase.id === 'number' ? `#${selectedCase.id}` : t('gallery.external', 'Bên ngoài')}</span>
             <h2>{selectedCase.title}</h2>
-            <p>{[categoryLabel(selectedCase.category || selectedCase.section || '模板'), selectedCase.sourceName].filter(Boolean).join(' · ')}</p>
+            <p>{[categoryLabel(selectedCase.category || selectedCase.section || 'Mẫu'), selectedCase.sourceName].filter(Boolean).join(' · ')}</p>
             {Array.isArray(selectedCase.riskTags) && selectedCase.riskTags.length ? (
               <div className="riskStrip">
                 {selectedCase.riskTags.map((item) => <span key={item}>{riskLabel(item)}</span>)}
@@ -7112,8 +7186,8 @@ function CreationDesk({
         {false && mode !== 'video' && mode !== 'mask' && layoutSections.references ? (
           <div className="referenceBox">
             <div className="miniPanelHead">
-              <strong>{t('references.title', '参考图（可选）')}</strong>
-              <button type="button" onClick={() => toggleLayoutSection('references')} aria-label={t('references.collapse', '收起参考图')}>
+              <strong>{t('references.title', 'Ảnh tham chiếu (tùy chọn)')}</strong>
+              <button type="button" onClick={() => toggleLayoutSection('references')} aria-label={t('references.collapse', 'Thu gọn ảnh tham chiếu')}>
                 <PanelLeftClose size={15} />
               </button>
             </div>
@@ -7137,7 +7211,7 @@ function CreationDesk({
               onPaste={referencePasteFiles}
             >
               <Upload size={18} />
-              <span>{referenceFiles.length ? t('references.selected', '已选择 {count} 张', { count: referenceFiles.length }) : t('references.upload', '拖拽 / 粘贴 / 上传参考图')}</span>
+              <span>{referenceFiles.length ? t('references.selected', 'Đã chọn {count} ảnh', { count: referenceFiles.length }) : t('references.upload', 'Kéo / dán / tải ảnh tham chiếu lên')}</span>
               <input
                 type="file"
                 accept="image/png,image/jpeg,image/webp"
@@ -7152,27 +7226,27 @@ function CreationDesk({
               <div className="referenceThumbs">
                 {referencePreviews.map((url, index) => (
                   <figure key={url}>
-                    <LazyImage src={url} alt={referenceItems[index]?.file?.name || t('references.referenceIndex', '参考 {index}', { index: index + 1 })} />
+                    <LazyImage src={url} alt={referenceItems[index]?.file?.name || t('references.referenceIndex', 'Ảnh tham chiếu {index}', { index: index + 1 })} />
                     <figcaption>
                       <select
                         value={referenceItems[index]?.role || 'identity'}
                         onChange={(event) => updateReferenceRole(index, event.target.value)}
-                        aria-label={t('references.role', '参考图 {index} 角色', { index: index + 1 })}
+                        aria-label={t('references.role', 'Vai trò của ảnh tham chiếu {index}', { index: index + 1 })}
                       >
                         {REFERENCE_ROLES.map((role) => (
                           <option key={role.value} value={role.value}>{role.label}</option>
                         ))}
                       </select>
-                      <span>{index === 0 ? t('references.mainReference', '主参考') : t('references.referenceIndex', '参考 {index}', { index: index + 1 })}</span>
+                      <span>{index === 0 ? t('references.mainReference', 'Ảnh tham chiếu chính') : t('references.referenceIndex', 'Ảnh tham chiếu {index}', { index: index + 1 })}</span>
                     </figcaption>
                     <div className="referenceThumbActions">
-                      <button type="button" onClick={() => moveReferenceImage(index, -1)} disabled={index === 0} aria-label={t('references.moveBefore', '前移参考图')}>
+                      <button type="button" onClick={() => moveReferenceImage(index, -1)} disabled={index === 0} aria-label={t('references.moveBefore', 'Đưa ảnh tham chiếu lên trước')}>
                         <ArrowUp size={13} />
                       </button>
-                      <button type="button" onClick={() => moveReferenceImage(index, 1)} disabled={index === referencePreviews.length - 1} aria-label={t('references.moveAfter', '后移参考图')}>
+                      <button type="button" onClick={() => moveReferenceImage(index, 1)} disabled={index === referencePreviews.length - 1} aria-label={t('references.moveAfter', 'Đưa ảnh tham chiếu xuống sau')}>
                         <ArrowDown size={13} />
                       </button>
-                      <button type="button" onClick={() => removeReferenceImage(index)} aria-label={t('references.remove', '移除参考图')}>
+                      <button type="button" onClick={() => removeReferenceImage(index)} aria-label={t('references.remove', 'Xóa ảnh tham chiếu')}>
                         <X size={13} />
                       </button>
                     </div>
@@ -7184,14 +7258,14 @@ function CreationDesk({
         ) : mode !== 'video' && mode !== 'mask' ? (
           <button type="button" className="collapsedWorkbenchBlock referenceCollapsedBlock" onClick={() => toggleLayoutSection('references')}>
             <Upload size={16} />
-            <span>{referenceFiles.length ? t('references.collapsedSelected', '参考图已收起，共 {count} 张', { count: referenceFiles.length }) : t('references.collapsedEmpty', '参考图已收起，点击展开拖拽、粘贴或上传。')}</span>
+            <span>{referenceFiles.length ? t('references.collapsedSelected', 'Đã thu gọn ảnh tham chiếu, tổng cộng {count} ảnh', { count: referenceFiles.length }) : t('references.collapsedEmpty', 'Ảnh tham chiếu đã thu gọn. Mở rộng để kéo, dán hoặc tải ảnh lên.')}</span>
           </button>
         ) : null}
         {false && mode === 'mask' && layoutSections.references ? (
           <div className="referenceBox maskReferenceBox">
             <div className="miniPanelHead">
-              <strong>{t('references.maskTitle', '参考图与蒙版')}</strong>
-              <button type="button" onClick={() => toggleLayoutSection('references')} aria-label={t('references.collapse', '收起参考图')}>
+              <strong>{t('references.maskTitle', 'Ảnh tham chiếu và mặt nạ')}</strong>
+              <button type="button" onClick={() => toggleLayoutSection('references')} aria-label={t('references.collapse', 'Thu gọn ảnh tham chiếu')}>
                 <PanelLeftClose size={15} />
               </button>
             </div>
@@ -7203,7 +7277,7 @@ function CreationDesk({
                 const nextFile = supportedReferenceFiles(files, 1)[0];
                 if (!nextFile) {
                   setStatus('error');
-                  setMessage(t('statusMessages.referenceUnsupported', '只支持 PNG / JPG / WebP 参考图。'));
+                  setMessage(t('statusMessages.referenceUnsupported', 'Chỉ hỗ trợ ảnh tham chiếu PNG / JPG / WebP.'));
                   return;
                 }
                 setReferenceItems([createReferenceItem(nextFile, 'identity')]);
@@ -7225,22 +7299,22 @@ function CreationDesk({
             />
             {maskExportUrl ? (
               <div className="maskExportPreview">
-                <img src={maskExportUrl} alt="已导出的 mask" />
-                <span>{t('references.exportedMask', '已导出 mask.png')}</span>
+                <img src={maskExportUrl} alt="Mask đã xuất" />
+                <span>{t('references.exportedMask', 'Đã xuất mask.png')}</span>
               </div>
             ) : null}
           </div>
         ) : mode === 'mask' ? (
           <button type="button" className="collapsedWorkbenchBlock referenceCollapsedBlock" onClick={() => toggleLayoutSection('references')}>
             <Upload size={16} />
-            <span>{t('references.maskCollapsed', '参考图与蒙版已收起，点击展开继续编辑。')}</span>
+            <span>{t('references.maskCollapsed', 'Ảnh tham chiếu và mặt nạ đã thu gọn. Mở rộng để tiếp tục chỉnh sửa.')}</span>
           </button>
         ) : null}
         {false && mode === 'video' && layoutSections.references ? (
           <div className="referenceBox">
             <div className="miniPanelHead">
-              <strong>{t('references.title', '参考图（可选）')}</strong>
-              <button type="button" onClick={() => toggleLayoutSection('references')} aria-label={t('references.collapse', '收起参考图')}>
+              <strong>{t('references.title', 'Ảnh tham chiếu (tùy chọn)')}</strong>
+              <button type="button" onClick={() => toggleLayoutSection('references')} aria-label={t('references.collapse', 'Thu gọn ảnh tham chiếu')}>
                 <PanelLeftClose size={15} />
               </button>
             </div>
@@ -7264,7 +7338,7 @@ function CreationDesk({
               onPaste={videoReferencePasteFiles}
             >
               <Upload size={18} />
-              <span>{videoReferenceFiles.length ? t('references.selectedVideo', '已选择视频参考图') : t('references.optionalUpload', '拖拽 / 粘贴 / 上传参考图，可选')}</span>
+              <span>{videoReferenceFiles.length ? t('references.selectedVideo', 'Đã chọn video tham chiếu') : t('references.optionalUpload', 'Kéo / dán / tải ảnh tham chiếu lên (tùy chọn)')}</span>
               <input
                 type="file"
                 accept="image/png,image/jpeg,image/webp"
@@ -7278,8 +7352,8 @@ function CreationDesk({
               <div className="referenceThumbs videoReferenceThumbs">
                 {videoReferencePreviews.map((url, index) => (
                   <figure key={url}>
-                    <LazyImage src={url} alt={videoReferenceFiles[index]?.name || t('references.videoReference', '视频参考图')} />
-                    <button type="button" onClick={removeVideoReferenceImage} aria-label={t('references.remove', '移除参考图')}>
+                    <LazyImage src={url} alt={videoReferenceFiles[index]?.name || t('references.videoReference', 'Video tham chiếu')} />
+                    <button type="button" onClick={removeVideoReferenceImage} aria-label={t('references.remove', 'Xóa ảnh tham chiếu')}>
                       <X size={13} />
                     </button>
                   </figure>
@@ -7290,33 +7364,33 @@ function CreationDesk({
         ) : mode === 'video' ? (
           <button type="button" className="collapsedWorkbenchBlock referenceCollapsedBlock" onClick={() => toggleLayoutSection('references')}>
             <Upload size={16} />
-            <span>{videoReferenceFiles.length ? t('references.collapsedVideoSelected', '参考图已收起，共 1 张') : t('references.collapsedSimple', '参考图已收起，点击展开。')}</span>
+            <span>{videoReferenceFiles.length ? t('references.collapsedVideoSelected', 'Đã thu gọn ảnh tham chiếu, tổng cộng 1 ảnh') : t('references.collapsedSimple', 'Ảnh tham chiếu đã thu gọn. Nhấn để mở rộng.')}</span>
           </button>
         ) : null}
         {layoutSections.parameters && mode !== 'video' ? (
           <div className="routeStrip autoRouteStrip">
-            <span><SlidersHorizontal size={15} /> {t('composer.routeLabel', '接口')}</span>
-            <p>{mode === 'mask' || (mode === 'edit' && (referenceFiles.length || selectedCanvasNode?.url)) ? t('composer.routeEditHint', '参考图 / Mask 会自动走 /v1/images/edits') : t('composer.routeImageHint', '文生图 / 继续衍生会走 /v1/images/generations')}</p>
+            <span><SlidersHorizontal size={15} /> {t('composer.routeLabel', 'API')}</span>
+            <p>{mode === 'mask' || (mode === 'edit' && (referenceFiles.length || selectedCanvasNode?.url)) ? t('composer.routeEditHint', 'Ảnh tham chiếu / Mask sẽ tự dùng /v1/images/edits') : t('composer.routeImageHint', 'Tạo ảnh từ văn bản / tạo biến thể sẽ dùng /v1/images/generations')}</p>
           </div>
         ) : layoutSections.parameters ? (
           <div className="routeStrip">
-            <span><Video size={15} /> {t('composer.videoRouteLabel', '视频接口')}</span>
-            <div><button type="button" className="active">{t('composer.videoTask', '任务')}</button></div>
+            <span><Video size={15} /> {t('composer.videoRouteLabel', 'API video')}</span>
+            <div><button type="button" className="active">{t('composer.videoTask', 'Tác vụ')}</button></div>
           </div>
         ) : null}
         {layoutSections.parameters ? <div className="controlGrid">
           {mode === 'video' ? (
             <>
                 <label className="controlField modelField">
-                  <span>{t('params.videoModel', '视频模型')}</span>
+                  <span>{t('params.videoModel', 'Model video')}</span>
                   <select value={hasVideoModels ? videoModel : ''} onChange={(event) => setVideoModel(event.target.value)} disabled={!hasVideoModels}>
                     {hasVideoModels ? videoModelOptions.map((item) => <option key={item.id} value={item.id}>{item.label || item.id}</option>) : (
-                      <option value="">{t('params.currentKeyNoVideo', '当前 Key 未开放视频模型')}</option>
+                      <option value="">{t('params.currentKeyNoVideo', 'Key hiện tại chưa được cấp quyền dùng model video')}</option>
                     )}
                   </select>
                 </label>
               <div className="controlField">
-                <span>{t('params.duration', '时长')}</span>
+                <span>{t('params.duration', 'Thời lượng')}</span>
                 <div className="optionSegment durationSegment">
                   {VIDEO_DURATIONS.map((item) => (
                     <button type="button" className={videoDuration === item ? 'active' : ''} key={item} onClick={() => setVideoDuration(item)}>
@@ -7326,7 +7400,7 @@ function CreationDesk({
                 </div>
               </div>
               <div className="controlField wideControl">
-                <span>{t('params.videoAspect', '视频比例')}</span>
+                <span>{t('params.videoAspect', 'Tỷ lệ video')}</span>
                 <div className="optionSegment videoSizeSegment">
                   {VIDEO_ASPECT_OPTIONS.map((item) => (
                     <button type="button" className={videoAspect === item.value ? 'active' : ''} key={item.value} onClick={() => setVideoAspect(item.value)}>
@@ -7336,7 +7410,7 @@ function CreationDesk({
                 </div>
               </div>
               <div className="controlField">
-                <span>{t('params.fps', '帧率')}</span>
+                <span>{t('params.fps', 'Tốc độ khung hình')}</span>
                 <div className="optionSegment fpsSegment">
                   {VIDEO_FPS_OPTIONS.map((item) => (
                     <button type="button" className={videoFps === item ? 'active' : ''} key={item} onClick={() => setVideoFps(item)}>
@@ -7346,11 +7420,11 @@ function CreationDesk({
                 </div>
               </div>
               <div className="controlField videoSpecField">
-                <span>{t('params.output', '输出')}</span>
+                <span>{t('params.output', 'Đầu ra')}</span>
                 <strong>{videoSize.width} x {videoSize.height}</strong>
               </div>
               <div className="controlField wideControl">
-                <span>{t('params.motion', '镜头运动')}</span>
+                <span>{t('params.motion', 'Chuyển động máy quay')}</span>
                 <div className="optionSegment motionSegment">
                   {VIDEO_MOTIONS.map((item) => (
                     <button type="button" className={videoMotion === item.value ? 'active' : ''} key={item.value} onClick={() => setVideoMotion(item.value)}>
@@ -7360,7 +7434,7 @@ function CreationDesk({
                 </div>
               </div>
               <div className="controlField">
-                <span>{t('params.style', '风格')}</span>
+                <span>{t('params.style', 'Phong cách')}</span>
                 <div className="optionSegment videoStyleSegment">
                   {VIDEO_STYLES.map((item) => (
                     <button type="button" className={videoStyle === item.value ? 'active' : ''} key={item.value} onClick={() => setVideoStyle(item.value)}>
@@ -7370,35 +7444,35 @@ function CreationDesk({
                 </div>
               </div>
               <div className="controlField">
-                <span>{t('params.videoQuality', '视频画质')}</span>
+                <span>{t('params.videoQuality', 'Chất lượng video')}</span>
                 <div className="optionSegment videoQualitySegment">
                   {VIDEO_QUALITY.map((item) => (
                     <button type="button" className={videoQuality === item ? 'active' : ''} key={item} onClick={() => setVideoQuality(item)}>
-                      {item === 'auto' ? t('params.auto', '自动') : item === 'high' ? t('params.high', '高') : t('params.standard', '标准')}
+                      {item === 'auto' ? t('params.auto', 'Tự động') : item === 'high' ? t('params.high', 'Cao') : t('params.standard', 'Tiêu chuẩn')}
                     </button>
                   ))}
                 </div>
               </div>
               <label className="controlField wideControl negativePromptField">
-                <span>{t('params.negativePrompt', '负面提示词')}</span>
+                <span>{t('params.negativePrompt', 'Prompt loại trừ')}</span>
                 <input
                   value={negativePrompt}
                   onChange={(event) => setNegativePrompt(event.target.value)}
-                  placeholder={t('params.negativePromptPlaceholder', '例如：不要字幕、水印、畸变、闪烁、手部变形')}
+                  placeholder={t('params.negativePromptPlaceholder', 'Ví dụ: không phụ đề, hình mờ, méo hình, nhấp nháy, biến dạng bàn tay')}
                 />
               </label>
             </>
           ) : (
             <>
               <label className="controlField modelField">
-                <span>{t('params.imageModel', '图片模型')}</span>
+                <span>{t('params.imageModel', 'Model ảnh')}</span>
                 <select value={model} onChange={(event) => setModel(event.target.value)}>
                   {imageModelOptions.map((item) => <option key={item.id} value={item.id}>{item.label || item.id}</option>)}
                 </select>
               </label>
               <div className="controlField countField">
                 <div className="fieldHead">
-                  <span>{t('params.imageCount', '图片数量')}</span>
+                  <span>{t('params.imageCount', 'Số ảnh')}</span>
                   <strong>{countValue}</strong>
                 </div>
                 <input
@@ -7410,7 +7484,7 @@ function CreationDesk({
                 />
               </div>
               <div className="controlField wideControl">
-                <span>{t('params.aspect', '尺寸比例')}</span>
+                <span>{t('params.aspect', 'Tỷ lệ ảnh')}</span>
                 <div className="optionSegment sizeSegment">
                   {imageAspectOptions.map((item) => (
                     <button
@@ -7428,15 +7502,15 @@ function CreationDesk({
                 </div>
                 {aspect === 'custom' ? (
                   <>
-                    <select className="compactSelect" aria-label={t('params.apiSize', '接口尺寸')} value={customSize} onChange={(event) => setCustomSize(normalizeSize(event.target.value))}>
+                    <select className="compactSelect" aria-label={t('params.apiSize', 'Kích thước API')} value={customSize} onChange={(event) => setCustomSize(normalizeSize(event.target.value))}>
                       {customSizeOptions.map((item) => <option key={item.value} value={item.value}>{customSizeLabel(item)}</option>)}
                     </select>
-                    <small className="sizeLimitHint">{t('params.sizeHint', '这里是当前模型支持的 size 枚举；2K/4K 会写进提示词作为目标清晰度。')}</small>
+                    <small className="sizeLimitHint">{t('params.sizeHint', 'Danh sách kích thước được model hiện tại hỗ trợ; mức 2K/4K sẽ được thêm vào prompt làm mục tiêu độ nét.')}</small>
                   </>
                 ) : null}
               </div>
               <div className="controlField">
-                <span>{t('params.quality', '质量')}</span>
+                <span>{t('params.quality', 'Chất lượng')}</span>
                 <div className="optionSegment qualitySegment">
                   {imageQualityOptions.map((item) => (
                     <button type="button" className={quality === item ? 'active' : ''} key={item} onClick={() => setQuality(item)}>
@@ -7446,7 +7520,7 @@ function CreationDesk({
                 </div>
               </div>
               <div className="controlField">
-                <span>{t('params.resolution', '分辨率')}</span>
+                <span>{t('params.resolution', 'Độ phân giải')}</span>
                 <div className="optionSegment resolutionSegment">
                   {imageResolutionTierOptions.map((item) => (
                     <button type="button" className={resolutionTier === item.value ? 'active' : ''} key={item.value} onClick={() => setResolutionTier(item.value)}>
@@ -7456,7 +7530,7 @@ function CreationDesk({
                 </div>
               </div>
               <div className="controlField">
-                <span>{t('params.format', '格式')}</span>
+                <span>{t('params.format', 'Định dạng')}</span>
                 <div className="optionSegment formatSegment">
                   {imageOutputFormatOptions.map((item) => (
                     <button type="button" className={outputFormat === item ? 'active' : ''} key={item} onClick={() => setOutputFormat(item)}>
@@ -7466,7 +7540,7 @@ function CreationDesk({
                 </div>
               </div>
               <div className="controlField">
-                <span>{t('params.moderation', '审核')}</span>
+                <span>{t('params.moderation', 'Kiểm duyệt')}</span>
                 <div className="optionSegment moderationSegment">
                   {MODERATION.map((item) => (
                     <button type="button" className={moderation === item ? 'active' : ''} key={item} onClick={() => setModeration(item)}>
@@ -7484,23 +7558,23 @@ function CreationDesk({
           </button>
         )}
         {layoutSections.parameters ? <div className="billingStrip">
-          <span>{t('params.billingModelSource', '模型来源：{value}', {
+          <span>{t('params.billingModelSource', 'Nguồn model: {value}', {
             value: mode === 'video'
-              ? (modelsStatus === 'loading' ? t('params.loadingVideoModels', '正在读取视频模型') : hasVideoModels ? t('params.availableVideoModels', '当前 Key 可用视频模型') : t('params.unavailableVideoModels', '当前 Key 未开放视频模型'))
+              ? (modelsStatus === 'loading' ? t('params.loadingVideoModels', 'Đang tải model video') : hasVideoModels ? t('params.availableVideoModels', 'Model video khả dụng với key hiện tại') : t('params.unavailableVideoModels', 'Key hiện tại chưa được cấp quyền dùng model video'))
               : modelsStatus === 'ready'
-                ? t('params.availableModels', '当前 Key 可用模型')
+                ? t('params.availableModels', 'Model khả dụng với key hiện tại')
                 : modelsStatus === 'loading'
-                  ? t('params.loadingModels', '正在读取模型')
-                  : t('params.defaultModels', '默认模型')
+                  ? t('params.loadingModels', 'Đang tải model')
+                  : t('params.defaultModels', 'Model mặc định')
           })}</span>
-          <span>{t('params.billingUnit', '计费口径：{value}', { value: mode === 'video' ? modelBillingUnitLabel(activeVideoModelInfo, t('params.videoUnit', '段'), 1) : modelBillingLabel(activeModelInfo, countValue) })}</span>
-          {mode === 'video' && videoTask?.task_id ? <span>{t('params.videoTask', '任务：{value}', { value: videoTask.task_id })}</span> : null}
-          <span>{t('params.usage', '账户用量：{value}', { value: usageSummary || t('params.usageFallback', '生成后以后台记录为准') })}</span>
+          <span>{t('params.billingUnit', 'Đơn vị tính phí: {value}', { value: mode === 'video' ? modelBillingUnitLabel(activeVideoModelInfo, t('params.videoUnit', 'đoạn'), 1) : modelBillingLabel(activeModelInfo, countValue) })}</span>
+          {mode === 'video' && videoTask?.task_id ? <span>{t('params.videoTask', 'Tác vụ: {value}', { value: videoTask.task_id })}</span> : null}
+          <span>{t('params.usage', 'Mức sử dụng tài khoản: {value}', { value: usageSummary || t('params.usageFallback', 'Sau khi tạo, xem thông tin trong hồ sơ dịch vụ') })}</span>
         </div> : null}
         <div className="deskActions">
           <button type="button" onClick={optimizeCurrentPrompt} disabled={optimizingPrompt}>
             {optimizingPrompt ? <LoaderCircle className="spin" size={18} /> : <WandSparkles size={18} />}
-            {optimizingPrompt ? t('composer.optimizing', '优化中') : `AI ${t('composer.optimize', '优化')}`}
+            {optimizingPrompt ? t('composer.optimizing', 'Đang tối ưu') : `AI ${t('composer.optimize', 'Tối ưu')}`}
           </button>
           <button type="button" className={`primaryAction ${generationActionClass}`} onClick={handleGenerateAction} disabled={generationActionDisabled}>
             {generationActionIcon}
@@ -7515,7 +7589,7 @@ function CreationDesk({
             {isGenerating ? (
               <button type="button" className="composerStopAction" onClick={stopGeneration}>
                 <X size={14} />
-                {t('composer.stopWaiting', '停止当前等待')}
+                {t('composer.stopWaiting', 'Dừng chờ')}
               </button>
             ) : null}
           </>
@@ -7523,8 +7597,8 @@ function CreationDesk({
       </div>
       <section className={`resultStage ${hasPrimaryResult ? 'hasResult' : ''}`}>
         <div className="resultStageHead">
-          <strong>{mode === 'video' ? t('canvas.videoResult', '视频结果') : t('composer.resultTitle', '生成结果')}</strong>
-          <span>{hasPrimaryResult ? t('composer.resultCount', '共 {count} 张', { count: mode === 'video' ? videoResults.length : results.length }) : t('composer.pending', '待生成')}</span>
+          <strong>{mode === 'video' ? t('canvas.videoResult', 'Kết quả video') : t('composer.resultTitle', 'Kết quả')}</strong>
+          <span>{hasPrimaryResult ? t('composer.resultCount', 'Tổng cộng {count} ảnh', { count: mode === 'video' ? videoResults.length : results.length }) : t('composer.pending', 'Chờ tạo')}</span>
         </div>
         {mode === 'video' ? (
           <VideoResultGrid urls={videoResults} downloadMeta={currentDownloadMeta} onPreview={(url, index) => setPreviewVideo({ url, index })} t={t} />
@@ -7532,57 +7606,21 @@ function CreationDesk({
           <ResultGrid urls={results} outputFormat={outputFormat} downloadMeta={currentDownloadMeta} onPreview={(url, index) => setPreviewImage({ url, index })} t={t} />
         )}
       </section>
-      <div className={`bottomComposerBar ${selectedCanvasNode ? 'hasLineage' : ''} ${layoutSections.bottomComposer && composerThreadHasContent ? 'hasThread' : 'noThread'} ${layoutSections.composerParameters === false ? 'paramsCollapsed' : 'paramsExpanded'} ${composerFolded ? 'isFolded' : 'isExpandedComposer'} noReferences`}>
-        <div className="composerPanelHead">
-          <div className="composerSessionIdentity">
-            <span className="composerSessionIcon"><Sparkles size={17} /></span>
-            <div className="composerPanelTitle">
-              <strong>{t('composer.conversation', '创作会话')}</strong>
-              <span>
-                {selectedCanvasNode ? t('composer.selected', '基于画布 #{index}', { index: selectedCanvasNode.canvasIndex || '' }) : t('composer.defaultTitle', '提示词优化与生成')}
-                <em>{composerRouteLabel}</em>
-              </span>
-            </div>
-          </div>
-          {layoutSections.bottomComposer ? (
-            <div className="composerHeaderActions">
-              <button
-                type="button"
-                className="composerIconPill"
-                onClick={toggleComposerFold}
-                aria-label={composerFolded ? t('composer.expandPanel', '展开对话面板') : t('composer.foldPanel', '折叠对话面板')}
-                title={composerFolded ? t('composer.expandPanel', '展开对话面板') : t('composer.foldPanel', '折叠对话面板')}
-              >
-                {composerFolded ? <Maximize2 size={15} /> : <ArrowDown size={15} />}
-              </button>
-              <button
-                type="button"
-                className="composerIconPill"
-                onClick={() => toggleLayoutSection('bottomComposer')}
-                aria-label={t('composer.collapse', '收起对话')}
-                title={t('composer.collapse', '收起对话')}
-              >
-                <X size={16} />
-              </button>
-            </div>
-          ) : (
-            <button
-              type="button"
-              className={`bottomComposerToggle ${layoutSections.bottomComposer ? 'isOpen' : 'isClosed'}`}
-              onClick={() => toggleLayoutSection('bottomComposer')}
-              aria-label={t('composer.expand', '展开对话')}
-              title={t('composer.expand', '展开对话')}
-            >
-              <PanelLeftOpen size={15} />
+      <div className={`bottomComposerBar ${selectedCanvasNode ? 'hasLineage' : ''} ${conversationVisible ? 'hasThread' : 'noThread'} ${layoutSections.composerParameters === false ? 'paramsCollapsed' : 'paramsExpanded'} ${composerFolded ? 'isFolded' : 'isExpandedComposer'} noReferences`}>
+        {composerThreadHasContent ? (
+          <div className="composerPanelHead">
+            <button type="button" className="conversationToggle" onClick={() => setConversationOpen((value) => !value)} aria-expanded={conversationVisible} title={conversationVisible ? t('composer.hideConversation', 'Ẩn hội thoại') : t('composer.showConversation', 'Xem hội thoại')}>
+              <History size={14} />
+              {conversationVisible ? t('composer.hideConversation', 'Ẩn hội thoại') : t('composer.showConversation', 'Xem hội thoại')}
             </button>
-          )}
-        </div>
-        {layoutSections.bottomComposer && !composerFolded ? (
-          <div className={`composerThread ${composerThreadHasContent ? '' : 'isEmpty'}`} ref={composerThreadRef} aria-label={t('composer.aiThread', 'AI 对话记录')}>
+          </div>
+        ) : null}
+        {conversationVisible ? (
+          <div className={`composerThread ${composerThreadHasContent ? '' : 'isEmpty'}`} ref={composerThreadRef} aria-label={t('composer.aiThread', 'Lịch sử trò chuyện với AI')}>
             {composerGenerationVisible ? (
               <div className={`composerGenerationCard ${status} ${progress.stage === 'pending_review' ? 'pendingReview' : ''}`}>
                 <div className="composerGenerationHead">
-                  <strong>{isGenerating ? t('composer.statusGenerating', '正在生成') : status === 'success' ? t('composer.statusDone', '生成完成') : progress.stage === 'pending_review' ? t('composer.statusReview', '需要确认') : status === 'error' ? t('composer.statusError', '生成异常') : t('composer.status', '生成状态')}</strong>
+                  <strong>{isGenerating ? t('composer.statusGenerating', 'Đang tạo') : status === 'success' ? t('composer.statusDone', 'Đã tạo xong') : progress.stage === 'pending_review' ? t('composer.statusReview', 'Cần xác nhận') : status === 'error' ? t('composer.statusError', 'Lỗi tạo ảnh') : t('composer.status', 'Trạng thái tạo ảnh')}</strong>
                   <span>{mode === 'video' ? videoModel : model}</span>
                   <em>{composerRouteLabel}</em>
                 </div>
@@ -7592,16 +7630,16 @@ function CreationDesk({
                 {isGenerating ? (
                   <button type="button" className="composerStopAction" onClick={stopGeneration}>
                     <X size={14} />
-                    {t('composer.stopWaiting', '停止当前等待')}
+                    {t('composer.stopWaiting', 'Dừng chờ')}
                   </button>
                 ) : null}
               </div>
             ) : null}
             {assistantMessages.length ? assistantMessages.slice(-8).map((item) => (
               <div className={`composerMessage ${item.role} ${item.pending ? 'pending' : ''} ${item.failed ? 'failed' : ''}`} key={item.id}>
-                <span>{item.role === 'assistant' ? 'AI' : t('composer.you', '你')}</span>
+                <span>{item.role === 'assistant' ? 'AI' : t('composer.you', 'Bạn')}</span>
                 <p>{item.content}</p>
-                {item.finalPrompt ? <button type="button" onClick={() => setPrompt(item.finalPrompt)}>{t('composer.putIntoInput', '放入输入框')}</button> : null}
+                {item.finalPrompt ? <button type="button" onClick={() => setPrompt(item.finalPrompt)}>{t('composer.putIntoInput', 'Đưa vào ô nhập')}</button> : null}
               </div>
             )) : null}
             <PromptSuggestion
@@ -7644,6 +7682,9 @@ function CreationDesk({
         >
           <label className="bottomComposerInput">
             <textarea
+              ref={promptInputRef}
+              rows={2}
+              aria-label={t('composer.promptLabel', 'Mô tả ảnh muốn tạo')}
               value={prompt}
               onChange={(event) => setPrompt(event.target.value)}
               onPaste={(event) => {
@@ -7654,9 +7695,10 @@ function CreationDesk({
                 if (!layoutSections.bottomComposer) toggleLayoutSection('bottomComposer');
               }}
               onKeyDown={(event) => {
-                if (event.key === 'Enter' && event.ctrlKey) {
+                if (event.nativeEvent.isComposing) return;
+                if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
                   event.preventDefault();
-                  sendAssistantMessage();
+                  handleImprovePrompt();
                   return;
                 }
                 if (event.key === 'Enter' && !event.shiftKey) {
@@ -7664,173 +7706,54 @@ function CreationDesk({
                   handleGenerateAction();
                 }
               }}
-              placeholder={selectedCanvasNode ? t('composer.placeholderCanvas', '写下要怎样延续这张图：换背景、加产品、调整风格... Enter 直接生成') : t('composer.placeholder', '写下提示词或创作想法，Enter 直接生成；点左侧小按钮才会调用 AI 优化。')}
+              placeholder={selectedCanvasNode ? t('composer.placeholderCanvas', 'Mô tả cách bạn muốn chỉnh ảnh này…') : mode === 'video' ? t('composer.placeholderVideo', 'Mô tả video bạn muốn tạo…') : t('composer.placeholder', 'Mô tả ảnh bạn muốn tạo…')}
             />
           </label>
+          <div className="composerActionBar">
+          {!isReady ? <button type="button" className="composerConnectionNotice" onClick={onOpenSettings}><KeyRound size={14} />{t('composer.connectKey', 'Kết nối API key để bắt đầu')}</button> : null}
           <div className="composerActionGroup">
             <button
               type="button"
               className="composerAssistantAction"
-              onClick={sendAssistantMessage}
-              disabled={status === 'loading' || optimizingPrompt || caseResolving}
-              aria-label={t('composer.send', '优化提示词，会调用对话模型并使用当前 Key 额度，不会直接生成图片')}
-              title={t('composer.send', '优化提示词，会调用对话模型并使用当前 Key 额度，不会直接生成图片')}
+              onClick={handleImprovePrompt}
+              disabled={!isReady || !prompt.trim() || status === 'loading' || optimizingPrompt || caseResolving}
+              aria-label={t('composer.improvePrompt', 'Cải thiện prompt')}
+              title={t('composer.improveShortcut', 'Cải thiện prompt · Ctrl/⌘+Enter')}
             >
-              {optimizingPrompt ? <LoaderCircle className="spin" size={16} /> : <SendHorizontal size={16} />}
-              <span>{t('composer.optimize', '优化')}</span>
+              {optimizingPrompt ? <LoaderCircle className="spin" size={16} /> : <WandSparkles size={16} />}
+              <span>{optimizingPrompt ? t('composer.optimizing', 'Đang cải thiện') : t('composer.improvePrompt', 'Cải thiện prompt')}</span>
             </button>
             <button
               type="button"
               className={`composerGenerateAction ${generationActionClass}`}
               onClick={handleGenerateAction}
-              disabled={generationActionDisabled}
+              disabled={generationActionDisabled || !isReady || !prompt.trim() || caseResolving || optimizingPrompt}
+              title={generationActionLabel}
             >
               {compactGenerationActionIcon}
               <span>{generationActionLabel}</span>
             </button>
           </div>
-        </div>
-        {layoutSections.bottomComposer && !composerFolded ? (
-          <div className={`composerParamShelf ${layoutSections.composerParameters === false ? 'isCollapsed' : 'isExpanded'}`} aria-label={t('params.current', '当前参数')}>
-            {layoutSections.composerParameters === false ? (
-              <button
-                type="button"
-                className="composerParamSummary"
-                onClick={() => updateLayoutSections({ composerFolded: false, composerParameters: true })}
-                aria-label={t('params.expand', '展开参数')}
-                aria-expanded="false"
-                title={t('params.expand', '展开参数')}
-              >
-                <SlidersHorizontal size={14} />
-                <span>{mode === 'video' ? t('workspace.video', '视频创作') : deskModeLabel(mode) || t('workspace.image', '图片创作')}</span>
-                <em>{mode === 'video' ? videoModel : model}</em>
-                <strong>{mode === 'video' ? `${videoAspect} · ${videoDuration}s` : `${aspect} · ${RESOLUTION_TIER_LABELS[resolutionTier]} · ${qualityLabel(quality)} · ${countValue}${imageCountSuffix}`}</strong>
-                <ArrowUp size={13} />
-              </button>
-            ) : (
-              <>
-              <button
-                type="button"
-                className="composerParamFoldButton"
-                onClick={() => toggleLayoutSection('composerParameters')}
-                aria-label={t('params.collapse', '收起参数')}
-                aria-expanded="true"
-                title={t('params.collapse', '收起参数')}
-              >
-                <ArrowDown size={13} />
-              </button>
-              <div className="composerParamLane primary">
-              {activeWorkspace === 'image' ? (
-                <div className="composerModeSegment" role="group" aria-label={t('workspace.image', '图片创作')}>
-                  {DESK_MODES.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <button type="button" className={mode === item.value ? 'active' : ''} key={item.value} onClick={() => setMode(item.value)}>
-                        <Icon size={14} />
-                        <span>{deskModeLabel(item.value)}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="composerModeSegment singleMode">
-                  <Video size={14} />
-                  <span>{t('workspace.video', '视频创作')}</span>
-                </div>
-              )}
-              {mode === 'video' ? (
-                <label className="composerParamField wide">
-                  <span>{t('params.videoModel', '视频模型')}</span>
-                  <select value={hasVideoModels ? videoModel : ''} onChange={(event) => setVideoModel(event.target.value)} disabled={!hasVideoModels}>
-                    {hasVideoModels ? videoModelOptions.map((item) => <option key={item.id} value={item.id}>{item.label || item.id}</option>) : (
-                      <option value="">{t('params.currentKeyNoVideo', '当前 Key 未开放视频模型')}</option>
-                    )}
-                  </select>
-                </label>
-              ) : (
-                <label className="composerParamField wide">
-                  <span>{t('params.imageModel', '图片模型')}</span>
-                  <select value={model} onChange={(event) => setModel(event.target.value)}>
-                    {imageModelOptions.map((item) => <option key={item.id} value={item.id}>{item.label || item.id}</option>)}
-                  </select>
-                </label>
-              )}
-              {mode === 'video' ? (
-                <div className="composerMiniSegment">
-                  {VIDEO_ASPECT_OPTIONS.map((item) => (
-                    <button type="button" className={videoAspect === item.value ? 'active' : ''} key={item.value} onClick={() => setVideoAspect(item.value)}>
-                      {aspectLabel(item)}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <div className="composerMiniSegment">
-                  {imageAspectOptions.map((item) => (
-                    <button
-                      type="button"
-                      className={aspect === item.value ? 'active' : ''}
-                      key={item.value}
-                      onClick={() => {
-                        setAspect(item.value);
-                        if (item.value !== 'custom') setCustomSize(item.size);
-                      }}
-                    >
-                      {aspectLabel(item)}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="composerParamLane secondary">
-              {mode === 'video' ? (
-                <div className="composerMiniSegment">
-                  {VIDEO_DURATIONS.map((item) => (
-                    <button type="button" className={videoDuration === item ? 'active' : ''} key={item} onClick={() => setVideoDuration(item)}>
-                      {item}s
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <>
-                <div className="composerMiniSegment">
-                  {imageQualityOptions.map((item) => (
-                    <button type="button" className={quality === item ? 'active' : ''} key={item} onClick={() => setQuality(item)}>
-                      {qualityLabel(item)}
-                    </button>
-                  ))}
-                </div>
-                <div className="composerMiniSegment">
-                  {imageResolutionTierOptions.map((item) => (
-                    <button type="button" className={resolutionTier === item.value ? 'active' : ''} key={item.value} onClick={() => setResolutionTier(item.value)}>
-                      {resolutionTierLabel(item)}
-                    </button>
-                  ))}
-                </div>
-                <label className="composerCountField">
-                  <span>{t('params.count', '数量')}</span>
-                  <input type="range" min={imageCountRange.min} max={imageCountRange.max} value={countValue} onChange={(event) => setCount(clampCountForProvider(event.target.value, currentImageProvider))} />
-                  <strong>{countValue}</strong>
-                </label>
-                </>
-              )}
-            </div>
-            <button
-              type="button"
-              className="composerReferenceParamButton"
-              onClick={() => toggleLayoutSection('references')}
-              aria-label={layoutSections.references ? t('references.collapse', '收起参考图') : t('references.title', '参考图')}
-              title={layoutSections.references ? t('references.collapse', '收起参考图') : t('references.title', '参考图')}
-            >
-              <Images size={15} />
-              <span>{t('references.title', '参考图')}</span>
-              <em>{mode === 'video' ? videoReferenceFiles.length : referenceFiles.length}</em>
-            </button>
-              </>
-            )}
           </div>
-        ) : null}
+        </div>
+        <div className="composerParamShelf compactParameters" aria-label={t('params.current', 'Thông số hiện tại')}>
+          {activeWorkspace === 'image' ? (
+            <select className="compactModeSelect" value={mode} aria-label={t('workspace.image', 'Tạo ảnh')} title={t('workspace.image', 'Tạo ảnh')} onChange={(event) => {
+              setMode(event.target.value);
+              if (event.target.value === 'edit' || event.target.value === 'mask') updateLayoutSections({ references: true });
+            }}>
+              {DESK_MODES.map((item) => <option value={item.value} key={item.value}>{deskModeLabel(item.value)}</option>)}
+            </select>
+          ) : null}
+          <button type="button" onClick={() => openParamPanel('model')} title={t('params.model', 'Model')} aria-label={t('params.model', 'Model')}><Server size={13} /><span>{mode === 'video' ? videoModel || t('params.videoModel', 'Model video') : model}</span></button>
+          <button type="button" onClick={() => openParamPanel('size')} title={t('params.size', 'Kích thước')} aria-label={t('params.size', 'Kích thước')}>{mode === 'video' ? videoAspect : aspect}</button>
+          <button type="button" onClick={() => openParamPanel('quality')} title={t('params.quality', 'Chất lượng')} aria-label={t('params.quality', 'Chất lượng')}>{mode === 'video' ? qualityLabel(videoQuality) : `${qualityLabel(quality)} · ${RESOLUTION_TIER_LABELS[resolutionTier]}`}</button>
+          <button type="button" onClick={() => openParamPanel('count')} title={mode === 'video' ? t('params.duration', 'Thời lượng') : t('params.count', 'Số lượng')} aria-label={mode === 'video' ? t('params.duration', 'Thời lượng') : t('params.count', 'Số lượng')}>{mode === 'video' ? `${videoDuration}s` : `${countValue} ${imageCountSuffix}`}</button>
+          <button type="button" onClick={onOpenSettings} title={t('rail.settings', 'Cài đặt kết nối')} aria-label={t('rail.settings', 'Cài đặt kết nối')}><SlidersHorizontal size={14} /></button>
+        </div>
+        <div className="composerHelpLine">{t('composer.shortcuts', 'Enter để tạo · Shift+Enter để xuống dòng')}</div>
       </div>
-      <aside className="paramRail" aria-label={t('params.aria', '参数')}>
+      <aside className="paramRail" aria-label={t('params.aria', 'Thông số')}>
         <button
           type="button"
           className="paramRailHead"
@@ -7840,33 +7763,33 @@ function CreationDesk({
             if (!nextExpanded) setActiveParamPanel('');
             updateLayoutSections({ parametersRail: nextExpanded, parameters: true });
           }}
-          aria-label={layoutSections.parametersRail === false ? t('params.expand', '展开参数栏') : t('params.collapse', '收起参数栏')}
-          title={layoutSections.parametersRail === false ? t('params.expand', '展开参数栏') : t('params.collapse', '收起参数栏')}
+          aria-label={layoutSections.parametersRail === false ? t('params.expand', 'Mở thanh thông số') : t('params.collapse', 'Thu gọn thanh thông số')}
+          title={layoutSections.parametersRail === false ? t('params.expand', 'Mở thanh thông số') : t('params.collapse', 'Thu gọn thanh thông số')}
         >
           {layoutSections.parametersRail === false ? (
             <SlidersHorizontal size={18} />
           ) : (
             <>
               <span>›</span>
-              {t('params.aria', '参数')}
+              {t('params.aria', 'Thông số')}
             </>
           )}
         </button>
-        <button type="button" className={activeParamPanel === 'model' ? 'active' : ''} onClick={() => openParamPanel('model')} aria-label={t('params.model', '模型')} title={t('params.model', '模型')}>
+        <button type="button" className={activeParamPanel === 'model' ? 'active' : ''} onClick={() => openParamPanel('model')} aria-label={t('params.model', 'Model')} title={t('params.model', 'Model')}>
           <Server size={18} />
-          <span>{t('params.model', '模型')}</span>
+          <span>{t('params.model', 'Model')}</span>
         </button>
-        <button type="button" className={activeParamPanel === 'size' ? 'active' : ''} onClick={() => openParamPanel('size')} aria-label={t('params.size', '尺寸')} title={t('params.size', '尺寸')}>
+        <button type="button" className={activeParamPanel === 'size' ? 'active' : ''} onClick={() => openParamPanel('size')} aria-label={t('params.size', 'Kích thước')} title={t('params.size', 'Kích thước')}>
           <ScanLine size={18} />
-          <span>{t('params.size', '尺寸')}</span>
+          <span>{t('params.size', 'Kích thước')}</span>
         </button>
-        <button type="button" className={activeParamPanel === 'quality' ? 'active' : ''} onClick={() => openParamPanel('quality')} aria-label={t('params.quality', '质量')} title={t('params.quality', '质量')}>
+        <button type="button" className={activeParamPanel === 'quality' ? 'active' : ''} onClick={() => openParamPanel('quality')} aria-label={t('params.quality', 'Chất lượng')} title={t('params.quality', 'Chất lượng')}>
           <span className="paramRailBadge">HD</span>
-          <span>{t('params.quality', '质量')}</span>
+          <span>{t('params.quality', 'Chất lượng')}</span>
         </button>
-        <button type="button" className={activeParamPanel === 'count' ? 'active' : ''} onClick={() => openParamPanel('count')} aria-label={t('params.count', '数量')} title={t('params.count', '数量')}>
+        <button type="button" className={activeParamPanel === 'count' ? 'active' : ''} onClick={() => openParamPanel('count')} aria-label={t('params.count', 'Số lượng')} title={t('params.count', 'Số lượng')}>
           <Images size={18} />
-          <span>{t('params.count', '数量')}</span>
+          <span>{t('params.count', 'Số lượng')}</span>
         </button>
         <button type="button" className={`paramGenerateAction ${generationActionClass}`} onClick={handleGenerateAction} disabled={generationActionDisabled} aria-label={generationActionLabel} title={generationActionLabel}>
           {generationActionIcon}
@@ -7874,10 +7797,10 @@ function CreationDesk({
         </button>
       </aside>
       {layoutSections.parameters && activeParamPanel ? (
-        <aside className="paramDrawer" aria-label={t('params.current', '当前参数')}>
+        <aside className="paramDrawer" aria-label={t('params.current', 'Thông số hiện tại')}>
           <div className="paramDrawerHead">
-            <strong>{activeParamPanel === 'model' ? t('params.model', '模型') : activeParamPanel === 'size' ? t('params.size', '尺寸') : activeParamPanel === 'quality' ? t('params.quality', '质量') : t('params.count', '数量')}</strong>
-            <button type="button" onClick={() => toggleLayoutSection('parameters')} aria-label={t('params.close', '收起参数')}>
+            <strong>{activeParamPanel === 'model' ? t('params.model', 'Model') : activeParamPanel === 'size' ? t('params.size', 'Kích thước') : activeParamPanel === 'quality' ? t('params.quality', 'Chất lượng') : t('params.count', 'Số lượng')}</strong>
+            <button type="button" onClick={() => toggleLayoutSection('parameters')} aria-label={t('params.close', 'Thu gọn thông số')}>
               <PanelLeftClose size={15} />
             </button>
           </div>
@@ -7885,16 +7808,16 @@ function CreationDesk({
             <div className="paramDrawerBody">
               {mode === 'video' ? (
                 <label className="paramField">
-                  <span>{t('params.videoModel', '视频模型')}</span>
+                  <span>{t('params.videoModel', 'Model video')}</span>
                   <select value={hasVideoModels ? videoModel : ''} onChange={(event) => setVideoModel(event.target.value)} disabled={!hasVideoModels}>
                     {hasVideoModels ? videoModelOptions.map((item) => <option key={item.id} value={item.id}>{item.label || item.id}</option>) : (
-                      <option value="">{t('params.currentKeyNoVideo', '当前 Key 未开放视频模型')}</option>
+                      <option value="">{t('params.currentKeyNoVideo', 'Key hiện tại chưa được cấp quyền dùng model video')}</option>
                     )}
                   </select>
                 </label>
               ) : (
                 <label className="paramField">
-                  <span>{t('params.imageModel', '图片模型')}</span>
+                  <span>{t('params.imageModel', 'Model ảnh')}</span>
                   <select value={model} onChange={(event) => setModel(event.target.value)}>
                     {imageModelOptions.map((item) => <option key={item.id} value={item.id}>{item.label || item.id}</option>)}
                   </select>
@@ -7902,7 +7825,7 @@ function CreationDesk({
               )}
               {mode !== 'video' ? (
                 <div className="paramHint">
-                  {mode === 'mask' || (mode === 'edit' && (referenceFiles.length || selectedCanvasNode?.url)) ? t('params.routeEdits', '当前会自动使用 /v1/images/edits。') : t('params.routeGenerations', '当前会自动使用 /v1/images/generations。')}
+                  {mode === 'mask' || (mode === 'edit' && (referenceFiles.length || selectedCanvasNode?.url)) ? t('params.routeEdits', 'Tự động dùng /v1/images/edits.') : t('params.routeGenerations', 'Tự động dùng /v1/images/generations.')}
                 </div>
               ) : null}
             </div>
@@ -7916,7 +7839,7 @@ function CreationDesk({
                       <button type="button" className={videoAspect === item.value ? 'active' : ''} key={item.value} onClick={() => setVideoAspect(item.value)}>{item.label}</button>
                     ))}
                   </div>
-                  <div className="paramHint">{t('params.outputSize', '输出 {width} x {height}', { width: videoSize.width, height: videoSize.height })}</div>
+                  <div className="paramHint">{t('params.outputSize', 'Đầu ra {width} x {height}', { width: videoSize.width, height: videoSize.height })}</div>
                 </>
               ) : (
                 <>
@@ -7937,13 +7860,13 @@ function CreationDesk({
                   </div>
                   {aspect === 'custom' ? (
                     <label className="paramField">
-                      <span>{t('params.apiSize', '接口尺寸')}</span>
+                      <span>{t('params.apiSize', 'Kích thước API')}</span>
                       <select value={customSize} onChange={(event) => setCustomSize(normalizeSize(event.target.value))}>
                         {customSizeOptions.map((item) => <option key={item.value} value={item.value}>{customSizeLabel(item)}</option>)}
                       </select>
                     </label>
                   ) : null}
-                  <div className="paramHint">{t('params.currentSizeHint', '当前请求 size 为 {size}；2K/4K 会作为目标分辨率追加到提示词里。', { size })}</div>
+                  <div className="paramHint">{t('params.currentSizeHint', 'Kích thước yêu cầu hiện tại là {size}; mức 2K/4K sẽ được thêm vào prompt làm mục tiêu phân giải.', { size })}</div>
                 </>
               )}
             </div>
@@ -7954,7 +7877,7 @@ function CreationDesk({
                 <div className="paramSegment">
                   {VIDEO_QUALITY.map((item) => (
                     <button type="button" className={videoQuality === item ? 'active' : ''} key={item} onClick={() => setVideoQuality(item)}>
-                      {item === 'auto' ? t('params.auto', '自动') : item === 'high' ? t('params.high', '高') : t('params.standard', '标准')}
+                      {item === 'auto' ? t('params.auto', 'Tự động') : item === 'high' ? t('params.high', 'Cao') : t('params.standard', 'Tiêu chuẩn')}
                     </button>
                   ))}
                 </div>
@@ -7974,7 +7897,7 @@ function CreationDesk({
                       </button>
                     ))}
                   </div>
-                  <div className="paramHint">{t('params.resolutionHint', '分辨率档位会追加到生成要求里')}</div>
+                  <div className="paramHint">{t('params.resolutionHint', 'Mức phân giải sẽ được thêm vào yêu cầu tạo ảnh')}</div>
                 </>
               )}
             </div>
@@ -7997,7 +7920,7 @@ function CreationDesk({
               ) : (
                 <>
                   <label className="paramRange">
-                    <span>{t('params.imageCount', '图片数量')}</span>
+                    <span>{t('params.imageCount', 'Số ảnh')}</span>
                     <strong>{countValue}</strong>
                     <input type="range" min={imageCountRange.min} max={imageCountRange.max} value={countValue} onChange={(event) => setCount(clampCountForProvider(event.target.value, currentImageProvider))} />
                   </label>
@@ -8012,7 +7935,7 @@ function CreationDesk({
           ) : null}
           <button type="button" className={`paramDrawerGenerate ${generationActionClass}`} onClick={handleGenerateAction} disabled={generationActionDisabled}>
             {compactGenerationActionIcon}
-            {isGenerating ? t('params.queueMore', '加入队列') : needsReviewBeforeRetry ? t('params.confirmRetry', '确认后重试') : status === 'error' ? t('params.retryParams', '重试当前参数') : mode === 'video' ? t('params.generateVideo', '按当前参数生成视频') : t('params.generateImage', '按当前参数生成图片')}
+            {isGenerating ? t('params.queueMore', 'Thêm vào hàng đợi') : needsReviewBeforeRetry ? t('params.confirmRetry', 'Xác nhận rồi thử lại') : status === 'error' ? t('params.retryParams', 'Thử lại với thông số hiện tại') : mode === 'video' ? t('params.generateVideo', 'Tạo video với thông số hiện tại') : t('params.generateImage', 'Tạo ảnh với thông số hiện tại')}
           </button>
         </aside>
       ) : null}
@@ -8053,19 +7976,19 @@ function SettingsPanel({
   const gatewayAccountDisabled = providerSettings.apiKeySource === 'manual';
   const currentProvider = getImageProvider(providerSettings.providerId, providerSettings.apiKeySource);
   const providerCapabilityText = [
-    currentProvider?.capabilities?.textToImage ? t('settings.capTextToImage', '生图') : '',
-    currentProvider?.capabilities?.imageEdit ? t('settings.capEdit', '编辑') : '',
+    currentProvider?.capabilities?.textToImage ? t('settings.capTextToImage', 'Tạo ảnh') : '',
+    currentProvider?.capabilities?.imageEdit ? t('settings.capEdit', 'Chỉnh sửa') : '',
     currentProvider?.capabilities?.mask ? 'Mask' : '',
-    currentProvider?.capabilities?.modelSync ? t('settings.capModelSync', '模型同步') : ''
+    currentProvider?.capabilities?.modelSync ? t('settings.capModelSync', 'Đồng bộ model') : ''
   ].filter(Boolean).join(' · ');
   const modelSyncLabel = modelsStatus === 'loading'
-    ? t('settings.modelsSyncing', '正在从上游同步模型')
+    ? t('settings.modelsSyncing', 'Đang đồng bộ model từ dịch vụ nguồn')
     : modelsStatus === 'ready'
-      ? t('settings.modelsSynced', '上游模型已同步')
+      ? t('settings.modelsSynced', 'Đã đồng bộ model từ dịch vụ nguồn')
       : modelsStatus === 'fallback'
-        ? t('settings.modelsFallback', '未读取到上游模型，暂用默认列表')
-        : t('settings.modelsIdle', '填写接口和密钥后自动同步模型');
-  const modelSyncMeta = t('settings.modelsSyncMeta', '图片 {image} · 对话 {responses} · 视频 {video}', {
+        ? t('settings.modelsFallback', 'Không lấy được model từ dịch vụ nguồn; đang dùng danh sách mặc định')
+        : t('settings.modelsIdle', 'Model sẽ tự đồng bộ sau khi nhập API và key');
+  const modelSyncMeta = t('settings.modelsSyncMeta', 'Ảnh {image} · Hội thoại {responses} · Video {video}', {
     image: modelOptions.image?.length || 0,
     responses: modelOptions.responses?.length || 0,
     video: modelOptions.video?.length || 0
@@ -8085,13 +8008,13 @@ function SettingsPanel({
     }}>
       <section className="settingsDialog">
         <div className="settingsTitle">
-          <h2>{t('settings.title', '连接')}</h2>
-          <button type="button" className="iconButton" onClick={onClose} aria-label={t('settings.close', '关闭')}>×</button>
+          <h2>{t('settings.title', 'Kết nối')}</h2>
+          <button type="button" className="iconButton" onClick={onClose} aria-label={t('settings.close', 'Đóng')}>×</button>
         </div>
 
         <div className="settingsGroup providerSettingsGroup">
           <label className="settingsSelectField">
-            <small>{t('settings.providerFamily', '接口类型')}</small>
+            <small>{t('settings.providerFamily', 'Loại API')}</small>
             <select
               value={currentProvider?.id || providerSettings.providerId}
               onChange={(event) => {
@@ -8105,13 +8028,13 @@ function SettingsPanel({
             >
               {providerChoices.map((provider) => (
                 <option key={provider.id} value={provider.id}>
-                  {provider.label} · {provider.authMode === 'manual' ? t('settings.providerManual', '手动密钥') : t('settings.providerGateway', '网关账号')}
+                  {provider.label}
                 </option>
               ))}
             </select>
           </label>
-          <span>{t('settings.key', '密钥')}</span>
-          <div className="providerChoiceGrid" role="group" aria-label={t('settings.providerFamily', '接口类型')}>
+          <span>{t('settings.key', 'Key')}</span>
+          <div className="providerChoiceGrid" role="group" aria-label={t('settings.providerFamily', 'Loại API')}>
             {providerChoices.map((provider) => (
               <button
                 type="button"
@@ -8124,7 +8047,7 @@ function SettingsPanel({
                 })}
               >
                 <strong>{provider.label}</strong>
-                <em>{provider.authMode === 'manual' ? t('settings.providerManual', '手动密钥') : t('settings.providerGateway', '网关账号')}</em>
+                <em>{provider.authMode === 'manual' ? t('settings.providerManual', 'Key tự nhập') : t('settings.providerGateway', 'Tài khoản gateway')}</em>
               </button>
             ))}
           </div>
@@ -8141,7 +8064,7 @@ function SettingsPanel({
               className={providerSettings.apiKeySource === 'manual' ? 'active' : ''}
               onClick={() => onProviderChange({ ...providerSettings, apiKeySource: 'manual', providerId: 'openai-compatible' })}
             >
-              {t('settings.custom', '自定义')}
+              {t('settings.custom', 'Tùy chỉnh')}
             </button>
           </div>
         </div>
@@ -8149,8 +8072,8 @@ function SettingsPanel({
         <div className="providerSummary">
           <span>{t('settings.provider', 'Provider')}</span>
           <strong>{currentProvider?.label || providerSettings.providerId || 'Gateway Account'}</strong>
-          <em>{currentProvider?.authMode === 'manual' ? t('settings.providerManual', '手动密钥') : t('settings.providerGateway', '网关账号')}</em>
-          <small>{providerCapabilityText || t('settings.providerCompatible', 'OpenAI 兼容接口')}</small>
+          <em>{currentProvider?.authMode === 'manual' ? t('settings.providerManual', 'Key tự nhập') : t('settings.providerGateway', 'Tài khoản gateway')}</em>
+          <small>{providerCapabilityText || t('settings.providerCompatible', 'API tương thích OpenAI')}</small>
         </div>
 
         {usesGatewayAccount(providerSettings) ? (
@@ -8164,17 +8087,17 @@ function SettingsPanel({
             )) : (
               <button type="button" className="loginInlineButton" onClick={onLogin}>
                 <KeyRound size={16} />
-                {t('settings.login', '登录')}
+                {t('settings.login', 'Đăng nhập')}
               </button>
             )}
             {isAuthenticated && !keys.length ? (
-              <div className="settingsEmpty">{t('settings.noKey', '暂无可用 Key')}</div>
+              <div className="settingsEmpty">{t('settings.noKey', 'Chưa có key khả dụng')}</div>
             ) : null}
           </div>
         ) : (
           <div className="manualFields">
             <label>
-              <span>{t('settings.gateway', '接口地址')}</span>
+              <span>{t('settings.gateway', 'Địa chỉ API')}</span>
               <input
                 value={providerSettings.manualGatewayBaseUrl}
                 onChange={(event) => onProviderChange({ ...providerSettings, manualGatewayBaseUrl: event.target.value })}
@@ -8182,7 +8105,7 @@ function SettingsPanel({
               />
             </label>
             <label>
-              <span>{t('settings.key', '密钥')}</span>
+              <span>{t('settings.key', 'Key')}</span>
               <input
                 type="password"
                 value={providerSettings.manualApiKey}
@@ -8194,27 +8117,27 @@ function SettingsPanel({
         )}
 
         <div className="manualFields">
-          <p className="settingsHint">{t('settings.hint', '接口会自动选择：普通生图走 /v1/images/generations；参考图编辑和 Mask 走 /v1/images/edits。助手模型只用于底部提示词优化，会消耗当前 Key 额度。')}</p>
+          <p className="settingsHint">{t('settings.hint', 'Tạo ảnh dùng /v1/images/generations; chỉnh sửa bằng ảnh tham chiếu hoặc Mask dùng /v1/images/edits. Model trợ lý chỉ tối ưu prompt ở bên dưới và sử dụng hạn mức key hiện tại.')}</p>
           <div className="settingsCallConfig">
             <div className="settingsCallConfigHead">
-              <strong>{t('settings.modelCallSettings', '模型调用设置')}</strong>
-              <span>{t('settings.modelCallHint', '为生图、编辑、视频和提示词助手预留不同模型；例如 nano-banana、gpt-image-2、veo3。')}</span>
+              <strong>{t('settings.modelCallSettings', 'Cài đặt model')}</strong>
+              <span>{t('settings.modelCallHint', 'Chọn model riêng cho tạo ảnh, chỉnh sửa, video và trợ lý prompt; ví dụ gpt-image-2, nano-banana, veo3.')}</span>
             </div>
             <div className="settingsCallGrid">
               <label>
-                <span>{t('settings.imageGenerationModel', '生图模型')}</span>
+                <span>{t('settings.imageGenerationModel', 'Model tạo ảnh')}</span>
                 <input value={providerSettings.imageGenerationModel || ''} onChange={(event) => onProviderChange({ ...providerSettings, imageGenerationModel: event.target.value })} placeholder="gpt-image-2 / nano-banana" />
               </label>
               <label>
-                <span>{t('settings.imageEditModel', '编辑 / Mask 模型')}</span>
+                <span>{t('settings.imageEditModel', 'Model chỉnh sửa / Mask')}</span>
                 <input value={providerSettings.imageEditModel || ''} onChange={(event) => onProviderChange({ ...providerSettings, imageEditModel: event.target.value })} placeholder={providerSettings.imageGenerationModel || 'gpt-image-2'} />
               </label>
               <label>
-                <span>{t('settings.videoModel', '视频模型')}</span>
+                <span>{t('settings.videoModel', 'Model video')}</span>
                 <input value={providerSettings.videoModel || ''} onChange={(event) => onProviderChange({ ...providerSettings, videoModel: event.target.value })} placeholder="veo3 / kling / runway" />
               </label>
               <label>
-                <span>{t('settings.videoGateway', '视频接口 URL')}</span>
+                <span>{t('settings.videoGateway', 'URL API video')}</span>
                 <input value={providerSettings.videoGatewayBaseUrl || ''} onChange={(event) => onProviderChange({ ...providerSettings, videoGatewayBaseUrl: event.target.value })} placeholder={providerSettings.manualGatewayBaseUrl || getConfiguredBaseUrls().gatewayBaseUrl} />
               </label>
             </div>
@@ -8222,17 +8145,17 @@ function SettingsPanel({
           <div className={`settingsModelSync ${modelsStatus}`}>
             <span>{modelSyncLabel}</span>
             <em>{modelSyncMeta}</em>
-            <small>{t('settings.modelsProviderHint', '兼容 OpenAI / NewAPI 风格的上游；后续可继续扩展为多 Provider 调用策略。')}</small>
+            <small>{t('settings.modelsProviderHint', 'Tương thích với API kiểu OpenAI / NewAPI; có thể mở rộng để hỗ trợ thêm nhiều nhà cung cấp.')}</small>
           </div>
           <label>
-            <span>{t('settings.assistantModel', '助手模型')}</span>
+            <span>{t('settings.assistantModel', 'Model trợ lý')}</span>
             <input
               value={providerSettings.responsesModel}
               onChange={(event) => onProviderChange({ ...providerSettings, responsesModel: event.target.value })}
             />
           </label>
           <label>
-            <span>{t('settings.previewFrames', '预览帧')}</span>
+            <span>{t('settings.previewFrames', 'Khung hình xem trước')}</span>
             <input
               type="number"
               min="0"
@@ -8251,9 +8174,9 @@ function SettingsPanel({
             apiKeySource: gatewayAccountDisabled ? 'manual' : 'gateway',
             providerId: gatewayAccountDisabled ? 'openai-compatible' : 'gateway-account'
           })}>
-            {t('settings.clear', '清除')}
+            {t('settings.clear', 'Xóa')}
           </button>
-          <button type="button" className="primaryAction" onClick={onClose}>{t('settings.done', '完成')}</button>
+          <button type="button" className="primaryAction" onClick={onClose}>{t('settings.done', 'Xong')}</button>
         </div>
       </section>
     </div>
@@ -8354,7 +8277,7 @@ function StudioApp() {
 
   useEffect(() => {
     document.documentElement.lang = language;
-    document.title = t('app.title', '创作工作台');
+    document.title = t('app.title', 'Không gian sáng tạo');
     saveStudioLanguage(language);
   }, [language, t]);
 
@@ -8492,13 +8415,13 @@ function StudioApp() {
         const parts = [];
         const total = usage?.total || usage?.total_usage || usage?.used || usage?.amount || usage?.cost;
         const requests = usage?.requests || usage?.request_count || usage?.count;
-        if (total !== undefined) parts.push(`已用 ${formatUsageValue(total)}`);
-        if (requests !== undefined) parts.push(`${formatUsageValue(requests)} 次`);
-        setUsageSummary(parts.join('，') || '后台未返回消费汇总');
+        if (total !== undefined) parts.push(`Đã dùng ${formatUsageValue(total)}`);
+        if (requests !== undefined) parts.push(`${formatUsageValue(requests)} lượt`);
+        setUsageSummary(parts.join(', ') || 'Máy chủ không trả tổng kết mức sử dụng');
       })
       .catch((error) => {
         if (error?.name === 'AbortError') return;
-        setUsageSummary('后台未开放消费接口');
+        setUsageSummary('Máy chủ chưa cung cấp API mức sử dụng');
       });
 
     return () => controller.abort();
@@ -8834,16 +8757,26 @@ function handleSelectHistory(item, options = {}) {
   }
 
   if (bootError && !siteData) {
-    return <main className="studioError">加载失败：{bootError}</main>;
+    return <main className="studioError">Không thể tải: {bootError}</main>;
   }
 
   return (
-    <main>
+    <main id="studio-workbench">
+      <section className="studioIntro" aria-label={t('studio.introLabel', 'Giới thiệu không gian sáng tạo')}>
+        <div className="studioIntroCopy">
+          <h1 className="studioIntroTitle">{workspaceIsDesk ? (selectedHistory?.title || (currentProject ? t('rail.currentSession', 'Phiên hiện tại') : t('rail.newSessionTitle', 'Phiên mới'))) : t(`workspace.${activeWorkspace}`, t('workspace.image', 'Tạo ảnh'))}</h1>
+          <p>{activeWorkspace === 'history'
+            ? t('studio.historyDescription', 'Chọn một phiên để xem kết quả và tiếp tục chỉnh sửa trên canvas.')
+            : activeWorkspace === 'inspiration'
+              ? t('studio.inspirationDescription', 'Chọn một mẫu để đưa ý tưởng và prompt vào canvas.')
+              : t('studio.description', 'Prompt, ảnh tham chiếu và các phiên bản luôn ở cùng một canvas.')}</p>
+        </div>
+      </section>
       {isLibraryLocked ? (
         <div className="libraryLockNotice">
           <KeyRound size={15} />
-          <span>{t('lock.protected', '素材库和提示词已保护，登录后加载。')}</span>
-          <button type="button" onClick={handleRequireLogin}>{t('topbar.login', '登录')}</button>
+          <span>{t('lock.protected', 'Thư viện tư liệu và prompt được bảo vệ; hãy đăng nhập để tải.')}</span>
+          <button type="button" onClick={handleRequireLogin}>{t('topbar.login', 'Đăng nhập')}</button>
         </div>
       ) : null}
       <Topbar

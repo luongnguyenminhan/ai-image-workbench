@@ -1,16 +1,16 @@
-// IndexedDB 低层帮手
+// Tiện ích cấp thấp cho IndexedDB.
 //
-// 与工作台历史记录模型保持同形：
-//   - 数据库 `image-sub2api-studio` v1；
-//   - 对象仓库 `studio_history`，keyPath `id`；
-//   - 索引 `byScopeCreatedAt`（`[scope, createdAt]`，非唯一）；
-//   - 索引 `byScope`（`scope`，非唯一）。
+// Cấu trúc đồng nhất với mô hình lịch sử của ứng dụng:
+//   - Cơ sở dữ liệu `image-sub2api-studio` phiên bản 1;
+//   - Kho đối tượng `studio_history`, keyPath `id`;
+//   - Chỉ mục `byScopeCreatedAt` (`[scope, createdAt]`, không duy nhất);
+//   - Chỉ mục `byScope` (`scope`, không duy nhất).
 //
-// 该模块只承担打开数据库与封装事务两件事；具体的 CRUD（含 favorite / LRU）由
-// 上层 `historyStore.js` 实现。
+// Module này chỉ mở cơ sở dữ liệu và đóng gói giao dịch; các thao tác CRUD (gồm yêu thích / LRU)
+// được triển khai ở tầng trên trong `historyStore.js`.
 //
-// 隐私模式 / 配额失败时统一抛出 `Error('IDB_UNAVAILABLE')`，并把原始错误挂在
-// `error.cause` 上；调用方据此回退到 localStorage 行为。
+// Khi chế độ riêng tư hoặc hạn mức lưu trữ gây lỗi, ném `Error('IDB_UNAVAILABLE')` và gắn
+// lỗi gốc vào `error.cause`; bên gọi dựa vào đó để chuyển sang dùng localStorage.
 
 /** @type {string} */
 export const DB_NAME = 'image-sub2api-studio';
@@ -27,28 +27,28 @@ export const INDEX_BY_SCOPE = 'byScope';
 const ERR_UNAVAILABLE = 'IDB_UNAVAILABLE';
 
 /**
- * 缓存的连接 Promise。同一会话内复用同一个连接，避免每次 CRUD 都重新打开。
- * `versionchange` 触发时清空缓存并关闭连接，让下一次调用重新打开。
+ * Promise kết nối đã lưu. Dùng lại cùng một kết nối trong phiên để không phải mở lại cho mỗi thao tác CRUD.
+ * Khi có `versionchange`, xóa bộ nhớ đệm và đóng kết nối để lần gọi tiếp theo mở lại.
  *
  * @type {Promise<IDBDatabase> | null}
  */
 let cachedDbPromise = null;
 
 /**
- * 检测当前环境是否提供可用的 `indexedDB` 全局对象。
+ * Kiểm tra môi trường hiện tại có cung cấp đối tượng toàn cục `indexedDB` dùng được hay không.
  *
- * 一些浏览器（特别是 Firefox 的隐私模式）会在访问 `window.indexedDB` 时直接抛
- * `SecurityError`，所以这里用 try/catch 包住。
+ * Một số trình duyệt (đặc biệt là Firefox ở chế độ riêng tư) ném `SecurityError` ngay khi
+ * truy cập `window.indexedDB`, vì vậy cần dùng try/catch.
  *
- * 注意：本函数只做 "API 是否暴露" 的最浅层检测——`open()` 后续仍可能因为配额
- * 或权限失败，那种失败由 {@link openDb} 转换为 `IDB_UNAVAILABLE` 抛出。
+ * Lưu ý: hàm này chỉ kiểm tra sơ bộ API có hiện diện hay không. Lệnh `open()` vẫn có thể lỗi
+ * do hạn mức hoặc quyền truy cập; {@link openDb} sẽ chuyển lỗi đó thành `IDB_UNAVAILABLE`.
  *
  * @returns {boolean}
  */
 export function indexedDbAvailable() {
   try {
     if (typeof globalThis === 'undefined') return false;
-    // @ts-ignore - indexedDB 在浏览器环境下是 globalThis 的属性
+    // @ts-ignore - trong trình duyệt, indexedDB là thuộc tính của globalThis
     const idb = globalThis.indexedDB;
     return typeof idb !== 'undefined' && idb !== null;
   } catch {
@@ -57,21 +57,21 @@ export function indexedDbAvailable() {
 }
 
 /**
- * 把任意值规范化为 `Error`，再用 `IDB_UNAVAILABLE` 包一层；保留原因供调用方排查。
+ * Chuẩn hóa giá trị bất kỳ thành `Error`, bọc bằng `IDB_UNAVAILABLE` và giữ lại nguyên nhân để bên gọi kiểm tra.
  *
  * @param {unknown} cause
  * @returns {Error}
  */
 function makeUnavailableError(cause) {
   const error = new Error(ERR_UNAVAILABLE);
-  // @ts-ignore - Error.cause 在所有现代浏览器与 Node 18+ 都已支持
+  // @ts-ignore - Error.cause đã được hỗ trợ trên các trình duyệt hiện đại và Node 18 trở lên
   error.cause = cause instanceof Error ? cause : cause != null ? new Error(String(cause)) : undefined;
   return error;
 }
 
 /**
- * 在 `upgradeneeded` 时创建对象仓库与索引。
- * 仅在 v0 → v1 时执行；后续版本若新增索引，应在此函数中追加分支判断 `oldVersion`。
+ * Tạo kho đối tượng và chỉ mục khi có sự kiện `upgradeneeded`.
+ * Chỉ chạy khi nâng cấp từ v0 lên v1; nếu phiên bản sau cần thêm chỉ mục, hãy bổ sung nhánh kiểm tra `oldVersion` tại đây.
  *
  * @param {IDBDatabase} db
  * @param {IDBVersionChangeEvent} event
@@ -80,10 +80,10 @@ function applyUpgrade(db, event) {
   const oldVersion = event.oldVersion ?? 0;
 
   if (oldVersion < 1) {
-    // upgradeneeded 期间，request.transaction 为 versionchange 事务；通过它拿到既有 store
-    // 或新建 store。
+    // Trong sự kiện upgradeneeded, request.transaction là giao dịch versionchange; dùng nó để lấy kho hiện có
+    // hoặc tạo kho mới.
     const store = db.objectStoreNames.contains(STORE_NAME)
-      ? // @ts-ignore - event.target 是 IDBOpenDBRequest，其 transaction 在 upgradeneeded 期间非空
+      ? // @ts-ignore - event.target là IDBOpenDBRequest, có transaction trong sự kiện upgradeneeded
         event.target.transaction.objectStore(STORE_NAME)
       : db.createObjectStore(STORE_NAME, { keyPath: 'id' });
 
@@ -97,12 +97,12 @@ function applyUpgrade(db, event) {
 }
 
 /**
- * 打开（或复用）`image-sub2api-studio` 数据库，返回连接 Promise。
+ * Mở (hoặc dùng lại) cơ sở dữ liệu `image-sub2api-studio` và trả về Promise kết nối.
  *
- * - 若 `indexedDB` 不可用 / `open` 触发 `error` 或 `blocked` 事件，抛
- *   `Error('IDB_UNAVAILABLE')`，原始错误挂在 `error.cause`。
- * - 连接收到 `versionchange` 时主动 `close()` 并清空缓存，避免阻塞其它 tab 升级。
- * - 连接收到 `close`（如硬重启）时也清空缓存，下一次调用会重新打开。
+ * - Nếu `indexedDB` không khả dụng hoặc `open` phát sinh sự kiện `error` / `blocked`, ném
+ *   `Error('IDB_UNAVAILABLE')` và gắn lỗi gốc vào `error.cause`.
+ * - Khi kết nối nhận `versionchange`, chủ động gọi `close()` và xóa bộ nhớ đệm để không chặn tab khác nâng cấp.
+ * - Khi kết nối nhận `close` (ví dụ sau khi khởi động lại), cũng xóa bộ nhớ đệm để lần gọi sau mở lại.
  *
  * @returns {Promise<IDBDatabase>}
  * @throws  {Error} `IDB_UNAVAILABLE`
@@ -118,7 +118,7 @@ export function openDb() {
     /** @type {IDBOpenDBRequest} */
     let request;
     try {
-      // @ts-ignore - indexedDB 在浏览器环境下是 globalThis 的属性
+      // @ts-ignore - trong trình duyệt, indexedDB là thuộc tính của globalThis
       request = globalThis.indexedDB.open(DB_NAME, DB_VERSION);
     } catch (error) {
       reject(makeUnavailableError(error));
@@ -130,7 +130,7 @@ export function openDb() {
       try {
         applyUpgrade(db, event);
       } catch (error) {
-        // upgrade 失败时主动 abort tx，让外层走 error 路径
+        // Chủ động hủy giao dịch khi nâng cấp thất bại để luồng bên ngoài xử lý lỗi.
         try {
           request.transaction?.abort();
         } catch {
@@ -143,7 +143,7 @@ export function openDb() {
     request.onsuccess = () => {
       const db = request.result;
 
-      // 别的 tab 触发版本升级时，主动 close 让那个 tab 不被阻塞。
+      // Chủ động đóng kết nối khi tab khác nâng cấp phiên bản để không chặn tab đó.
       db.onversionchange = () => {
         try {
           db.close();
@@ -153,7 +153,7 @@ export function openDb() {
         cachedDbPromise = null;
       };
 
-      // 连接异常关闭时清空缓存，下次再打开。
+      // Xóa bộ nhớ đệm nếu kết nối đóng bất thường để lần sau mở lại.
       db.onclose = () => {
         cachedDbPromise = null;
       };
@@ -172,7 +172,7 @@ export function openDb() {
     };
   });
 
-  // 若 Promise 自身 reject，确保下次调用能重新尝试。
+  // Nếu Promise bị từ chối, bảo đảm lần gọi sau có thể thử lại.
   cachedDbPromise.catch(() => {
     cachedDbPromise = null;
   });
@@ -181,9 +181,9 @@ export function openDb() {
 }
 
 /**
- * 在 `studio_history` 对象仓库上启动一次事务，并把对象仓库交给回调。
+ * Bắt đầu một giao dịch trên kho đối tượng `studio_history` và truyền kho đó cho callback.
  *
- * 用法示例：
+ * Ví dụ sử dụng:
  * ```js
  * const entries = await withStore('readonly', async (store) => {
  *   return new Promise((resolve, reject) => {
@@ -194,11 +194,11 @@ export function openDb() {
  * });
  * ```
  *
- * 行为契约：
- * - `mode`: `'readonly'` 或 `'readwrite'`。
- * - `fn` 可以是同步或异步函数。其返回值在事务 `complete` 后作为 Promise 的 resolve 值。
- * - 若 `fn` 抛错或返回的 Promise reject，主动 `transaction.abort()` 并把错误透传出去。
- * - 若事务 `abort`（如配额耗尽、外部中断）但 `fn` 已 resolve，仍以事务的错误 reject。
+ * Quy ước hoạt động:
+ * - `mode`: `'readonly'` hoặc `'readwrite'`.
+ * - `fn` có thể là hàm đồng bộ hoặc bất đồng bộ. Giá trị trả về trở thành kết quả Promise sau khi giao dịch `complete`.
+ * - Nếu `fn` ném lỗi hoặc Promise trả về bị từ chối, chủ động gọi `transaction.abort()` rồi chuyển tiếp lỗi.
+ * - Nếu giao dịch bị hủy (ví dụ hết hạn mức hoặc bị ngắt bên ngoài) sau khi `fn` đã hoàn tất, Promise vẫn bị từ chối bằng lỗi giao dịch.
  *
  * @template T
  * @param {IDBTransactionMode} mode
@@ -229,10 +229,10 @@ export async function withStore(mode, fn) {
 
     tx.oncomplete = () => {
       if (hasResolved) {
-        // @ts-ignore - resolved 在 hasResolved=true 时已被赋值
+        // @ts-ignore - resolved đã được gán khi hasResolved=true
         resolve(resolved);
       } else {
-        // 极端情况：事务 complete 但 fn 未 resolve（fn 同步返回 undefined 也算 resolved）。
+        // Trường hợp hiếm: giao dịch hoàn tất nhưng fn chưa resolve (fn đồng bộ trả về undefined vẫn được xem là đã resolve).
         resolve(/** @type {T} */ (/** @type {unknown} */ (undefined)));
       }
     };
@@ -256,7 +256,7 @@ export async function withStore(mode, fn) {
         try {
           tx.abort();
         } catch {
-          /* ignore - 事务可能已经在错误中完成 */
+          /* Bỏ qua: giao dịch có thể đã hoàn tất cùng lỗi. */
         }
         reject(error);
       });
@@ -264,8 +264,8 @@ export async function withStore(mode, fn) {
 }
 
 /**
- * 仅供测试 / 调试使用：清空连接缓存，下次 `openDb()` 会重新发起 `open`。
- * 保留为命名导出方便单元测试或在身份切换时强制重连。
+ * Chỉ dùng khi kiểm thử / gỡ lỗi: xóa bộ nhớ đệm kết nối để lần gọi `openDb()` sau mở lại cơ sở dữ liệu.
+ * Xuất hàm này để kiểm thử đơn vị hoặc buộc kết nối lại khi chuyển danh tính người dùng.
  *
  * @returns {void}
  */

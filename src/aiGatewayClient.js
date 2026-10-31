@@ -993,18 +993,18 @@ export class AiGatewayClient {
     const resolvedGatewayBaseUrl = normalizeGatewayBaseUrl(gatewayBaseUrl || this.gatewayBaseUrl);
     const optimizerModel = normalizeResponsesModel(model || envPromptOptimizerModel || this.providerSettings.responsesModel || envResponsesModel);
     const inputLines = [
-      `原始提示词:\n${String(prompt || '').trim()}`
+      `Prompt gốc:\n${String(prompt || '').trim()}`
     ];
     if (String(instruction || '').trim()) {
-      inputLines.push(`修改要求:\n${String(instruction || '').trim()}`);
+      inputLines.push(`Yêu cầu chỉnh sửa:\n${String(instruction || '').trim()}`);
     }
     const extra = [];
-    if (aspectRatio) extra.push(`比例 ${aspectRatio}`);
-    if (size) extra.push(`尺寸 ${size}`);
-    if (resolutionTier) extra.push(`输出清晰度目标 ${resolutionTier}`);
-    if (quality) extra.push(`质量 ${quality}`);
+    if (aspectRatio) extra.push(`Tỷ lệ khung hình ${aspectRatio}`);
+    if (size) extra.push(`Kích thước ${size}`);
+    if (resolutionTier) extra.push(`Độ phân giải đầu ra ${resolutionTier}`);
+    if (quality) extra.push(`Chất lượng ${quality}`);
     if (extra.length) {
-      inputLines.push(`当前参数: ${extra.join('，')}`);
+      inputLines.push(`Thông số hiện tại: ${extra.join(', ')}`);
     }
 
     const response = await fetch(`${resolvedGatewayBaseUrl}/chat/completions`, {
@@ -1019,12 +1019,12 @@ export class AiGatewayClient {
           {
             role: 'system',
             content: [
-              '你是中文图像提示词整理师。',
-              '请保留原始意图，不要删掉用户给出的主体、产品、人物、文字和限制。',
-              '把优化建议拆成清晰字段，便于用户选择合并。',
-              '只输出 JSON，不要输出 Markdown。',
-              'JSON 字段必须是：subject, scene, composition, style, lighting, details, textRules, constraints, finalPrompt。',
-              '所有字段内容使用中文；finalPrompt 可以保留必要英文专有名词、模型名和品牌名。'
+              'Bạn là trợ lý biên tập prompt tạo ảnh bằng tiếng Việt.',
+              'Giữ nguyên ý định ban đầu; không xóa chủ thể, sản phẩm, nhân vật, chữ viết hoặc giới hạn mà người dùng đã nêu.',
+              'Chia đề xuất chỉnh sửa thành các trường rõ ràng để người dùng chọn ghép vào prompt.',
+              'Chỉ trả về JSON, không trả về Markdown.',
+              'Các trường JSON bắt buộc: subject, scene, composition, style, lighting, details, textRules, constraints, finalPrompt.',
+              'Viết nội dung các trường bằng tiếng Việt; có thể giữ nguyên tên riêng, tên model và thương hiệu cần thiết bằng tiếng Anh.'
             ].join('')
           },
           {
@@ -1062,17 +1062,17 @@ export class AiGatewayClient {
     const resolvedGatewayBaseUrl = normalizeGatewayBaseUrl(gatewayBaseUrl || this.gatewayBaseUrl);
     const assistantModel = normalizeResponsesModel(model || envPromptOptimizerModel || this.providerSettings.responsesModel || envResponsesModel);
     const context = [
-      basePrompt ? `当前选中的画布基础提示词（仅作为上下文，不是必须保留）:\n${String(basePrompt).trim()}` : '',
-      userInstruction ? `用户最新创作方向（最高优先级）:\n${String(userInstruction).trim()}` : '',
-      !basePrompt && prompt ? `当前可生成提示词:\n${String(prompt).trim()}` : '',
-      selectedCanvasLabel ? `当前画布: ${String(selectedCanvasLabel).trim()}` : '',
+      basePrompt ? `Prompt nền của hình trên canvas (chỉ làm ngữ cảnh, không bắt buộc giữ lại):\n${String(basePrompt).trim()}` : '',
+      userInstruction ? `Hướng sáng tạo mới nhất của người dùng (ưu tiên cao nhất):\n${String(userInstruction).trim()}` : '',
+      !basePrompt && prompt ? `Prompt hiện tại có thể dùng để tạo ảnh:\n${String(prompt).trim()}` : '',
+      selectedCanvasLabel ? `Canvas hiện tại: ${String(selectedCanvasLabel).trim()}` : '',
       aspectRatio || size || resolutionTier || quality
-        ? `当前生图参数: ${[
-          aspectRatio ? `比例 ${aspectRatio}` : '',
-          size ? `尺寸 ${size}` : '',
-          resolutionTier ? `清晰度 ${resolutionTier}` : '',
-          quality ? `质量 ${quality}` : ''
-        ].filter(Boolean).join('，')}`
+        ? `Thông số tạo ảnh hiện tại: ${[
+          aspectRatio ? `Tỷ lệ khung hình ${aspectRatio}` : '',
+          size ? `Kích thước ${size}` : '',
+          resolutionTier ? `Độ phân giải ${resolutionTier}` : '',
+          quality ? `Chất lượng ${quality}` : ''
+        ].filter(Boolean).join(', ')}`
         : ''
     ].filter(Boolean).join('\n\n');
     const safeMessages = (Array.isArray(messages) ? messages : [])
@@ -1095,16 +1095,16 @@ export class AiGatewayClient {
           {
             role: 'system',
             content: [
-              '你是图片和视频创作工作台里的中文提示词助手。',
-              '你和用户对话，帮助澄清想法、补全画面要素、整理可直接用于生成的提示词。',
-              '不要直接生成图片，也不要假装已经生成图片。',
-              '用户最新消息优先级最高。如果用户说“不是、不要、去掉、改成、替换、删除”，必须移除被否定的元素，不能再绕回旧设定。',
-              '先判断方向：局部修改=保留未冲突的主体和风格；衍生=保留部分视觉语言但允许更换主体、场景或构图；重写=只按用户最新要求重新整理。',
-              '基础提示词只作为上下文。不要为了延续而强行保留和用户最新要求冲突的主体、材质、场景、文字或限制。',
-              '如果用户只是在聊天澄清，你可以简短追问；如果信息已足够，给出可直接生图的 finalPrompt。',
-              '只输出 JSON，不要输出 Markdown。',
-              'JSON 字段必须是：reply, finalPrompt。',
-              'reply 是给用户看的简短中文回复；finalPrompt 是整理后的可生成提示词。'
+              'Bạn là trợ lý prompt trong không gian sáng tạo ảnh và video.',
+              'Trò chuyện với người dùng để làm rõ ý tưởng, bổ sung chi tiết hình ảnh và sắp xếp prompt có thể dùng ngay.',
+              'Không trực tiếp tạo ảnh và không giả vờ rằng ảnh đã được tạo.',
+              'Yêu cầu mới nhất của người dùng được ưu tiên cao nhất. Nếu họ nói “không phải”, “đừng”, “bỏ”, “đổi thành”, “thay thế” hoặc “xóa”, hãy loại bỏ yếu tố bị phủ định và đừng đưa thiết lập cũ trở lại.',
+              'Trước tiên xác định hướng chỉnh sửa: chỉnh một phần = giữ chủ thể và phong cách không bị mâu thuẫn; tạo biến thể = giữ một phần ngôn ngữ hình ảnh nhưng có thể đổi chủ thể, bối cảnh hoặc bố cục; viết lại = chỉ dựa trên yêu cầu mới nhất.',
+              'Chỉ dùng prompt nền làm ngữ cảnh. Không cố giữ chủ thể, chất liệu, bối cảnh, chữ viết hoặc giới hạn mâu thuẫn với yêu cầu mới nhất.',
+              'Nếu người dùng chỉ đang làm rõ ý tưởng, hãy hỏi ngắn gọn khi cần; nếu đã đủ thông tin, hãy đưa ra finalPrompt có thể dùng để tạo ảnh.',
+              'Chỉ trả về JSON, không trả về Markdown.',
+              'JSON phải có các trường: reply, finalPrompt.',
+              'reply là câu trả lời ngắn bằng tiếng Việt cho người dùng; finalPrompt là prompt đã được biên tập để tạo ảnh.'
             ].join('')
           },
           ...(context ? [{ role: 'user', content: context }] : []),

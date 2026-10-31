@@ -140,8 +140,8 @@ try {
         assistantMessages: [],
         canvasNodes: []
       },
-      mustInclude: ['视频创作', '视频任务接口'],
-      mustNotInclude: ['文生图'],
+      mustInclude: ['Tạo video', 'API tác vụ video'],
+      mustNotInclude: ['Tạo ảnh từ văn bản'],
       expectedSelectValue: 'veo3'
     }
   ];

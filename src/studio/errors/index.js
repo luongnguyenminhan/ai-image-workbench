@@ -1,6 +1,6 @@
-// `src/studio/errors/` 目录入口。
+// Điểm vào của thư mục `src/studio/errors/`.
 //
-// v1 当前导出 Error Translation Table 与 `translateError` 工具。
-// 后续任务可在此追加更多归一化错误工具。
+// Phiên bản 1 hiện tái xuất bảng Error Translation Table và tiện ích `translateError`.
+// Các tác vụ sau có thể bổ sung thêm tiện ích chuẩn hóa lỗi tại đây.
 
 export * from './translations.js';

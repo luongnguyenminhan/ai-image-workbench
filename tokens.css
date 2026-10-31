@@ -1,0 +1,105 @@
+/* Studio design system · neutral creative workspace */
+:root {
+  color-scheme: dark;
+
+  --color-paper: #151719;
+  --color-paper-2: #1e2023;
+  --color-paper-3: #292c30;
+  --color-rule: #34383d;
+  --color-ink: #eeefef;
+  --color-ink-2: #b6bbc0;
+  --color-muted: #989fa6;
+  --color-accent: #8bcbbb;
+  --color-accent-strong: #b0ded1;
+  --color-positive: var(--color-accent);
+  --color-magenta: var(--color-accent);
+  --color-ink-dark: oklch(15% 0.02 273);
+  --color-on-accent: #102d26;
+  --color-accent-ink: var(--color-on-accent);
+  --color-focus: #8bcbbb;
+  --color-grid: color-mix(in oklch, var(--color-ink) 7%, transparent);
+
+  --font-display: "Inter Variable", "Inter", sans-serif;
+  --font-body: "Inter Variable", "Inter", sans-serif;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-display: clamp(2rem, 3vw, 2.75rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 320ms;
+
+  --rule-subtle: 1px solid var(--color-rule);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-pill: 9999px;
+
+  --studio-bg: var(--color-paper);
+  --studio-grid: var(--color-grid);
+  --studio-surface: var(--color-paper-2);
+  --studio-surface-strong: var(--color-paper-2);
+  --studio-surface-soft: var(--color-paper-3);
+  --studio-surface-hover: color-mix(in oklch, var(--color-paper-2) 82%, var(--color-accent) 18%);
+  --studio-text: var(--color-ink-2);
+  --studio-text-strong: var(--color-ink);
+  --studio-muted: var(--color-muted);
+  --studio-border: var(--color-rule);
+  --studio-border-strong: var(--color-accent);
+  --studio-primary: var(--color-accent);
+  --studio-primary-strong: var(--color-accent-strong);
+  --studio-accent: var(--color-magenta);
+  --studio-info: var(--color-accent-strong);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-paper: #f4f5f5;
+  --color-paper-2: #ffffff;
+  --color-paper-3: #e9ebed;
+  --color-rule: #d8dde0;
+  --color-ink: #20252a;
+  --color-ink-2: #525d66;
+  --color-muted: #616d76;
+  --color-accent: #216f5c;
+  --color-accent-strong: #185844;
+  --color-positive: var(--color-accent);
+  --color-magenta: var(--color-accent);
+  --color-ink-dark: oklch(15% 0.02 273);
+  --color-on-accent: #ffffff;
+  --color-accent-ink: var(--color-on-accent);
+  --color-focus: #216f5c;
+  --color-grid: color-mix(in oklch, var(--color-ink) 8%, transparent);
+  --studio-bg: var(--color-paper);
+  --studio-grid: var(--color-grid);
+  --studio-surface: var(--color-paper-2);
+  --studio-surface-strong: var(--color-paper-2);
+  --studio-surface-soft: var(--color-paper-3);
+  --studio-surface-hover: color-mix(in oklch, var(--color-paper-2) 84%, var(--color-accent) 16%);
+  --studio-text: var(--color-ink-2);
+  --studio-text-strong: var(--color-ink);
+  --studio-muted: var(--color-muted);
+  --studio-border: var(--color-rule);
+  --studio-border-strong: var(--color-accent);
+  --studio-primary: var(--color-accent);
+  --studio-primary-strong: var(--color-accent-strong);
+  --studio-accent: var(--color-magenta);
+  --studio-info: var(--color-accent-strong);
+}

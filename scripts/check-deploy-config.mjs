@@ -62,8 +62,8 @@ mustInclude('scripts/package-release.mjs', 'image-sub2api-studio-core-update-${s
 mustInclude('scripts/package-release.mjs', 'image-sub2api-studio-service-update-${stamp}.zip', 'Legacy service package names must remain available for existing VPS commands');
 mustInclude('scripts/package-studio-core-update.mjs', "import './package-release.mjs';", 'Legacy package script must stay as a compatibility wrapper');
 mustInclude('README.md', 'ai-image-workbench-core-update-*.zip', 'README must document the new package name');
-mustInclude('README.zh-CN.md', 'ai-image-workbench-core-update-*.zip', 'Chinese README must document the new package name');
-mustInclude('deploy/UPDATE-SERVER.zh-CN.md', 'ai-image-workbench-core-update-YYYYMMDD-HHMMSS.zip', 'VPS update guide must prefer the new package name');
+mustInclude('README.vi.md', 'ai-image-workbench-core-update-*.zip', 'Vietnamese README must document the new package name');
+mustInclude('deploy/UPDATE-SERVER.vi.md', 'ai-image-workbench-core-update-YYYYMMDD-HHMMSS.zip', 'VPS update guide must prefer the new package name');
 
 mustInclude('Dockerfile', 'COPY --from=builder /app/dist /usr/share/nginx/html', 'Web image must serve built assets');
 mustInclude('Dockerfile', 'ARG VITE_AI_GATEWAY_BASE_URL=', 'Docker web build must accept provider-neutral gateway base URL');

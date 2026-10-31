@@ -188,7 +188,7 @@ cp -a "$REPO_DIR/package.json" "$REPO_DIR/package-lock.json" "$SERVICE_DIR/"
 cp -a "$REPO_DIR/scripts/image-sub2api-studio-history-service.mjs" "$SERVICE_DIR/scripts/"
 cp -a "$REPO_DIR/deploy/image-sub2api-studio-history.service" "$SERVICE_DIR/deploy/"
 cp -a "$REPO_DIR/deploy/nginx-sub2api-studio.conf" "$SERVICE_DIR/deploy/"
-cp -a "$REPO_DIR/deploy/UPDATE-SERVER.zh-CN.md" "$SERVICE_DIR/deploy/"
+cp -a "$REPO_DIR/deploy/UPDATE-SERVER.vi.md" "$SERVICE_DIR/deploy/"
 
 cd "$SERVICE_DIR"
 npm ci --omit=dev

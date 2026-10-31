@@ -1,0 +1,362 @@
+/* Unified application layer. The ID scopes visual precedence over legacy styles. */
+#studio-workbench {
+  --rail-width: 216px;
+  --reference-sidebar-width: 248px;
+  height: 100dvh;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+#studio-workbench *, #studio-workbench *::before, #studio-workbench *::after { box-sizing: border-box; }
+#studio-workbench button, #studio-workbench input, #studio-workbench select, #studio-workbench textarea {
+  font-family: var(--font-body) !important;
+  font-size: 13px;
+  font-weight: 450 !important;
+  letter-spacing: 0 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+#studio-workbench button {
+  border: 0 !important;
+  background: transparent;
+  color: var(--color-ink-2);
+  cursor: pointer;
+  transition: background-color 160ms, color 160ms !important;
+  transform: none !important;
+  white-space: nowrap;
+}
+#studio-workbench button:hover:not(:disabled) { background-color: var(--color-paper-3) !important; color: var(--color-ink) !important; transform: none !important; }
+#studio-workbench button:disabled { opacity: .45 !important; cursor: not-allowed; }
+#studio-workbench button::before, #studio-workbench button::after { content: none !important; }
+#studio-workbench svg { flex-shrink: 0; }
+#studio-workbench h1, #studio-workbench h2, #studio-workbench h3, #studio-workbench strong {
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  letter-spacing: -.02em !important;
+  text-transform: none !important;
+}
+#studio-workbench :focus-visible { outline: 2px solid var(--color-focus) !important; outline-offset: 2px !important; }
+#studio-workbench .studioIntro {
+  flex: 0 0 56px;
+  min-height: 56px;
+  padding: 0 24px 0 calc(var(--rail-width) + 24px);
+  border: 0;
+  background: var(--color-paper-2);
+}
+#studio-workbench .studioIntroCopy { display: flex; align-items: center; gap: 20px; max-width: none; }
+#studio-workbench .studioIntroTitle { font-size: 15px; line-height: 1.3; opacity: 1 !important; transform: none !important; }
+#studio-workbench .studioIntroCopy p { margin: 0; font-size: 12px; color: var(--color-muted); }
+#studio-workbench .studioLayout {
+  --rail-width: 216px;
+  display: grid !important;
+  grid-template-columns: var(--rail-width) minmax(0, 1fr) !important;
+  flex: 1;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  overflow: clip;
+}
+#studio-workbench .studioLayout.railCollapsed { --rail-width: 64px; }
+#studio-workbench .templateRail {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 100% !important;
+  max-height: none !important;
+  padding: 18px 12px 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 16px !important;
+  border: 0 !important;
+  background: var(--color-paper-2) !important;
+  box-shadow: none !important;
+  overflow: auto;
+}
+#studio-workbench .sideBrand { margin: 0 0 8px; padding: 0 4px; min-height: 28px; gap: 8px; flex-wrap: nowrap !important; }
+#studio-workbench .sideBrandMark { width: 24px !important; height: 24px !important; min-width: 24px !important; background: transparent !important; color: var(--color-accent) !important; }
+#studio-workbench .sideBrand strong { font-size: 13px !important; white-space: nowrap; color: var(--color-ink); }
+#studio-workbench .sideBrand em { display: none; }
+#studio-workbench .sideCollapseButton { width: 28px !important; min-height: 28px !important; padding: 4px; margin-left: auto; background: transparent !important; }
+#studio-workbench .newChatButton { height: 38px !important; min-height: 38px !important; justify-content: flex-start; padding: 0 12px; background: var(--color-paper-3) !important; color: var(--color-ink) !important; font-size: 13px !important; }
+#studio-workbench .sidePrimaryNav { gap: 4px; }
+#studio-workbench .sidePrimaryNav button { min-height: 40px; padding: 0 12px; justify-content: flex-start; gap: 10px; font-size: 13px; background: transparent; }
+#studio-workbench .sidePrimaryNav button.active { background: var(--color-paper-3) !important; color: var(--color-ink) !important; }
+#studio-workbench .sideChatBlock { flex: 1; min-height: 0; overflow: auto; padding: 0 2px; }
+#studio-workbench .sideChatBlock { display: flex !important; flex-direction: column; justify-content: flex-start !important; gap: 8px; }
+#studio-workbench .templateRail::before, #studio-workbench .templateRail::after { content: none !important; display: none !important; }
+#studio-workbench .composerSessionIdentity { display: flex !important; align-items: center !important; }
+#studio-workbench .sideProjectHead { padding: 0 6px; margin-bottom: 10px; }
+#studio-workbench .sideSectionLabel { font-size: 11px; font-weight: 500; color: var(--color-muted); }
+#studio-workbench .sideChatCard, #studio-workbench .sideProjectItem { border: 0 !important; border-radius: 6px !important; background: transparent !important; box-shadow: none !important; }
+#studio-workbench .emptyProjectCard { align-items: start; padding: 8px; }
+#studio-workbench .emptyProjectCard strong { font-size: 12px; color: var(--color-ink-2); }
+#studio-workbench .emptyProjectCard em { display: block; max-width: 150px; white-space: normal; font-size: 11px; line-height: 1.5; color: var(--color-muted); }
+#studio-workbench .sideChatIcon { display: none; }
+#studio-workbench .railBottomBar { margin-top: auto; border: 0 !important; padding: 8px 0 0; }
+#studio-workbench .railAccountCard { border: 0; padding: 10px 6px; background: transparent; }
+#studio-workbench .railAvatar, #studio-workbench .collapsedRailAvatar { background: var(--color-paper-3); color: var(--color-ink-2); border-radius: 50%; }
+#studio-workbench .railPreferenceRow { padding-top: 8px; }
+#studio-workbench .railPreferenceRow button { min-height: 36px; background: transparent !important; }
+#studio-workbench .templateRail.collapsed { padding: 12px 8px !important; align-items: center !important; }
+#studio-workbench .collapsedRailBottom { margin-top: auto; }
+#studio-workbench .creationDesk {
+  --reference-sidebar-width: 248px;
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: clip !important;
+  background: var(--color-paper);
+}
+#studio-workbench .workPreview.infiniteCanvas { position: absolute !important; inset: 0 !important; width: auto !important; height: auto !important; min-height: 0 !important; border: 0 !important; border-radius: 0 !important; background-color: var(--color-paper); background-image: radial-gradient(var(--color-grid) .7px, transparent .7px); background-size: 24px 24px; }
+#studio-workbench .creationDesk.referencesOpen .workPreview.infiniteCanvas { right: var(--reference-sidebar-width) !important; }
+#studio-workbench .canvasToolbar { position: absolute !important; inset: 16px auto auto 20px !important; display: inline-flex !important; width: auto !important; min-width: 0 !important; max-width: none !important; height: 36px !important; min-height: 36px !important; padding: 2px !important; gap: 2px !important; background: var(--color-paper-2) !important; border: 0 !important; border-radius: 6px !important; box-shadow: none !important; }
+#studio-workbench .canvasToolbar button, #studio-workbench .canvasToolbar span { width: auto !important; min-width: 32px !important; min-height: 30px !important; height: 30px !important; padding: 0 8px !important; background: transparent !important; font-size: 11px !important; font-weight: 500 !important; }
+#studio-workbench .referenceSidePanel.isOpen { inset: 0 0 0 auto !important; width: var(--reference-sidebar-width) !important; min-width: 0 !important; max-width: none !important; height: 100% !important; min-height: 0 !important; max-height: none !important; padding: 18px 16px !important; gap: 18px !important; border: 0 !important; border-radius: 0 !important; background: var(--color-paper-2) !important; box-shadow: none !important; }
+#studio-workbench .referenceSideHead { border: 0 !important; padding: 0 !important; }
+#studio-workbench .referenceSideHead strong { font-size: 12px !important; }
+#studio-workbench .referenceSideHead span { font-size: 11px !important; color: var(--color-muted); }
+#studio-workbench .referenceSideBody { align-content: start !important; align-items: start !important; }
+#studio-workbench .sideUploadDrop { height: 136px !important; min-height: 136px !important; padding: 16px !important; border: 1px dashed var(--color-rule) !important; border-radius: 6px !important; background: transparent !important; color: var(--color-muted) !important; box-shadow: none !important; }
+#studio-workbench .sideUploadDrop span { font-size: 12px !important; font-weight: 400 !important; white-space: normal !important; text-align: center; }
+#studio-workbench .bottomComposerBar {
+  position: absolute !important;
+  inset: auto 24px 24px 24px !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: 920px !important;
+  height: 218px !important;
+  min-height: 0 !important;
+  max-height: calc(100% - 88px) !important;
+  margin: 0 auto !important;
+  transform: none !important;
+  padding: 14px !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: 28px minmax(0, 1fr) 36px !important;
+  gap: 10px !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: var(--color-paper-2) !important;
+  box-shadow: 0 8px 32px #00000012 !important;
+}
+#studio-workbench .creationDesk.referencesOpen .bottomComposerBar { right: calc(var(--reference-sidebar-width) + 24px) !important; }
+#studio-workbench .bottomComposerBar.hasThread { height: 420px !important; grid-template-rows: 28px minmax(0, 1fr) 94px 36px !important; }
+#studio-workbench .bottomComposerBar.noThread .composerThread { display: none !important; }
+#studio-workbench .bottomComposerBar.isFolded { height: 56px !important; grid-template-rows: 28px !important; }
+#studio-workbench .composerPanelHead { padding: 0 2px !important; border: 0 !important; background: transparent !important; box-shadow: none !important; }
+#studio-workbench .composerSessionIcon { display: none !important; }
+#studio-workbench .composerPanelTitle strong { font-size: 12px !important; line-height: 1.3 !important; color: var(--color-ink); }
+#studio-workbench .composerPanelTitle > span { display: none !important; }
+#studio-workbench .composerHeaderActions button { width: 28px !important; min-width: 28px !important; min-height: 28px !important; height: 28px !important; background: transparent !important; }
+#studio-workbench .composerPromptRow { display: flex !important; flex-direction: row !important; align-items: flex-end !important; width: 100% !important; height: 100% !important; min-height: 0 !important; padding: 10px !important; gap: 10px !important; border: 0 !important; border-radius: 6px !important; background: var(--color-paper) !important; box-shadow: none !important; }
+#studio-workbench .bottomComposerInput { display: block !important; flex: 1 !important; min-width: 0 !important; height: 100% !important; padding: 0 !important; background: transparent !important; border: 0 !important; }
+#studio-workbench .bottomComposerInput textarea { width: 100% !important; height: 100% !important; min-height: 0 !important; max-height: none !important; padding: 2px !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; color: var(--color-ink) !important; font-size: 14px !important; line-height: 1.6 !important; resize: none; }
+#studio-workbench .composerActionGroup { display: flex !important; flex-direction: row !important; align-items: end !important; grid-template-columns: none !important; width: auto !important; min-width: 0 !important; max-width: none !important; height: auto !important; gap: 4px !important; }
+#studio-workbench .composerGenerateAction { order: 2; width: auto !important; min-width: 88px !important; max-width: none !important; height: 36px !important; min-height: 36px !important; padding: 0 12px !important; display: flex !important; flex-direction: row !important; gap: 6px !important; background: var(--color-accent) !important; color: var(--color-accent-ink) !important; }
+#studio-workbench .composerGenerateAction span { display: inline !important; font-size: 12px !important; font-weight: 600 !important; color: inherit !important; max-width: none !important; }
+#studio-workbench .composerAssistantAction { order: 1; width: 36px !important; min-width: 36px !important; max-width: 36px !important; height: 36px !important; min-height: 36px !important; background: transparent !important; color: var(--color-ink-2) !important; }
+#studio-workbench .composerAssistantAction span { display: none !important; }
+#studio-workbench .composerParamShelf { padding: 0 !important; height: 36px !important; min-height: 36px !important; max-height: 36px !important; display: flex !important; align-items: center !important; gap: 6px !important; flex-wrap: nowrap !important; overflow: auto !important; border: 0 !important; background: transparent !important; }
+#studio-workbench .composerParamShelf button, #studio-workbench .composerParamShelf select { height: 30px !important; min-height: 30px !important; border: 0 !important; padding: 0 8px !important; background: transparent !important; color: var(--color-ink-2) !important; font-size: 11px !important; }
+#studio-workbench .composerThread { padding: 6px !important; background: transparent !important; box-shadow: none !important; border: 0 !important; }
+#studio-workbench .composerPanelHead { grid-row: 1 !important; grid-column: 1 !important; }
+#studio-workbench .bottomComposerBar.noThread .composerPromptRow { grid-row: 2 !important; grid-column: 1 !important; }
+#studio-workbench .bottomComposerBar.noThread .composerParamShelf { grid-row: 3 !important; grid-column: 1 !important; }
+#studio-workbench .bottomComposerBar.hasThread .composerThread { grid-row: 2 !important; grid-column: 1 !important; }
+#studio-workbench .bottomComposerBar.hasThread .composerPromptRow { grid-row: 3 !important; grid-column: 1 !important; }
+#studio-workbench .bottomComposerBar.hasThread .composerParamShelf { grid-row: 4 !important; grid-column: 1 !important; }
+#studio-workbench .composerSessionIdentity, #studio-workbench .composerPanelTitle { width: auto !important; min-width: 0 !important; max-width: none !important; flex: 1 !important; }
+#studio-workbench .composerPanelTitle strong { width: auto !important; max-width: none !important; white-space: nowrap !important; }
+#studio-workbench .composerParamShelf > * { flex: 0 0 auto !important; }
+#studio-workbench .emptyProjectCard { display: flex !important; width: 100% !important; gap: 0 !important; }
+#studio-workbench .emptyProjectCard > span:last-child { width: 100% !important; min-width: 0 !important; max-width: none !important; }
+#studio-workbench .emptyProjectCard strong, #studio-workbench .emptyProjectCard em { width: auto !important; max-width: none !important; white-space: normal !important; }
+#studio-workbench .railAccountCard > span:nth-child(2) { flex: 1; width: auto !important; min-width: 0 !important; max-width: none !important; }
+#studio-workbench .railAccountCard strong, #studio-workbench .railAccountCard em { max-width: none !important; width: auto !important; }
+#studio-workbench .sideBrand > span:not(.sideBrandMark) { flex: 1; min-width: 0; width: auto !important; max-width: none !important; }
+#studio-workbench .sideBrand strong { max-width: none !important; }
+#studio-workbench .emptyCanvasNode { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+#studio-workbench .paramRail { display: none !important; }
+#studio-workbench .paramDrawer { display: grid !important; position: absolute !important; top: 60px !important; right: 24px !important; bottom: auto !important; left: auto !important; width: min(280px, calc(100% - 32px)) !important; max-height: calc(100% - 88px) !important; padding: 16px !important; overflow: auto !important; z-index: 40 !important; background: var(--color-paper-2) !important; border: 1px solid var(--color-rule) !important; border-radius: 8px !important; }
+#studio-workbench .creationDesk.referencesOpen .paramDrawer { right: calc(var(--reference-sidebar-width) + 16px) !important; }
+#studio-workbench .sideUploadDrop span { color: var(--color-ink-2) !important; }
+#studio-workbench .primaryAction, #studio-workbench .paramGenerateAction, #studio-workbench .paramDrawerGenerate { background: var(--color-accent) !important; color: var(--color-accent-ink) !important; }
+#studio-workbench input, #studio-workbench select, #studio-workbench textarea { background: var(--color-paper); color: var(--color-ink); border-color: var(--color-rule); }
+#studio-workbench .settingsDialog { border: 0; border-radius: 10px; background: var(--color-paper-2); padding: 28px; }
+#studio-workbench .settingsDialog h2 { font-size: 20px; }
+#studio-workbench select { appearance: none; background-image: none !important; background-color: var(--color-paper) !important; border: 1px solid var(--color-rule) !important; padding: 0 12px !important; }
+#studio-workbench .settingsDialog :is(p, small, em) { font-size: 12px !important; font-weight: 400 !important; line-height: 1.6 !important; }
+#studio-workbench .settingsDialog label > span { font-size: 12px !important; font-weight: 500 !important; }
+#studio-workbench .settingsCallConfig, #studio-workbench .settingsModelSync, #studio-workbench .providerSummaryCard { border: 0 !important; border-radius: 6px !important; box-shadow: none !important; background: var(--color-paper-3) !important; }
+#studio-workbench .referenceSideHead strong { white-space: normal !important; text-overflow: clip !important; }
+#studio-workbench .galleryWorkspacePanel { height: 100% !important; min-height: 0 !important; overflow: auto; padding: 28px !important; background: var(--color-paper) !important; }
+#studio-workbench .galleryWorkspaceHead h2 { font-size: 24px !important; line-height: 1.3 !important; }
+#studio-workbench .galleryWorkspaceHead p { font-size: 13px; }
+#studio-workbench .caseTile, #studio-workbench .categoryTile, #studio-workbench .historyTile, #studio-workbench .videoInspirationTile { border: 0 !important; border-radius: 8px !important; background: var(--color-paper-2) !important; box-shadow: none !important; }
+#studio-workbench .caseTile img, #studio-workbench .categoryThumbs, #studio-workbench .historyThumb { border-radius: 5px !important; }
+@media(max-width: 1024px) {
+  #studio-workbench { --rail-width: 184px; }
+  #studio-workbench .studioLayout { --rail-width: 184px; }
+  #studio-workbench .creationDesk { --reference-sidebar-width: 216px; }
+  #studio-workbench .bottomComposerBar { left: 16px !important; right: 16px !important; bottom: 16px !important; }
+  #studio-workbench .creationDesk.referencesOpen .bottomComposerBar { right: calc(var(--reference-sidebar-width) + 16px) !important; }
+}
+@media(max-width: 768px) {
+  #studio-workbench .studioIntro { padding: 0 16px; flex-basis: 48px; min-height: 48px; }
+  #studio-workbench .studioIntroCopy p { display: none; }
+  #studio-workbench .studioLayout { display: flex !important; flex-direction: column; }
+  #studio-workbench .templateRail { flex: 0 0 auto; height: auto !important; padding: 8px 12px !important; gap: 8px !important; flex-direction: row !important; overflow: visible; align-items: center !important; }
+  #studio-workbench .sideBrand, #studio-workbench .sideChatBlock { display: none !important; }
+  #studio-workbench .newChatButton { display: flex !important; width: 36px !important; min-width: 36px; padding: 0 !important; justify-content: center; font-size: 0 !important; }
+  #studio-workbench .sidePrimaryNav { display: flex; gap: 2px; }
+  #studio-workbench .sidePrimaryNav button { font-size: 0 !important; width: 44px; min-height: 44px; padding: 0; justify-content: center; gap: 0; }
+  #studio-workbench .sidePrimaryNav button svg { width: 18px; height: 18px; }
+  #studio-workbench .railBottomBar { position: static !important; margin: 0 0 0 auto; padding: 0; display: flex !important; width: auto !important; gap: 0; }
+  #studio-workbench .railAccountCard { display: flex !important; width: 32px !important; min-width: 32px; padding: 0; justify-content: center; }
+  #studio-workbench .railAccountCard span, #studio-workbench .railLanguageButton { display: none !important; }
+  #studio-workbench .railPreferenceRow { padding: 0; display: flex; width: auto !important; }
+  #studio-workbench .railPreferenceRow button { width: 36px; padding: 0; }
+  #studio-workbench .creationDesk { flex: 1; height: auto !important; min-height: 0 !important; }
+  #studio-workbench .creationDesk.referencesOpen .workPreview.infiniteCanvas { right: 0 !important; }
+  #studio-workbench .creationDesk.referencesOpen .paramDrawer { right: 12px !important; }
+  #studio-workbench .referenceSidePanel.isOpen { width: 190px !important; height: 182px !important; max-height: 182px !important; min-height: 0 !important; top: 8px !important; right: 8px !important; padding: 12px !important; gap: 8px !important; border-radius: 8px !important; z-index: 30 !important; }
+  #studio-workbench .sideUploadDrop { min-height: 100px !important; height: 100px !important; padding: 8px !important; }
+  #studio-workbench .bottomComposerBar, #studio-workbench .creationDesk.referencesOpen .bottomComposerBar { left: 12px !important; right: 12px !important; bottom: 12px !important; height: 220px !important; padding: 10px !important; }
+  #studio-workbench .bottomComposerBar.hasThread { height: min(440px, 70%) !important; }
+  #studio-workbench .bottomComposerBar.isFolded { height: 48px !important; }
+  #studio-workbench .composerPromptRow { flex-wrap: wrap !important; gap: 4px !important; }
+  #studio-workbench .bottomComposerInput { flex: 1 1 100% !important; height: calc(100% - 40px) !important; }
+  #studio-workbench .bottomComposerInput textarea { font-size: 16px !important; }
+  #studio-workbench .composerActionGroup { margin-left: auto; }
+  #studio-workbench .composerGenerateAction, #studio-workbench .composerAssistantAction { min-height: 44px !important; height: 44px !important; }
+  #studio-workbench .railPreferenceRow button, #studio-workbench .railAccountCard, #studio-workbench .newChatButton { min-width: 44px !important; min-height: 44px !important; }
+  #studio-workbench .galleryWorkspacePanel { padding: 16px !important; }
+  #studio-workbench .galleryWorkspaceHead { align-items: start; }
+  #studio-workbench .templateRail.collapsed { flex-direction: row !important; padding: 8px !important; }
+  #studio-workbench .collapsedRailBottom { margin: 0 0 0 auto; display: flex; }
+}
+/* Text needs room to wrap inside content tiles and explanatory panels. */
+#studio-workbench .sideBrand strong { font-size: 12px !important; letter-spacing: -.025em !important; }
+#studio-workbench .inspirationCanvasGrid { grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)) !important; grid-auto-flow: dense; align-content: start; align-items: stretch; gap: 16px; }
+#studio-workbench .categoryTile, #studio-workbench .caseTileMain, #studio-workbench .videoInspirationTile { white-space: normal !important; text-align: left !important; min-width: 0 !important; height: auto !important; max-height: none !important; }
+#studio-workbench .categoryTile { display: flex !important; flex-direction: column !important; align-items: stretch !important; justify-content: flex-start !important; padding: 0 !important; gap: 0 !important; }
+#studio-workbench .categoryTile > div:last-child { width: 100% !important; min-width: 0 !important; padding: 14px 16px 18px !important; }
+#studio-workbench .categoryThumbs { width: 100% !important; height: auto !important; min-height: 140px; aspect-ratio: 16 / 9; margin: 0 !important; border-radius: 0 !important; background: var(--color-paper-3) !important; }
+#studio-workbench .categoryThumbs::before, #studio-workbench .categoryThumbs::after { content: none !important; }
+#studio-workbench .categoryTile strong, #studio-workbench .caseTile strong, #studio-workbench .videoInspirationTile strong, #studio-workbench .historyTile strong { display: block !important; width: auto !important; min-width: 0 !important; max-width: none !important; height: auto !important; max-height: none !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; overflow-wrap: anywhere !important; -webkit-line-clamp: unset !important; font-size: 15px !important; line-height: 1.45 !important; }
+#studio-workbench .categoryTile span, #studio-workbench .categoryTile small, #studio-workbench .caseTile em, #studio-workbench .caseTile small { display: block !important; width: auto !important; min-width: 0 !important; max-width: none !important; white-space: normal !important; overflow: visible !important; overflow-wrap: anywhere; text-overflow: clip !important; font-size: 12px !important; line-height: 1.55 !important; font-weight: 400 !important; }
+#studio-workbench .galleryWorkspaceHead h2 { max-width: 30ch !important; overflow-wrap: anywhere; }
+#studio-workbench .galleryWorkspaceHead p { max-width: 65ch; }
+#studio-workbench .galleryKindSwitch { border: 0 !important; border-radius: 6px !important; background: var(--color-paper-2) !important; padding: 4px; box-shadow: none !important; }
+#studio-workbench .galleryLicenseLine { display: flex !important; flex-wrap: wrap !important; align-items: baseline !important; gap: 8px 16px !important; width: 100% !important; min-width: 0 !important; padding: 12px 0 !important; background: transparent !important; border: 0 !important; box-shadow: none !important; }
+#studio-workbench .galleryLicenseLine p { flex: 1 1 440px !important; width: auto !important; min-width: 0 !important; max-width: none !important; margin: 0 !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; overflow-wrap: anywhere; font-size: 12px !important; line-height: 1.55 !important; }
+#studio-workbench .settingsOverlay { position: fixed !important; inset: 0 !important; z-index: 1000 !important; padding: 16px !important; display: grid !important; place-items: center !important; overflow: auto !important; }
+#studio-workbench .settingsDialog { position: relative !important; width: min(680px, 100%) !important; min-width: 0 !important; max-height: calc(100dvh - 32px) !important; padding: 24px !important; display: block !important; overflow: auto !important; }
+#studio-workbench .settingsTitle { position: sticky !important; top: -24px !important; z-index: 2; display: flex !important; align-items: center !important; justify-content: space-between !important; margin: -24px -24px 16px !important; padding: 16px 24px !important; background: var(--color-paper-2) !important; }
+#studio-workbench .settingsTitle .iconButton { width: 44px; height: 44px; min-height: 44px; font-size: 22px; padding: 0; }
+#studio-workbench .settingsActions { position: sticky !important; bottom: -24px !important; z-index: 2; display: flex !important; justify-content: flex-end !important; gap: 8px; margin: 24px -24px -24px !important; padding: 12px 24px !important; background: var(--color-paper-2) !important; }
+#studio-workbench .settingsModelSync :is(small, span, em), #studio-workbench .settingsCallConfigHead span, #studio-workbench .settingsHint { display: block !important; min-width: 0 !important; width: auto !important; max-width: none !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; overflow-wrap: anywhere; line-height: 1.6 !important; }
+#studio-workbench .providerSummary { display: flex !important; flex-wrap: wrap !important; align-items: center; gap: 8px 12px; min-width: 0; }
+#studio-workbench .providerSummary strong { flex: 1 1 130px; min-width: 0 !important; width: auto !important; max-width: none !important; white-space: normal !important; overflow: visible !important; overflow-wrap: anywhere; }
+#studio-workbench .providerSummary small { flex: 1 1 100%; min-width: 0 !important; width: 100% !important; white-space: normal !important; overflow: visible !important; overflow-wrap: anywhere; }
+#studio-workbench .composerParamSummary { min-width: max-content !important; width: max-content !important; max-width: none !important; }
+#studio-workbench .composerParamSummary :is(strong, span, em) { flex: 0 0 auto !important; min-width: max-content !important; width: auto !important; max-width: none !important; white-space: nowrap !important; overflow: visible !important; text-overflow: clip !important; }
+#studio-workbench .settingsCallConfig { background: transparent !important; padding: 0 !important; margin-top: 24px; }
+#studio-workbench .settingsCallConfigHead { display: block; margin-bottom: 16px; }
+#studio-workbench .settingsCallConfigHead span { margin-top: 6px; text-align: left; }
+#studio-workbench .lightboxOverlay { z-index: 1100 !important; }
+@media(max-width: 768px) {
+  #studio-workbench .galleryLicenseLine > span { flex-basis: 100%; }
+  #studio-workbench .galleryLicenseLine p { flex-basis: 100% !important; }
+  #studio-workbench .galleryWorkspaceActions { width: 100%; gap: 8px; }
+  #studio-workbench .galleryWorkspaceActions .primaryAction { min-width: 0; }
+  #studio-workbench .settingsCallGrid { grid-template-columns: minmax(0, 1fr) !important; }
+  #studio-workbench .settingsDialog input, #studio-workbench .settingsDialog select { font-size: 16px !important; }
+}
+/* The first image starts with a prompt; canvas tools appear with actual work. */
+#studio-workbench:has(.creationDesk) .studioIntroCopy p { display: none; }
+#studio-workbench:has(.creationDesk) .studioIntroTitle { max-width: min(70vw, 680px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#studio-workbench .templateRail { gap: 12px !important; }
+#studio-workbench .newChatButton { background: transparent !important; color: var(--color-accent) !important; }
+#studio-workbench .emptyProjectCard em { display: none !important; }
+#studio-workbench .emptyProjectCard strong { color: var(--color-muted); font-weight: 400 !important; }
+#studio-workbench .creationDesk.isStarting { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 24px !important; padding: 64px 32px !important; }
+#studio-workbench .creationDesk.isStarting.referencesOpen { padding-right: calc(var(--reference-sidebar-width) + 32px) !important; }
+#studio-workbench .starterWelcome { position: relative; z-index: 2; width: 100%; max-width: 720px; text-align: left; }
+#studio-workbench .starterWelcome h2 { margin: 0 0 10px; font-size: clamp(24px, 3vw, 32px); font-weight: 550 !important; line-height: 1.2; color: var(--color-ink); }
+#studio-workbench .starterWelcome p { margin: 0 0 20px; color: var(--color-ink-2); font-size: 14px; line-height: 1.55; }
+#studio-workbench .starterIdeas { display: flex; flex-wrap: wrap; gap: 8px; }
+#studio-workbench .starterIdeas button { min-height: 36px; padding: 0 12px; background: var(--color-paper-2); color: var(--color-ink-2); font-size: 12px; }
+#studio-workbench .isStarting .canvasToolbar, #studio-workbench .isStarting .emptyCanvasNode { display: none !important; }
+#studio-workbench .creationDesk .referenceSidePanel.isCollapsed { position: absolute !important; inset: 16px 20px auto auto !important; width: auto !important; min-width: 0 !important; max-width: none !important; height: 36px !important; min-height: 36px !important; max-height: 36px !important; padding: 0 !important; margin: 0 !important; transform: none !important; border: 0 !important; border-radius: 6px !important; background: transparent !important; }
+#studio-workbench .referenceSideCollapsed { position: static !important; display: flex !important; align-items: center; gap: 8px; width: auto !important; min-width: 0 !important; max-width: none !important; height: 36px !important; min-height: 36px !important; padding: 0 12px !important; border-radius: 6px !important; background: var(--color-paper-2) !important; color: var(--color-ink-2) !important; }
+#studio-workbench .referenceSideCollapsed::after { content: none !important; display: none !important; }
+#studio-workbench .referenceSideCollapsed span { display: inline !important; font-size: 12px !important; font-weight: 400 !important; width: auto !important; height: auto !important; white-space: nowrap !important; }
+#studio-workbench .bottomComposerBar, #studio-workbench .bottomComposerBar.noThread, #studio-workbench .bottomComposerBar.hasThread { height: auto !important; min-height: 0 !important; max-height: calc(100% - 76px) !important; display: flex !important; flex-direction: column !important; gap: 10px !important; padding: 14px !important; }
+#studio-workbench .creationDesk.isStarting .bottomComposerBar { position: relative !important; inset: auto !important; width: 100% !important; max-width: 720px !important; max-height: none !important; margin: 0 !important; flex: 0 0 auto; }
+#studio-workbench .creationDesk.isStarting .bottomComposerBar { align-self: center !important; }
+#studio-workbench .creationDesk.isStarting.composerHasThread .starterWelcome { display: none; }
+#studio-workbench .composerPanelHead { flex: 0 0 auto; height: auto !important; min-height: 0 !important; justify-content: flex-end; }
+#studio-workbench .conversationToggle { display: flex; align-items: center; gap: 6px; padding: 0 4px !important; min-height: 28px !important; height: auto !important; width: auto !important; color: var(--color-muted); font-size: 11px; }
+#studio-workbench .composerPromptRow { display: flex !important; flex-direction: column !important; align-items: stretch !important; height: auto !important; min-height: 0 !important; padding: 0 !important; gap: 10px !important; background: transparent !important; }
+#studio-workbench .bottomComposerInput { flex: 0 0 auto !important; width: 100% !important; height: auto !important; }
+#studio-workbench .bottomComposerInput textarea { height: var(--prompt-height, 56px) !important; min-height: 56px !important; max-height: 160px !important; padding: 8px !important; font-size: 15px !important; background: transparent !important; overflow-y: auto; }
+#studio-workbench .composerActionBar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; width: 100%; }
+#studio-workbench .composerConnectionNotice { display: flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 4px; color: var(--color-ink-2); font-size: 11px; text-align: left; }
+#studio-workbench .composerConnectionNotice { color: var(--color-accent) !important; font-weight: 500 !important; text-decoration: underline; text-underline-offset: 3px; }
+#studio-workbench .composerActionGroup { margin-left: auto; align-items: center !important; flex: 0 0 auto; }
+#studio-workbench .composerAssistantAction { width: auto !important; min-width: 0 !important; max-width: none !important; padding: 0 10px !important; display: flex !important; flex-direction: row !important; gap: 6px !important; color: var(--color-ink-2) !important; }
+#studio-workbench .composerAssistantAction span { display: inline !important; width: auto !important; max-width: none !important; color: inherit !important; font-size: 12px !important; }
+#studio-workbench .composerGenerateAction { min-width: 100px !important; }
+#studio-workbench .composerParamShelf { flex: 0 0 auto; justify-content: flex-start !important; gap: 6px !important; height: 32px !important; min-height: 32px !important; max-height: 32px !important; }
+#studio-workbench .composerParamSummary { display: flex !important; align-items: center; gap: 10px !important; padding: 0 8px !important; background: transparent !important; }
+#studio-workbench .composerParamSummary > span { display: none !important; }
+#studio-workbench .composerParamSummary em { display: inline !important; font-style: normal !important; color: var(--color-muted); font-size: 11px; }
+#studio-workbench .composerParamSummary strong { font-weight: 400 !important; font-size: 11px; color: var(--color-ink-2); }
+#studio-workbench .compactParameters button { display: inline-flex !important; align-items: center; gap: 6px; font-size: 11px !important; }
+#studio-workbench .compactParameters button span { display: inline !important; width: auto !important; height: auto !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: transparent !important; font-size: 11px !important; font-weight: 400 !important; line-height: 1.3 !important; color: inherit !important; transition: none !important; }
+#studio-workbench .compactModeSelect { width: auto !important; min-width: 110px; max-width: 150px; height: 30px !important; padding: 0 8px !important; border: 0 !important; background: transparent !important; appearance: auto; color: var(--color-ink-2) !important; font-size: 11px !important; }
+#studio-workbench .paramDrawerGenerate { display: none !important; }
+#studio-workbench .composerParamShelf { position: static !important; inset: auto !important; width: 100% !important; margin: 0 !important; transform: none !important; }
+#studio-workbench .composerParamSummary :is(strong, span, em) { height: auto !important; min-height: 0 !important; padding: 0 !important; background: transparent !important; border: 0 !important; box-shadow: none !important; }
+#studio-workbench .composerAssistantAction { order: 1 !important; }
+#studio-workbench .composerGenerateAction { order: 2 !important; }
+#studio-workbench .referenceSideCollapsed { flex-direction: row !important; }
+#studio-workbench .referenceSideCollapsed span { writing-mode: horizontal-tb !important; text-orientation: mixed !important; transform: none !important; flex: 0 0 auto !important; min-height: 0 !important; min-width: 0 !important; max-width: none !important; max-height: none !important; padding: 0 !important; line-height: 1.3 !important; }
+#studio-workbench .composerHelpLine { flex: 0 0 auto; color: var(--color-muted); font-size: 10px; line-height: 1.5; padding: 0 8px; }
+#studio-workbench .bottomComposerBar.hasThread .composerThread { flex: 0 1 auto; min-height: 0 !important; max-height: min(260px, 32dvh) !important; overflow-y: auto !important; }
+@media(max-width: 768px) {
+  #studio-workbench .creationDesk.isStarting, #studio-workbench .creationDesk.isStarting.referencesOpen { justify-content: center !important; gap: 20px !important; padding: 64px 16px 20px !important; }
+  #studio-workbench .starterWelcome h2 { font-size: 26px; }
+  #studio-workbench .starterWelcome p { font-size: 13px; margin-bottom: 14px; }
+  #studio-workbench .starterIdeas { gap: 6px; }
+  #studio-workbench .starterIdeas button { min-height: 40px; padding: 0 10px; }
+  #studio-workbench .bottomComposerBar { padding: 10px !important; max-height: calc(100% - 64px) !important; }
+  #studio-workbench .bottomComposerInput { flex: 0 0 auto !important; height: auto !important; }
+  #studio-workbench .bottomComposerInput textarea { font-size: 16px !important; }
+  #studio-workbench .composerConnectionNotice { flex-basis: 100%; font-size: 11px; }
+  #studio-workbench .composerAssistantAction, #studio-workbench .composerGenerateAction { min-height: 44px !important; }
+  #studio-workbench .composerAssistantAction svg { display: none; }
+  #studio-workbench .creationDesk .referenceSidePanel.isCollapsed { top: 12px !important; right: 12px !important; }
+  #studio-workbench .referenceSideCollapsed { min-height: 40px !important; }
+  #studio-workbench .composerHelpLine { font-size: 10px; padding: 0 4px; }
+  #studio-workbench .bottomComposerBar.hasThread .composerThread { max-height: 24dvh !important; }
+}
+@media(max-height: 640px) {
+  #studio-workbench .creationDesk.isStarting { justify-content: flex-start !important; overflow-y: auto !important; padding-top: 64px !important; }
+  #studio-workbench .starterWelcome h2 { font-size: 24px; }
+  #studio-workbench .starterWelcome p { margin-bottom: 10px; }
+}
+@media(prefers-reduced-motion: reduce) { #studio-workbench *, #studio-workbench *::before, #studio-workbench *::after { animation: none !important; transition: none !important; } }

@@ -176,24 +176,23 @@ try {
   });
 
   const forbiddenCoreLabels = [
-    '创作工作台',
-    '工作台',
-    '当前会话',
-    '新建会话',
-    '历史图库',
-    '灵感库',
-    '项目',
-    '还没有项目',
-    '生成队列',
-    '参考图',
-    '生成结果',
-    '当前参数',
-    '图片创作',
-    '视频创作',
-    '提示词优化'
+    'Không gian sáng tạo',
+    'Phiên hiện tại',
+    'Tạo phiên mới',
+    'Lịch sử ảnh',
+    'Thư viện ý tưởng',
+    'Dự án',
+    'Chưa có dự án',
+    'Hàng đợi tạo ảnh',
+    'Ảnh tham chiếu',
+    'Kết quả',
+    'Thông số hiện tại',
+    'Tạo ảnh',
+    'Tạo video',
+    'Tối ưu prompt'
   ];
   const found = forbiddenCoreLabels.filter((label) => result.body.includes(label));
-  assert(found.length === 0, 'English mode still shows core Chinese UI labels.', { found, result });
+  assert(found.length === 0, 'English mode still shows core Vietnamese UI labels.', { found, result });
   const coreUiText = [result.rail, result.composer, result.params].join('\n');
   const cjkMatches = [...coreUiText.matchAll(/[\u4e00-\u9fff]+/g)].map((match) => match[0]);
   assert(cjkMatches.length === 0, 'English mode still shows CJK text in core UI regions.', { cjkMatches, result });

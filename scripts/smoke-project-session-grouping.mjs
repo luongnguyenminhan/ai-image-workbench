@@ -72,7 +72,7 @@ try {
   }));
 
   assert(sidebarResult.projectItems === 1, `Expected one sidebar project for one session, got ${sidebarResult.projectItems}.`, sidebarResult);
-  assert(sidebarResult.projectTexts[0]?.includes('3 张'), 'Expected grouped sidebar project to show three images.', sidebarResult);
+  assert(sidebarResult.projectTexts[0]?.includes('3 ảnh'), 'Expected grouped sidebar project to show three images.', sidebarResult);
 
   await page.locator('.sideProjectOpen').first().click();
   await page.waitForTimeout(600);
@@ -122,10 +122,10 @@ try {
     body: document.body.innerText.slice(0, 1800)
   }));
   assert(queueProjectResult.projectItems >= 1, 'Expected an unknown restored queue to keep the current session visible as a sidebar project.', queueProjectResult);
-  assert(queueProjectResult.projectTexts.some((text) => text.includes('当前会话') || text.includes('结果未知') || text.includes('队列')), 'Expected sidebar project to expose the current queue session context.', queueProjectResult);
-  assert(queueProjectResult.projectTexts.some((text) => text.includes('1 个任务')), 'Expected queue-only current session to be labeled as a task instead of a generated image.', queueProjectResult);
-  assert(!queueProjectResult.projectTexts.some((text) => text.includes('1 张')), 'Queue-only current session should not pretend there is one generated image.', queueProjectResult);
-  assert(queueProjectResult.queueItems.some((text) => text.includes('结果未知')), 'Expected restored unknown queue item to remain visible on the canvas.', queueProjectResult);
+  assert(queueProjectResult.projectTexts.some((text) => text.includes('Phiên hiện tại') || text.includes('Chưa rõ kết quả') || text.includes('hàng đợi')), 'Expected sidebar project to expose the current queue session context.', queueProjectResult);
+  assert(queueProjectResult.projectTexts.some((text) => text.includes('1 tác vụ')), 'Expected queue-only current session to be labeled as a task instead of a generated image.', queueProjectResult);
+  assert(!queueProjectResult.projectTexts.some((text) => text.includes('1 ảnh')), 'Queue-only current session should not pretend there is one generated image.', queueProjectResult);
+  assert(queueProjectResult.queueItems.some((text) => text.includes('Chưa rõ kết quả')), 'Expected restored unknown queue item to remain visible on the canvas.', queueProjectResult);
   await queuePage.close();
 
   console.log(JSON.stringify({
