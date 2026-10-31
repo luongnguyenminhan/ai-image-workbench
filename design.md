@@ -1,44 +1,38 @@
 # AI Image Workbench — design system
 
-A neutral creative application with a canvas, compact command areas, and readable navigation.
+A dark-first creative workspace: an infinite canvas, one floating prompt composer, and a quiet sidebar.
 
 ## Source of truth
 
-- `tokens.css`: palette, typography, spacing, and shape tokens.
-- `src/studio-system.css`: shared application shell and component presentation.
-- `src/studio.css`: retained layout behavior and legacy components; the scoped system stylesheet owns the refreshed surfaces.
+- `tokens.css`: palette, typography, radius, motion, and layout tokens for dark (default) and light (`data-theme="light"`).
+- `src/studio.css`: the only application stylesheet. Base → shell → sidebar → desk → galleries → overlays → responsive → motion. Add to the matching section; do not append "final lock" override blocks at the end.
 
 ## Palette
 
-Dark mode uses charcoal canvas, slightly raised neutral surfaces, pale text, and muted teal actions. Light mode uses cool off-white canvas, white surfaces, dark text, and deep teal actions. Use the same semantic tokens in both modes. Avoid saturated backgrounds, gradients, inset highlights, and decorative glows.
+Zinc neutrals with one creative pink accent. Dark: near-black canvas `#0c0c0f`, raised surfaces `#17171b`/`#1f1f25`, accent `#f472b6` with dark text on it. Light: `#f6f6f7` canvas, white surfaces, accent `#be185d` with white text. Status colours (success, warning, danger, info) are tokens; never hard-code hex in components.
 
 ## Typography
 
-Self-hosted Inter Variable throughout. Use 400–450 for controls and body copy, 500–600 for labels and headings. Application header: 15px. Major collection headings: 24px. Editor text: 14px desktop, 16px mobile. Use sentence case.
+Self-hosted Space Grotesk Variable for headings and titles, Inter Variable for everything else (both include Vietnamese). Header title 15px, collection headings 22–28px, body 14px, composer input 15px desktop / 16px mobile.
 
 ## Layout
 
-Desktop: 56px header, 216px navigation, and a flexible canvas. Collapse the rail to 64px when requested. The optional reference tray is 248px wide and starts closed; adding or dropping reference files opens it. At tablet widths the navigation and reference tray narrow. At 768px and below, navigation becomes a compact horizontal row and references open as a small tray.
+Sidebar spans the full height (248px, 216px under 960px, 64px collapsed). Header (56px) holds the session title plus the language and theme toggles. Under 768px the sidebar becomes a horizontal icon row below the header.
 
-The empty state centres one prompt composer below a short heading and three working examples. Choosing an example fills and focuses the prompt. Once an image or reference exists, the workspace prioritises the canvas and places the compact composer at the bottom with 24px clearance. Prompt text grows from two lines up to 160px; conversation history expands separately on request or when a response/status needs attention. The prompt input always remains available.
+The empty state centres a heading, three example chips, and the composer. Once the canvas has content the composer floats at the bottom (max 760px) and the reference panel docks on the right (300px). Canvas zoom controls sit top-left with the generation queue below them; parameter popovers open top-right.
 
 ## Components
 
-- Controls: 6px corners; editor and dialog surfaces: 8–10px.
-- Separate large areas by surface tone; reserve borders for input boundaries, selected content, and upload targets.
-- One primary action colour, quiet secondary controls, visible keyboard focus.
-- Generation, loading, retry, errors, and empty states retain their existing behavior.
-- All icon buttons retain accessible names. Mobile editor text uses 16px to prevent input zoom.
-- Collection titles and explanatory copy wrap naturally; do not ellipsize category names, legal copy, or provider capabilities.
-- Keep compact parameter summaries on one line within their own scrollable shelf.
-- Settings dialogs render above navigation, with sticky close/actions and a dedicated content scroll area.
-- Use explicit Generate image / Improve prompt labels. Put shortcut instructions outside the placeholder, and show missing API credentials beside the action area.
-- Use sessions consistently for saved work; the app header identifies the current session.
+- Radii: 6px controls, 10px buttons/inputs, 14px cards and panels.
+- One primary action colour; secondary actions are bordered or ghost. Disabled = 45% opacity.
+- Base form fields use `:where()` so component rules override them without `!important`.
+- Canvas node toolbars, ports, and resize handles appear on hover or selection.
+- All icon buttons keep accessible names; focus uses a 2px accent outline.
 
 ## Motion
 
-Stable hover colour changes at 160ms. No entrance animations, marquee, hover scaling, or decorative loops. Respect reduced-motion preferences.
+Shared 140–280ms transitions with `cubic-bezier(0.2, 0.8, 0.2, 1)`. Panels, dialogs, popovers, and list items rise or pop in once; active canvas links flow. Everything collapses to instant under `prefers-reduced-motion`.
 
 ## Verification
 
-Check both modes at 375, 768, 1024, and 1440px. Inspect the canvas, prompt input, reference tray, history, inspiration, and settings. No horizontal page scroll; primary controls must remain within the viewport.
+Check both themes at 375, 768, 1024, and 1440px: canvas, composer with thread open, reference panel, parameter popover, history, inspiration, and settings. No horizontal page scroll; the composer stays inside the viewport.

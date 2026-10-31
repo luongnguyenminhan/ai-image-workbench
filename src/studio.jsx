@@ -43,8 +43,8 @@ import {
   X
 } from 'lucide-react';
 import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/space-grotesk/wght.css';
 import './studio.css';
-import './studio-system.css';
 import {
   AiGatewayClient,
   StudioHistoryClient,
@@ -2292,8 +2292,6 @@ function LeftRail({
   apiKey,
   isAuthenticated,
   onOpenSettings,
-  theme,
-  onThemeToggle,
   selected,
   currentProject,
   historyItems,
@@ -2303,8 +2301,6 @@ function LeftRail({
   onFocusCurrentProject,
   collapsed,
   onToggleCollapse,
-  language,
-  onLanguageToggle,
   t
 }) {
   const isInspirationWorkspace = activeWorkspace === 'inspiration';
@@ -2313,7 +2309,6 @@ function LeftRail({
   const accountDetail = isAuthenticated ? (apiKeyDisplay(apiKey) || t('rail.hiddenKey', 'Đã ẩn key')) : t('rail.chooseKey', 'Chọn key');
   const currentProjectId = currentProject?.sessionId || currentProject?.id || '';
   const currentRecordIds = new Set(currentProject?.recordIds || []);
-  const currentLanguage = SUPPORTED_LANGUAGES.find((item) => item.value === language) || SUPPORTED_LANGUAGES[0];
   const historySessionItems = groupHistorySessions(historyItems || []);
   const recentProjectItems = [
     currentProject,
@@ -2351,16 +2346,6 @@ function LeftRail({
           <Sparkles size={18} />
         </button>
         <div className="collapsedRailBottom">
-          <button
-            type="button"
-            className="railIconAction railLanguageButton"
-            onClick={onLanguageToggle}
-            aria-label={t('language.switchTo', 'Switch language')}
-            title={`${t('language.current', 'Ngôn ngữ hiện tại: Tiếng Việt')} · ${t('language.switchTo', 'Switch language')}`}
-          >
-            <Languages size={16} />
-            <span>{currentLanguage.shortLabel}</span>
-          </button>
           <button type="button" className="railAvatarButton" onClick={onOpenSettings} aria-label={t('rail.settings', 'Cài đặt kết nối')} title={t('rail.settings', 'Cài đặt kết nối')}>
             <span className="collapsedRailAvatar">{String(accountLabel).slice(0, 1).toUpperCase()}</span>
           </button>
@@ -2509,21 +2494,6 @@ function LeftRail({
           </span>
           <KeyRound size={15} />
         </button>
-        <div className="railPreferenceRow">
-          <button
-            type="button"
-            className="railThemeButton railLanguageButton"
-            onClick={onLanguageToggle}
-            aria-label={t('language.switchTo', 'Switch language')}
-            title={`${t('language.current', 'Ngôn ngữ hiện tại: Tiếng Việt')} · ${t('language.switchTo', 'Switch language')}`}
-          >
-            <Languages size={16} />
-            <span>{currentLanguage.shortLabel}</span>
-          </button>
-          <button type="button" className="railThemeButton" onClick={onThemeToggle} aria-label={theme === 'dark' ? t('rail.light', 'Chuyển sang giao diện sáng') : t('rail.dark', 'Chuyển sang giao diện tối')} title={theme === 'dark' ? t('rail.light', 'Chuyển sang giao diện sáng') : t('rail.dark', 'Chuyển sang giao diện tối')}>
-            {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
-          </button>
-        </div>
       </div>
     </aside>
   );
@@ -3198,7 +3168,6 @@ function ProtectedStudioImage({ src, fallbackSrc = '', alt = '', fallback = null
     async function resolveCandidate(value) {
       if (!isProtectedStudioAsset(value)) return displayResultUrl(value);
       const session = loadSession();
-      if (!session?.accessToken) return '';
       const historyClient = new StudioHistoryClient({ session });
       return await enqueueProtectedImageTask(() => historyClient.resolveAssetUrl(value)) || '';
     }
@@ -3749,6 +3718,8 @@ function CreationDesk({
   const [activeRecipeId, setActiveRecipeId] = useState('');
   const [composerInspirationOpen, setComposerInspirationOpen] = useState(false);
   const [optimizingPrompt, setOptimizingPrompt] = useState(false);
+  // Remembers the last prompt-assistant failure so the status card does not label it as an image error.
+  const [assistantError, setAssistantError] = useState(null);
   const [caseResolving, setCaseResolving] = useState(false);
   const [referenceItems, setReferenceItems] = useState([]);
   const [referencePreviews, setReferencePreviews] = useState([]);
@@ -5557,8 +5528,10 @@ function CreationDesk({
       setMessage(t('statusMessages.suggestionReady', 'Đã có đề xuất tối ưu; bạn có thể ghép vào hoặc thay thế prompt.'));
       window.setTimeout(() => setStatus('idle'), 1200);
     } catch (error) {
+      const errorMessage = error?.message || t('statusMessages.optimizeFailed', 'Tối ưu không thành công');
+      setAssistantError({ message: errorMessage, model: error?.model || '' });
       setStatus('error');
-      setMessage(error?.message || t('statusMessages.optimizeFailed', 'Tối ưu không thành công'));
+      setMessage(errorMessage);
     } finally {
       setOptimizingPrompt(false);
     }
@@ -5656,14 +5629,16 @@ function CreationDesk({
         : t('statusMessages.assistantReplied', 'Trợ lý đã trả lời.'));
       window.setTimeout(() => setStatus('idle'), 1200);
     } catch (error) {
+      const errorMessage = error?.message || t('statusMessages.assistantFailed', 'Không gọi được model hội thoại');
       setAssistantMessages((current) => current.map((item) => item.id === pendingMessage.id ? {
         ...item,
-        content: error?.message || t('statusMessages.assistantFailed', 'Không gọi được model hội thoại'),
+        content: errorMessage,
         pending: false,
         failed: true
       } : item));
+      setAssistantError({ message: errorMessage, model: error?.model || '' });
       setStatus('error');
-      setMessage(error?.message || t('statusMessages.assistantFailed', 'Không gọi được model hội thoại'));
+      setMessage(errorMessage);
     } finally {
       setOptimizingPrompt(false);
     }
@@ -6569,6 +6544,8 @@ function CreationDesk({
     : mode === 'video'
       ? t('composer.contextVideo', 'Cài thông số video ở bên phải')
       : t('composer.title', 'Chia sẻ ý tưởng, hoàn thiện prompt rồi tạo ảnh');
+  // Any later status message replaces this one, so the match ends on its own once the next action runs.
+  const assistantErrorShown = status === 'error' && Boolean(assistantError) && assistantError.message === message;
   const composerGenerationVisible = status === 'loading' || progress.stage === 'failed' || progress.stage === 'pending_review' || (status === 'error' && Boolean(message));
   const composerThreadHasContent = Boolean(composerGenerationVisible || assistantMessages.length || promptSuggestion);
   const conversationVisible = conversationOpen && composerThreadHasContent;
@@ -7620,9 +7597,9 @@ function CreationDesk({
             {composerGenerationVisible ? (
               <div className={`composerGenerationCard ${status} ${progress.stage === 'pending_review' ? 'pendingReview' : ''}`}>
                 <div className="composerGenerationHead">
-                  <strong>{isGenerating ? t('composer.statusGenerating', 'Đang tạo') : status === 'success' ? t('composer.statusDone', 'Đã tạo xong') : progress.stage === 'pending_review' ? t('composer.statusReview', 'Cần xác nhận') : status === 'error' ? t('composer.statusError', 'Lỗi tạo ảnh') : t('composer.status', 'Trạng thái tạo ảnh')}</strong>
-                  <span>{mode === 'video' ? videoModel : model}</span>
-                  <em>{composerRouteLabel}</em>
+                  <strong>{isGenerating ? t('composer.statusGenerating', 'Đang tạo') : status === 'success' ? t('composer.statusDone', 'Đã tạo xong') : progress.stage === 'pending_review' ? t('composer.statusReview', 'Cần xác nhận') : assistantErrorShown ? t('composer.statusAssistantError', 'Lỗi trợ lý prompt') : status === 'error' ? t('composer.statusError', 'Lỗi tạo ảnh') : t('composer.status', 'Trạng thái tạo ảnh')}</strong>
+                  <span>{assistantErrorShown ? assistantError.model : mode === 'video' ? videoModel : model}</span>
+                  <em>{assistantErrorShown ? '/chat/completions' : composerRouteLabel}</em>
                 </div>
                 <ProgressBar progress={progress} active={status === 'loading' || status === 'success' || progress.stage === 'failed' || progress.stage === 'pending_review'} />
                 <GenerationTimingPanel timing={timing} />
@@ -8771,6 +8748,27 @@ function handleSelectHistory(item, options = {}) {
               ? t('studio.inspirationDescription', 'Chọn một mẫu để đưa ý tưởng và prompt vào canvas.')
               : t('studio.description', 'Prompt, ảnh tham chiếu và các phiên bản luôn ở cùng một canvas.')}</p>
         </div>
+        <div className="studioIntroActions">
+          <button
+            type="button"
+            className="headerIconButton headerLanguageButton"
+            onClick={handleLanguageToggle}
+            aria-label={t('language.switchTo', 'Switch language')}
+            title={`${t('language.current', 'Ngôn ngữ hiện tại: Tiếng Việt')} · ${t('language.switchTo', 'Switch language')}`}
+          >
+            <Languages size={16} />
+            <span>{(SUPPORTED_LANGUAGES.find((item) => item.value === language) || SUPPORTED_LANGUAGES[0]).shortLabel}</span>
+          </button>
+          <button
+            type="button"
+            className="headerIconButton"
+            onClick={() => setTheme((value) => (value === 'dark' ? 'light' : 'dark'))}
+            aria-label={theme === 'dark' ? t('rail.light', 'Chuyển sang giao diện sáng') : t('rail.dark', 'Chuyển sang giao diện tối')}
+            title={theme === 'dark' ? t('rail.light', 'Chuyển sang giao diện sáng') : t('rail.dark', 'Chuyển sang giao diện tối')}
+          >
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+        </div>
       </section>
       {isLibraryLocked ? (
         <div className="libraryLockNotice">
@@ -8802,10 +8800,6 @@ function handleSelectHistory(item, options = {}) {
           apiKey={apiKey}
           isAuthenticated={Boolean(session?.accessToken)}
           onOpenSettings={() => setSettingsOpen(true)}
-          theme={theme}
-          onThemeToggle={() => setTheme((value) => (value === 'dark' ? 'light' : 'dark'))}
-          language={language}
-          onLanguageToggle={handleLanguageToggle}
           t={t}
           selected={selectedCase}
           currentProject={currentProject}

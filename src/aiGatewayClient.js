@@ -1032,15 +1032,17 @@ export class AiGatewayClient {
             content: inputLines.join('\n\n')
           }
         ],
-        temperature: 0.5,
-        max_tokens: 700,
+        // ponytail: no temperature/max_tokens; reasoning models (o-series, gpt-5+) reject both.
         stream: true
       }),
       ...(signal ? { signal } : {})
     });
 
     if (!response.ok) {
-      await readJsonResponse(response);
+      await readJsonResponse(response).catch((error) => {
+        error.model = optimizerModel;
+        throw error;
+      });
     }
 
     const contentType = response.headers.get('content-type') || '';
@@ -1054,7 +1056,7 @@ export class AiGatewayClient {
     return {
       prompt: text,
       model: optimizerModel,
-      raw: payload
+      raw: text
     };
   }
 
@@ -1110,15 +1112,17 @@ export class AiGatewayClient {
           ...(context ? [{ role: 'user', content: context }] : []),
           ...safeMessages
         ],
-        temperature: 0.6,
-        max_tokens: 900,
+        // ponytail: no temperature/max_tokens; reasoning models (o-series, gpt-5+) reject both.
         stream: true
       }),
       ...(signal ? { signal } : {})
     });
 
     if (!response.ok) {
-      await readJsonResponse(response);
+      await readJsonResponse(response).catch((error) => {
+        error.model = assistantModel;
+        throw error;
+      });
     }
 
     const contentType = response.headers.get('content-type') || '';
