@@ -49,12 +49,14 @@ import {
   AiGatewayClient,
   StudioHistoryClient,
   clearSession,
+  fetchStudioAuthMode,
   getImageUrls,
   getVideoUrls,
   getConfiguredBaseUrls,
   getLoginUrl,
   loadProviderSettings,
   loadSession,
+  loginStudio,
   saveProviderSettings,
   saveSelectedKeyId
 } from './aiGatewayClient';
@@ -1522,6 +1524,7 @@ function safeImageCandidate(url) {
 }
 
 function providerLabel(settings, apiKey) {
+  if (settings.apiKeySource === 'server') return 'Server key';
   if (settings.apiKeySource === 'manual') return settings.manualGatewayBaseUrl ? 'API tùy chỉnh' : 'Kết nối tùy chỉnh';
   return apiKey?.name || 'Gateway Account';
 }
@@ -1768,6 +1771,7 @@ function modelLooksLikeImage(item) {
 
 
 function connectionReady(settings, apiKey, isAuthenticated) {
+  if (settings.apiKeySource === 'server') return Boolean(isAuthenticated);
   if (settings.apiKeySource === 'manual') {
     return Boolean(settings.manualApiKey?.trim());
   }
@@ -1775,10 +1779,20 @@ function connectionReady(settings, apiKey, isAuthenticated) {
 }
 
 function usesGatewayAccount(settings) {
-  return settings?.apiKeySource !== 'manual';
+  return settings?.apiKeySource === 'gateway';
 }
 
 function resolveProviderRequest(settings, apiKey) {
+  if (settings.apiKeySource === 'server') {
+    // The studio login token goes to the same-origin proxy, which swaps in the server-held key.
+    return {
+      apiKey: loadSession()?.accessToken || '',
+      gatewayBaseUrl: `${window.location.origin}/v1`,
+      route: settings.route || 'auto',
+      responsesModel: settings.responsesModel,
+      partialImages: settings.partialImages
+    };
+  }
   if (settings.apiKeySource === 'manual') {
     return {
       apiKey: settings.manualApiKey.trim(),
@@ -7989,108 +8003,119 @@ function SettingsPanel({
           <button type="button" className="iconButton" onClick={onClose} aria-label={t('settings.close', 'Đóng')}>×</button>
         </div>
 
-        <div className="settingsGroup providerSettingsGroup">
-          <label className="settingsSelectField">
-            <small>{t('settings.providerFamily', 'Loại API')}</small>
-            <select
-              value={currentProvider?.id || providerSettings.providerId}
-              onChange={(event) => {
-                const nextProvider = providerChoices.find((provider) => provider.id === event.target.value) || providerChoices[0];
-                onProviderChange({
-                  ...providerSettings,
-                  apiKeySource: nextProvider.nextApiKeySource,
-                  providerId: nextProvider.id
-                });
-              }}
-            >
-              {providerChoices.map((provider) => (
-                <option key={provider.id} value={provider.id}>
-                  {provider.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <span>{t('settings.key', 'Key')}</span>
-          <div className="providerChoiceGrid" role="group" aria-label={t('settings.providerFamily', 'Loại API')}>
-            {providerChoices.map((provider) => (
-              <button
-                type="button"
-                className={provider.active ? 'active' : ''}
-                key={provider.id}
-                onClick={() => onProviderChange({
-                  ...providerSettings,
-                  apiKeySource: provider.nextApiKeySource,
-                  providerId: provider.id
-                })}
-              >
-                <strong>{provider.label}</strong>
-                <em>{provider.authMode === 'manual' ? t('settings.providerManual', 'Key tự nhập') : t('settings.providerGateway', 'Tài khoản gateway')}</em>
-              </button>
-            ))}
-          </div>
-          <div className="segmentedControl legacyProviderToggle">
-            <button
-              type="button"
-              className={usesGatewayAccount(providerSettings) ? 'active' : ''}
-              onClick={() => onProviderChange({ ...providerSettings, apiKeySource: 'gateway', providerId: 'gateway-account' })}
-            >
-              Gateway
-            </button>
-            <button
-              type="button"
-              className={providerSettings.apiKeySource === 'manual' ? 'active' : ''}
-              onClick={() => onProviderChange({ ...providerSettings, apiKeySource: 'manual', providerId: 'openai-compatible' })}
-            >
-              {t('settings.custom', 'Tùy chỉnh')}
-            </button>
-          </div>
-        </div>
-
-        <div className="providerSummary">
-          <span>{t('settings.provider', 'Provider')}</span>
-          <strong>{currentProvider?.label || providerSettings.providerId || 'Gateway Account'}</strong>
-          <em>{currentProvider?.authMode === 'manual' ? t('settings.providerManual', 'Key tự nhập') : t('settings.providerGateway', 'Tài khoản gateway')}</em>
-          <small>{providerCapabilityText || t('settings.providerCompatible', 'API tương thích OpenAI')}</small>
-        </div>
-
-        {usesGatewayAccount(providerSettings) ? (
-          <div className="keyList">
-            {isAuthenticated ? keys.map((item) => (
-              <button type="button" className={item.id === apiKey?.id ? 'active' : ''} key={item.id} onClick={() => onSelectKey(item)}>
-                <KeyRound size={16} />
-                <span>{item.name}</span>
-                <em>{apiKeyDisplay(item)} · {apiKeyMeta(item)}</em>
-              </button>
-            )) : (
-              <button type="button" className="loginInlineButton" onClick={onLogin}>
-                <KeyRound size={16} />
-                {t('settings.login', 'Đăng nhập')}
-              </button>
-            )}
-            {isAuthenticated && !keys.length ? (
-              <div className="settingsEmpty">{t('settings.noKey', 'Chưa có key khả dụng')}</div>
-            ) : null}
+        {providerSettings.apiKeySource === 'server' ? (
+          <div className="providerSummary">
+            <span>{t('settings.provider', 'Provider')}</span>
+            <strong>{t('settings.serverKey', 'Key trên máy chủ')}</strong>
+            <em>.env</em>
+            <small>{t('settings.serverKeyHint', 'Địa chỉ API và key được cấu hình trong .env trên máy chủ (AI_GATEWAY_UPSTREAM, AI_GATEWAY_API_KEY); trình duyệt không giữ key.')}</small>
           </div>
         ) : (
-          <div className="manualFields">
-            <label>
-              <span>{t('settings.gateway', 'Địa chỉ API')}</span>
-              <input
-                value={providerSettings.manualGatewayBaseUrl}
-                onChange={(event) => onProviderChange({ ...providerSettings, manualGatewayBaseUrl: event.target.value })}
-                placeholder={getConfiguredBaseUrls().gatewayBaseUrl}
-              />
+          <>
+          <div className="settingsGroup providerSettingsGroup">
+            <label className="settingsSelectField">
+              <small>{t('settings.providerFamily', 'Loại API')}</small>
+              <select
+                value={currentProvider?.id || providerSettings.providerId}
+                onChange={(event) => {
+                  const nextProvider = providerChoices.find((provider) => provider.id === event.target.value) || providerChoices[0];
+                  onProviderChange({
+                    ...providerSettings,
+                    apiKeySource: nextProvider.nextApiKeySource,
+                    providerId: nextProvider.id
+                  });
+                }}
+              >
+                {providerChoices.map((provider) => (
+                  <option key={provider.id} value={provider.id}>
+                    {provider.label}
+                  </option>
+                ))}
+              </select>
             </label>
-            <label>
-              <span>{t('settings.key', 'Key')}</span>
-              <input
-                type="password"
-                value={providerSettings.manualApiKey}
-                onChange={(event) => onProviderChange({ ...providerSettings, manualApiKey: event.target.value })}
-                placeholder="sk-..."
-              />
-            </label>
+            <span>{t('settings.key', 'Key')}</span>
+            <div className="providerChoiceGrid" role="group" aria-label={t('settings.providerFamily', 'Loại API')}>
+              {providerChoices.map((provider) => (
+                <button
+                  type="button"
+                  className={provider.active ? 'active' : ''}
+                  key={provider.id}
+                  onClick={() => onProviderChange({
+                    ...providerSettings,
+                    apiKeySource: provider.nextApiKeySource,
+                    providerId: provider.id
+                  })}
+                >
+                  <strong>{provider.label}</strong>
+                  <em>{provider.authMode === 'manual' ? t('settings.providerManual', 'Key tự nhập') : t('settings.providerGateway', 'Tài khoản gateway')}</em>
+                </button>
+              ))}
+            </div>
+            <div className="segmentedControl legacyProviderToggle">
+              <button
+                type="button"
+                className={usesGatewayAccount(providerSettings) ? 'active' : ''}
+                onClick={() => onProviderChange({ ...providerSettings, apiKeySource: 'gateway', providerId: 'gateway-account' })}
+              >
+                Gateway
+              </button>
+              <button
+                type="button"
+                className={providerSettings.apiKeySource === 'manual' ? 'active' : ''}
+                onClick={() => onProviderChange({ ...providerSettings, apiKeySource: 'manual', providerId: 'openai-compatible' })}
+              >
+                {t('settings.custom', 'Tùy chỉnh')}
+              </button>
+            </div>
           </div>
+
+          <div className="providerSummary">
+            <span>{t('settings.provider', 'Provider')}</span>
+            <strong>{currentProvider?.label || providerSettings.providerId || 'Gateway Account'}</strong>
+            <em>{currentProvider?.authMode === 'manual' ? t('settings.providerManual', 'Key tự nhập') : t('settings.providerGateway', 'Tài khoản gateway')}</em>
+            <small>{providerCapabilityText || t('settings.providerCompatible', 'API tương thích OpenAI')}</small>
+          </div>
+
+          {usesGatewayAccount(providerSettings) ? (
+            <div className="keyList">
+              {isAuthenticated ? keys.map((item) => (
+                <button type="button" className={item.id === apiKey?.id ? 'active' : ''} key={item.id} onClick={() => onSelectKey(item)}>
+                  <KeyRound size={16} />
+                  <span>{item.name}</span>
+                  <em>{apiKeyDisplay(item)} · {apiKeyMeta(item)}</em>
+                </button>
+              )) : (
+                <button type="button" className="loginInlineButton" onClick={onLogin}>
+                  <KeyRound size={16} />
+                  {t('settings.login', 'Đăng nhập')}
+                </button>
+              )}
+              {isAuthenticated && !keys.length ? (
+                <div className="settingsEmpty">{t('settings.noKey', 'Chưa có key khả dụng')}</div>
+              ) : null}
+            </div>
+          ) : (
+            <div className="manualFields">
+              <label>
+                <span>{t('settings.gateway', 'Địa chỉ API')}</span>
+                <input
+                  value={providerSettings.manualGatewayBaseUrl}
+                  onChange={(event) => onProviderChange({ ...providerSettings, manualGatewayBaseUrl: event.target.value })}
+                  placeholder={getConfiguredBaseUrls().gatewayBaseUrl}
+                />
+              </label>
+              <label>
+                <span>{t('settings.key', 'Key')}</span>
+                <input
+                  type="password"
+                  value={providerSettings.manualApiKey}
+                  onChange={(event) => onProviderChange({ ...providerSettings, manualApiKey: event.target.value })}
+                  placeholder="sk-..."
+                />
+              </label>
+            </div>
+          )}
+          </>
         )}
 
         <div className="manualFields">
@@ -8160,8 +8185,61 @@ function SettingsPanel({
   );
 }
 
+function LoginScreen({ onLoggedIn, t }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  async function submit(event) {
+    event.preventDefault();
+    setBusy(true);
+    setError('');
+    try {
+      onLoggedIn(await loginStudio(email, password));
+    } catch (loginError) {
+      setError(loginError?.status === 429
+        ? t('login.rateLimited', 'Thử sai quá nhiều lần. Hãy đợi 15 phút rồi thử lại.')
+        : loginError?.status === 401
+          ? t('login.invalid', 'Email hoặc mật khẩu không đúng.')
+          : t('login.failed', 'Không đăng nhập được. Kiểm tra dịch vụ lịch sử (studio-api) đang chạy.'));
+      setBusy(false);
+    }
+  }
+
+  return (
+    <main className="studioLogin">
+      <form className="studioLoginCard" onSubmit={submit}>
+        <span className="sideBrandMark"><WandSparkles size={18} /></span>
+        <h1>{t('login.title', 'Đăng nhập')}</h1>
+        <p>{t('login.hint', 'Dùng email và mật khẩu được cấu hình trên máy chủ.')}</p>
+        <label>
+          <span>Email</span>
+          <input type="email" autoComplete="username" required value={email} onChange={(event) => setEmail(event.target.value)} />
+        </label>
+        <label>
+          <span>{t('login.password', 'Mật khẩu')}</span>
+          <input type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} />
+        </label>
+        {error ? <p className="studioLoginError" role="alert">{error}</p> : null}
+        <button type="submit" className="primaryAction" disabled={busy}>
+          {busy ? <LoaderCircle className="spin" size={16} /> : null}
+          {t('login.submit', 'Đăng nhập')}
+        </button>
+      </form>
+    </main>
+  );
+}
+
+function hasLiveStudioSession(value) {
+  return Boolean(value?.accessToken && Number(value.expiresAt) > Date.now());
+}
+
 function StudioApp() {
   const initialCurrentSession = useMemo(() => loadCurrentSession(), []);
+  // 'loading' until /studio-api/auth/config answers; 'password' = env login + server-held API key.
+  const [authMode, setAuthMode] = useState('loading');
+  const authModeRef = useRef('loading');
   const [siteData, setSiteData] = useState(null);
   const [session, setSession] = useState(() => loadSession());
   const [profile, setProfile] = useState(() => loadSession()?.user || null);
@@ -8204,6 +8282,19 @@ function StudioApp() {
   }
 
   async function hydrateSession(options = {}) {
+    if (authModeRef.current === 'loading') return false;
+    if (authModeRef.current === 'password') {
+      const passwordSession = loadSession();
+      if (!hasLiveStudioSession(passwordSession)) {
+        clearSession();
+        setSession(null);
+        setProfile(null);
+        return false;
+      }
+      setSession(passwordSession);
+      setProfile(passwordSession.user || null);
+      return true;
+    }
     const nextSession = loadSession();
     if (!nextSession?.accessToken) {
       if (!options.keepExisting) {
@@ -8336,7 +8427,33 @@ function StudioApp() {
   }, []);
 
   useEffect(() => {
-    if (!session?.accessToken) return;
+    let active = true;
+    fetchStudioAuthMode().then((mode) => {
+      if (!active) return;
+      authModeRef.current = mode;
+      setAuthMode(mode);
+      const currentSettings = loadProviderSettings();
+      if (mode === 'password') {
+        if (!hasLiveStudioSession(loadSession())) {
+          clearSession();
+          setSession(null);
+          setProfile(null);
+        }
+        if (currentSettings.apiKeySource !== 'server') {
+          handleProviderChange({ ...currentSettings, apiKeySource: 'server', providerId: 'openai-compatible' });
+        }
+      } else if (currentSettings.apiKeySource === 'server') {
+        handleProviderChange({ ...currentSettings, apiKeySource: 'gateway', providerId: 'gateway-account' });
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    // Gateway account calls (profile, keys) only exist in the Sub2API-style gateway mode.
+    if (!session?.accessToken || authMode !== 'none') return;
     let active = true;
     const nextClient = new AiGatewayClient({ session, providerSettings });
     setClient(nextClient);
@@ -8356,7 +8473,7 @@ function StudioApp() {
     return () => {
       active = false;
     };
-  }, [session?.accessToken]);
+  }, [session?.accessToken, authMode]);
 
   useEffect(() => {
     const providerRequest = resolveProviderRequest(providerSettings, apiKey);
@@ -8547,6 +8664,12 @@ function StudioApp() {
   }
 
   async function handleRequireLogin() {
+    if (authModeRef.current === 'password') {
+      clearSession();
+      setSession(null);
+      setProfile(null);
+      return;
+    }
     const ready = await hydrateSession();
     if (ready) return;
     window.location.href = getLoginUrl();
@@ -8736,6 +8859,18 @@ function handleSelectHistory(item, options = {}) {
   if (bootError && !siteData) {
     return <main className="studioError">Không thể tải: {bootError}</main>;
   }
+  if (authMode === 'loading') return null;
+  if (authMode === 'password' && !session?.accessToken) {
+    return (
+      <LoginScreen
+        t={t}
+        onLoggedIn={(nextSession) => {
+          setSession(nextSession);
+          setProfile(nextSession.user || null);
+        }}
+      />
+    );
+  }
 
   return (
     <main id="studio-workbench">
@@ -8768,6 +8903,17 @@ function handleSelectHistory(item, options = {}) {
           >
             {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
           </button>
+          {authMode === 'password' ? (
+            <button
+              type="button"
+              className="headerIconButton"
+              onClick={handleLogout}
+              aria-label={t('topbar.logout', 'Đăng xuất')}
+              title={t('topbar.logout', 'Đăng xuất')}
+            >
+              <LogOut size={16} />
+            </button>
+          ) : null}
         </div>
       </section>
       {isLibraryLocked ? (

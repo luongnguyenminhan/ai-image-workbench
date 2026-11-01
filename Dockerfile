@@ -64,7 +64,7 @@ ENV STUDIO_DATA_DIR=/data
 ENV STUDIO_LIBRARY_DIR=/app/library
 ENV STUDIO_LIBRARY_ASSET_DIR=/app/library/images
 
-COPY scripts/image-sub2api-studio-history-service.mjs ./scripts/image-sub2api-studio-history-service.mjs
+COPY scripts/image-sub2api-studio-history-service.mjs scripts/studio-auth.mjs ./scripts/
 COPY public ./library
 
 RUN mkdir -p /data /app/library/images \

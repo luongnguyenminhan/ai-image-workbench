@@ -199,6 +199,40 @@ button, a, label, select, .caseTile, .historyTile, .categoryTile, .canvasNode {
 
 .studioError { padding: 48px; color: var(--danger); }
 
+/* Password login (server-side STUDIO_LOGIN_* config) */
+.studioLogin {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 16px;
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+.studioLoginCard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: min(380px, 100%);
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  animation: popIn var(--dur-slow) var(--ease) both;
+}
+.studioLoginCard .sideBrandMark { width: 40px; height: 40px; border-radius: 12px; }
+.studioLoginCard h1 { font-size: 24px; }
+.studioLoginCard > p { margin-top: -8px; color: var(--muted); font-size: 13px; }
+.studioLoginCard label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 500; color: var(--muted); }
+.studioLoginCard .primaryAction { height: 42px; margin-top: 4px; }
+.studioLoginError {
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  color: var(--danger);
+  font-size: 13px;
+}
+
 /* ---------- Sidebar ---------- */
 .templateRail {
   grid-column: 1;

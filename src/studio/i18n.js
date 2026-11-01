@@ -58,6 +58,15 @@ export const dictionaries = {
       medium: 'Trung bình',
       high: 'Cao'
     },
+    login: {
+      title: 'Đăng nhập',
+      hint: 'Dùng email và mật khẩu được cấu hình trên máy chủ.',
+      password: 'Mật khẩu',
+      submit: 'Đăng nhập',
+      invalid: 'Email hoặc mật khẩu không đúng.',
+      rateLimited: 'Thử sai quá nhiều lần. Hãy đợi 15 phút rồi thử lại.',
+      failed: 'Không đăng nhập được. Kiểm tra dịch vụ lịch sử (studio-api) đang chạy.'
+    },
     topbar: {
       navAria: 'Khu vực sáng tạo',
       login: 'Đăng nhập',
@@ -375,6 +384,8 @@ export const dictionaries = {
       providerManual: 'Key tự nhập',
       providerGateway: 'Tài khoản gateway',
       provider: 'API',
+      serverKey: 'Key trên máy chủ',
+      serverKeyHint: 'Địa chỉ API và key được cấu hình trong .env trên máy chủ (AI_GATEWAY_UPSTREAM, AI_GATEWAY_API_KEY); trình duyệt không giữ key.',
       providerCompatible: 'API tương thích OpenAI',
       modelCallSettings: 'Cài đặt model',
       modelCallHint: 'Chọn model riêng cho tạo ảnh, chỉnh sửa, video và trợ lý prompt; ví dụ gpt-image-2, nano-banana, veo3.',
@@ -602,6 +613,15 @@ export const dictionaries = {
       low: 'Low',
       medium: 'Medium',
       high: 'High'
+    },
+    login: {
+      title: 'Sign in',
+      hint: 'Use the email and password configured on the server.',
+      password: 'Password',
+      submit: 'Sign in',
+      invalid: 'Incorrect email or password.',
+      rateLimited: 'Too many failed attempts. Wait 15 minutes and try again.',
+      failed: 'Could not sign in. Check that the history service (studio-api) is running.'
     },
     topbar: {
       navAria: 'Creation workspace',
@@ -920,6 +940,8 @@ export const dictionaries = {
       providerManual: 'Manual key',
       providerGateway: 'Gateway account',
       provider: 'Provider',
+      serverKey: 'Server-held key',
+      serverKeyHint: 'The API address and key are set in .env on the server (AI_GATEWAY_UPSTREAM, AI_GATEWAY_API_KEY); the browser never holds the key.',
       providerCompatible: 'OpenAI-compatible API',
       modelCallSettings: 'Model call settings',
       modelCallHint: 'Configure image generation, edit, video, and prompt assistant models separately; for example gpt-image-2, nano-banana, veo3.',

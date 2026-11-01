@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import http from 'node:http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { bearerFromHeader, checkStudioCredentials, signStudioToken, studioAuthConfig, verifyStudioToken } from './studio-auth.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || process.env.STUDIO_HISTORY_PORT || 8787);
@@ -12,7 +13,12 @@ const DATA_DIR = path.resolve(process.env.STUDIO_DATA_DIR || path.join(__dirname
 const LIBRARY_DIR = path.resolve(process.env.STUDIO_LIBRARY_DIR || path.join(__dirname, '..', 'data'));
 const LIBRARY_ASSET_DIR = path.resolve(process.env.STUDIO_LIBRARY_ASSET_DIR || path.join(LIBRARY_DIR, 'images'));
 const AUTH_MODE = String(process.env.STUDIO_AUTH_MODE || 'gateway').toLowerCase();
-const AI_GATEWAY_BASE_URL = String(process.env.AI_GATEWAY_BASE_URL || process.env.SUB2API_BASE_URL || 'http://127.0.0.1:8080').replace(/\/+$/, '');
+const AI_GATEWAY_BASE_URL = String(process.env.AI_GATEWAY_BASE_URL || process.env.SUB2API_BASE_URL || process.env.AI_GATEWAY_UPSTREAM || 'http://127.0.0.1:8080').replace(/\/+$/, '');
+// Set when STUDIO_LOGIN_EMAIL/STUDIO_LOGIN_PASSWORD exist: studio login + server-held AI_GATEWAY_API_KEY.
+const PASSWORD_AUTH = studioAuthConfig();
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const LOGIN_MAX_FAILURES = 10;
+const loginFailures = new Map();
 const HISTORY_LIMIT = Number(process.env.STUDIO_HISTORY_LIMIT || 200);
 const SESSION_NODE_LIMIT = Number(process.env.STUDIO_SESSION_NODE_LIMIT || 80);
 const SESSION_URL_LIMIT = Number(process.env.STUDIO_SESSION_URL_LIMIT || 24);
@@ -268,9 +274,59 @@ function sendCors(req, res) {
 }
 
 function bearerToken(req) {
-  const header = req.headers.authorization || '';
-  const match = typeof header === 'string' ? header.match(/^Bearer\s+(.+)$/i) : null;
-  return match ? match[1].trim() : '';
+  return bearerFromHeader(req.headers.authorization || '');
+}
+
+function clientAddress(req) {
+  return String(req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown');
+}
+
+// ponytail: in-memory per-IP limiter, resets on restart; move to shared storage if the service is scaled out.
+function loginLocked(req) {
+  const entry = loginFailures.get(clientAddress(req));
+  if (!entry || Date.now() - entry.firstAt > LOGIN_WINDOW_MS) return false;
+  return entry.count >= LOGIN_MAX_FAILURES;
+}
+
+function recordLoginFailure(req) {
+  const key = clientAddress(req);
+  const entry = loginFailures.get(key);
+  if (!entry || Date.now() - entry.firstAt > LOGIN_WINDOW_MS) {
+    loginFailures.set(key, { count: 1, firstAt: Date.now() });
+  } else {
+    entry.count += 1;
+  }
+}
+
+async function handleAuthRoute(req, res, parts) {
+  const action = parts[2];
+  if (req.method === 'GET' && action === 'config') {
+    return sendJson(res, 200, { ok: true, mode: PASSWORD_AUTH ? 'password' : AUTH_MODE });
+  }
+  if (req.method === 'GET' && action === 'verify') {
+    // nginx auth_request: open in non-password modes so existing deployments keep working.
+    const valid = !PASSWORD_AUTH || Boolean(verifyStudioToken(PASSWORD_AUTH, bearerToken(req)));
+    res.writeHead(valid ? 204 : 401);
+    return res.end();
+  }
+  if (req.method === 'POST' && action === 'login') {
+    if (!PASSWORD_AUTH) return sendJson(res, 404, { ok: false, error: 'PASSWORD_LOGIN_DISABLED' });
+    if (loginLocked(req)) return sendJson(res, 429, { ok: false, error: 'LOGIN_RATE_LIMITED' });
+    const body = await readJsonBody(req).catch(() => ({}));
+    if (!checkStudioCredentials(PASSWORD_AUTH, body.email, body.password)) {
+      recordLoginFailure(req);
+      return sendJson(res, 401, { ok: false, error: 'INVALID_CREDENTIALS' });
+    }
+    loginFailures.delete(clientAddress(req));
+    const { token, expiresAt } = signStudioToken(PASSWORD_AUTH);
+    return sendJson(res, 200, {
+      ok: true,
+      accessToken: token,
+      expiresAt,
+      user: { id: PASSWORD_AUTH.email, email: PASSWORD_AUTH.email, username: PASSWORD_AUTH.email }
+    });
+  }
+  return sendJson(res, 404, { ok: false, error: 'NOT_FOUND' });
 }
 
 async function readJsonBody(req) {
@@ -322,6 +378,20 @@ async function authenticate(req) {
     throw error;
   }
 
+  if (PASSWORD_AUTH) {
+    if (!verifyStudioToken(PASSWORD_AUTH, token)) {
+      const error = new Error('AUTH_REQUIRED');
+      error.status = 401;
+      throw error;
+    }
+    const key = createHash('sha256').update(`password:${PASSWORD_AUTH.email}`).digest('hex');
+    return {
+      user: { id: PASSWORD_AUTH.email, email: PASSWORD_AUTH.email, username: PASSWORD_AUTH.email },
+      userKey: key,
+      userDir: path.join(DATA_DIR, 'users', key)
+    };
+  }
+
   if (AUTH_MODE === 'local') {
     const key = createHash('sha256').update(`local:${token}`).digest('hex');
     return {
@@ -358,6 +428,19 @@ async function ensureUserDirs(auth) {
   await fs.mkdir(path.join(auth.userDir, 'jobs'), { recursive: true });
 }
 
+// Concurrent fs.writeFile calls on one path interleave and leave the tail of a longer write behind
+// ("Unexpected non-whitespace character after JSON"). Writing a unique temp file and renaming it is atomic.
+async function writeJsonAtomic(filePath, value) {
+  const tempPath = `${filePath}.${randomUUID()}.tmp`;
+  try {
+    await fs.writeFile(tempPath, JSON.stringify(value, null, 2));
+    await fs.rename(tempPath, filePath);
+  } catch (error) {
+    await fs.rm(tempPath, { force: true }).catch(() => {});
+    throw error;
+  }
+}
+
 function recordsPath(auth) {
   return path.join(auth.userDir, 'records.json');
 }
@@ -383,7 +466,7 @@ async function readRecords(auth) {
 
 async function writeRecords(auth, records) {
   await ensureUserDirs(auth);
-  await fs.writeFile(recordsPath(auth), JSON.stringify(records.slice(0, HISTORY_LIMIT), null, 2));
+  await writeJsonAtomic(recordsPath(auth), records.slice(0, HISTORY_LIMIT));
 }
 
 async function readSession(auth) {
@@ -399,7 +482,7 @@ async function readSession(auth) {
 
 async function writeSession(auth, session) {
   await ensureUserDirs(auth);
-  await fs.writeFile(sessionPath(auth), JSON.stringify(session, null, 2));
+  await writeJsonAtomic(sessionPath(auth), session);
 }
 
 function jobRuntimeKey(auth, jobId) {
@@ -481,7 +564,7 @@ async function readJobs(auth) {
 
 async function writeJobsUnlocked(auth, jobs) {
   await ensureUserDirs(auth);
-  await fs.writeFile(jobsPath(auth), JSON.stringify(jobs.slice(0, JOB_LIMIT), null, 2));
+  await writeJsonAtomic(jobsPath(auth), jobs.slice(0, JOB_LIMIT));
 }
 
 async function writeJobs(auth, jobs) {
@@ -1113,6 +1196,20 @@ function buildJobRecord(body) {
 
 function buildJobRuntime(body) {
   const request = body?.request && typeof body.request === 'object' ? body.request : body;
+  if (PASSWORD_AUTH) {
+    // The server key must never be sent to a client-chosen URL, so the base URL is fixed here too.
+    if (!PASSWORD_AUTH.apiKey) {
+      const error = new Error('SERVER_API_KEY_MISSING');
+      error.status = 500;
+      throw error;
+    }
+    return {
+      apiKey: PASSWORD_AUTH.apiKey,
+      gatewayBaseUrl: normalizeGatewayBaseUrl(AI_GATEWAY_BASE_URL),
+      images: (Array.isArray(body.images) ? body.images : []).slice(0, 4).map(normalizeImageInput).filter(Boolean),
+      mask: body.mask ? normalizeImageInput(body.mask, 0) : null
+    };
+  }
   const apiKey = text(body.apiKey || request.apiKey, 4000);
   if (!apiKey) {
     const error = new Error('GENERATION_JOB_API_KEY_REQUIRED');
@@ -1432,6 +1529,9 @@ async function handler(req, res) {
   if (parts.join('/') === 'studio-api/health') {
     return sendJson(res, 200, { ok: true });
   }
+  if (parts[0] === 'studio-api' && parts[1] === 'auth' && parts.length === 3) {
+    return handleAuthRoute(req, res, parts);
+  }
 
   if (parts[0] !== 'studio-api' || !['history', 'session', 'generation-jobs', 'library', 'library-assets', 'prompt-presets', 'video-inspirations'].includes(parts[1])) {
     return sendJson(res, 404, { ok: false, error: 'NOT_FOUND' });
@@ -1608,4 +1708,5 @@ server.listen(PORT, HOST, () => {
   console.log(`image-sub2api-studio history service listening on http://${HOST}:${PORT}/studio-api`);
   console.log(`Data directory: ${DATA_DIR}`);
   console.log(`AI gateway base URL: ${AI_GATEWAY_BASE_URL}`);
+  console.log(`Auth mode: ${PASSWORD_AUTH ? `password (${PASSWORD_AUTH.apiKey ? 'server API key set' : 'AI_GATEWAY_API_KEY missing'})` : AUTH_MODE}`);
 });

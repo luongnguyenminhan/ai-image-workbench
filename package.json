@@ -21,7 +21,7 @@
     "check:gateway": "node scripts/check-ai-gateway-contract.mjs",
     "check:sub2api": "node scripts/check-sub2api-contract.mjs",
     "check:local": "npm run build && npm run check:studio-build && npm run check:providers && npm run check:deploy && npm run check:docker && npm run check:docs && npm run check:html && npm run check:source && npm run check:i18n && npm run check:env && npm run check:public-data && npm run check:repo && npm run smoke:persistence && npm run smoke:gateway:auth && npm run smoke:history && npm run smoke:history:idb && npm run smoke:projects && npm run smoke:history:queue && npm run smoke:image:route && npm run smoke:image:edit-route && npm run smoke:session:modes && npm run smoke:references && npm run smoke:provider:security && npm run smoke:composer:layout && npm run smoke:canvas:performance && npm run smoke:canvas:blob-cleanup && npm run smoke:canvas:link && npm run smoke:history:windowing && npm run smoke:inspiration:windowing && npm run smoke:template:windowing && npm run smoke:language:en",
-    "history:service": "node scripts/image-sub2api-studio-history-service.mjs",
+    "history:service": "node --env-file-if-exists=.env scripts/image-sub2api-studio-history-service.mjs",
     "package:release": "node scripts/package-release.mjs && npm run check:release",
     "dev": "vite",
     "dev:studio": "vite --open /studio.html",

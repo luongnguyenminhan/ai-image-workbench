@@ -80,12 +80,13 @@ function normalizeImageRoute(value) {
   return route;
 }
 
+// 'server' = studio password login; the API key lives in server env and is added by the proxy.
 function normalizeApiKeySource(value) {
-  return value === 'manual' ? 'manual' : 'gateway';
+  return value === 'manual' || value === 'server' ? value : 'gateway';
 }
 
 function normalizeSettingsProviderId(value, apiKeySource) {
-  return normalizeProviderId(value, apiKeySource);
+  return normalizeProviderId(value, apiKeySource === 'server' ? 'manual' : apiKeySource);
 }
 
 function normalizeResponsesModel(value) {
@@ -212,6 +213,39 @@ export function getConfiguredBaseUrls() {
     gatewayBaseUrl: normalizeGatewayBaseUrl(envGatewayBaseUrl || envBaseUrl),
     studioHistoryBaseUrl: trimTrailingSlash(envStudioHistoryBaseUrl || window.location.origin)
   };
+}
+
+export async function fetchStudioAuthMode() {
+  try {
+    const response = await fetch(`${getConfiguredBaseUrls().studioHistoryBaseUrl}/studio-api/auth/config`);
+    const payload = await response.json();
+    return payload?.mode === 'password' ? 'password' : 'none';
+  } catch {
+    return 'none';
+  }
+}
+
+export async function loginStudio(email, password) {
+  const response = await fetch(`${getConfiguredBaseUrls().studioHistoryBaseUrl}/studio-api/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok || !payload?.accessToken) {
+    const error = new Error(payload?.error || `HTTP_${response.status}`);
+    error.status = response.status;
+    throw error;
+  }
+  const session = {
+    accessToken: payload.accessToken,
+    refreshToken: '',
+    expiresAt: Number(payload.expiresAt) || 0,
+    user: payload.user || null,
+    mode: 'password'
+  };
+  saveSession(session);
+  return session;
 }
 
 export function getDefaultProviderSettings() {
