@@ -8235,6 +8235,22 @@ function hasLiveStudioSession(value) {
   return Boolean(value?.accessToken && Number(value.expiresAt) > Date.now());
 }
 
+const LAST_STUDIO_USER_KEY = 'ai-image-workbench:last-user:v1';
+
+// The open canvas and draft are cached per browser, not per account; drop them when a different
+// account signs in so one user's prompts and images never show up for the next.
+function resetBrowserWorkspaceFor(email) {
+  try {
+    if (localStorage.getItem(LAST_STUDIO_USER_KEY) !== email) {
+      clearCurrentSessionCache();
+      clearDraft();
+    }
+    localStorage.setItem(LAST_STUDIO_USER_KEY, email);
+  } catch {
+    // Storage unavailable: nothing cached to leak.
+  }
+}
+
 function StudioApp() {
   const initialCurrentSession = useMemo(() => loadCurrentSession(), []);
   // 'loading' until /studio-api/auth/config answers; 'password' = env login + server-held API key.
@@ -8676,6 +8692,21 @@ function StudioApp() {
   }
 
   function handleLogout() {
+    if (authModeRef.current === 'password') {
+      // Shared computers: drop this account's local caches; the server keeps the real history.
+      const scope = historyScope();
+      try {
+        localStorage.removeItem(historyStorageKey(scope));
+        localStorage.removeItem(legacyHistoryStorageKey(scope));
+      } catch {
+        // Storage unavailable: nothing cached.
+      }
+      clearSession();
+      clearCurrentSessionCache();
+      clearDraft();
+      clearHistoryItems(scope).catch(() => {}).finally(() => window.location.reload());
+      return;
+    }
     clearSession();
     setSession(null);
     setProfile(null);
@@ -8865,8 +8896,9 @@ function handleSelectHistory(item, options = {}) {
       <LoginScreen
         t={t}
         onLoggedIn={(nextSession) => {
-          setSession(nextSession);
-          setProfile(nextSession.user || null);
+          resetBrowserWorkspaceFor(nextSession.user?.email || '');
+          // Reload so every workspace state initializes from this account's server data.
+          window.location.reload();
         }}
       />
     );

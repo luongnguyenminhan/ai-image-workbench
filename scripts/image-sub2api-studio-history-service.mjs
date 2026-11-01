@@ -313,17 +313,18 @@ async function handleAuthRoute(req, res, parts) {
     if (!PASSWORD_AUTH) return sendJson(res, 404, { ok: false, error: 'PASSWORD_LOGIN_DISABLED' });
     if (loginLocked(req)) return sendJson(res, 429, { ok: false, error: 'LOGIN_RATE_LIMITED' });
     const body = await readJsonBody(req).catch(() => ({}));
-    if (!checkStudioCredentials(PASSWORD_AUTH, body.email, body.password)) {
+    const email = checkStudioCredentials(PASSWORD_AUTH, body.email, body.password);
+    if (!email) {
       recordLoginFailure(req);
       return sendJson(res, 401, { ok: false, error: 'INVALID_CREDENTIALS' });
     }
     loginFailures.delete(clientAddress(req));
-    const { token, expiresAt } = signStudioToken(PASSWORD_AUTH);
+    const { token, expiresAt } = signStudioToken(PASSWORD_AUTH, email);
     return sendJson(res, 200, {
       ok: true,
       accessToken: token,
       expiresAt,
-      user: { id: PASSWORD_AUTH.email, email: PASSWORD_AUTH.email, username: PASSWORD_AUTH.email }
+      user: { id: email, email, username: email }
     });
   }
   return sendJson(res, 404, { ok: false, error: 'NOT_FOUND' });
@@ -379,14 +380,17 @@ async function authenticate(req) {
   }
 
   if (PASSWORD_AUTH) {
-    if (!verifyStudioToken(PASSWORD_AUTH, token)) {
+    const claims = verifyStudioToken(PASSWORD_AUTH, token);
+    if (!claims) {
       const error = new Error('AUTH_REQUIRED');
       error.status = 401;
       throw error;
     }
-    const key = createHash('sha256').update(`password:${PASSWORD_AUTH.email}`).digest('hex');
+    // One data directory per email: history, sessions, jobs, and image assets never cross users.
+    const email = claims.sub;
+    const key = createHash('sha256').update(`password:${email}`).digest('hex');
     return {
-      user: { id: PASSWORD_AUTH.email, email: PASSWORD_AUTH.email, username: PASSWORD_AUTH.email },
+      user: { id: email, email, username: email },
       userKey: key,
       userDir: path.join(DATA_DIR, 'users', key)
     };
@@ -1708,5 +1712,5 @@ server.listen(PORT, HOST, () => {
   console.log(`image-sub2api-studio history service listening on http://${HOST}:${PORT}/studio-api`);
   console.log(`Data directory: ${DATA_DIR}`);
   console.log(`AI gateway base URL: ${AI_GATEWAY_BASE_URL}`);
-  console.log(`Auth mode: ${PASSWORD_AUTH ? `password (${PASSWORD_AUTH.apiKey ? 'server API key set' : 'AI_GATEWAY_API_KEY missing'})` : AUTH_MODE}`);
+  console.log(`Auth mode: ${PASSWORD_AUTH ? `password, ${PASSWORD_AUTH.users.size} user(s), ${PASSWORD_AUTH.apiKey ? 'server API key set' : 'AI_GATEWAY_API_KEY missing'}` : AUTH_MODE}`);
 });
