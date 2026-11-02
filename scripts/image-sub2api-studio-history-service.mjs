@@ -1297,8 +1297,7 @@ async function runGenerationRequest(auth, job, runtime, signal) {
     form.set('prompt', job.generationPrompt || job.prompt);
     form.set('size', job.size);
     form.set('quality', job.quality);
-    form.set('output_format', job.outputFormat || 'png');
-    form.set('moderation', job.moderation || 'auto');
+    // Like the generations request, omit output_format and moderation: ChatGPT OAuth gateways reject them on edits.
     form.set('n', String(total));
     runtime.images.forEach((image, index) => {
       form.append('image', new Blob([image.buffer], { type: image.mime }), image.name || `reference-${index + 1}.${image.ext}`);

@@ -426,6 +426,8 @@ try {
   assert(editRequests[0].body.includes('edit job generation prompt'), 'Edit job multipart body did not use generationPrompt.', editRequests[0]);
   assert(editRequests[0].body.includes('name="image"'), 'Edit job multipart body is missing reference image.', editRequests[0]);
   assert(editRequests[0].body.includes('name="mask"'), 'Edit job multipart body is missing mask.', editRequests[0]);
+  assert(!editRequests[0].body.includes('name="moderation"'), 'Edit job multipart body must omit moderation.', editRequests[0]);
+  assert(!editRequests[0].body.includes('name="output_format"'), 'Edit job multipart body must omit output_format.', editRequests[0]);
   const editHistory = await request('/studio-api/history?limit=20');
   const editRecord = editHistory.records?.find?.((record) => record.id === 'editjob1');
   assert(editRecord?.generationPrompt === 'edit job generation prompt', 'Edit job did not write a history record with generation prompt.', editRecord);

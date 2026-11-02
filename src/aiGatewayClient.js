@@ -1575,8 +1575,7 @@ export class AiGatewayClient {
     form.set('prompt', prompt);
     form.set('size', normalizedParameters.size);
     form.set('quality', normalizedParameters.quality);
-    form.set('output_format', normalizedParameters.outputFormat);
-    form.set('moderation', normalizedParameters.moderation);
+    // output_format and moderation are omitted: ChatGPT OAuth gateways reject them on edits.
     form.set('n', String(normalizedParameters.n));
     images.forEach((file) => form.append('image', file));
     if (mask) form.set('mask', mask);
